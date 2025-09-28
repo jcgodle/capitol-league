@@ -389,5 +389,24 @@ window.fetch = function(input, init){
   }
 })();
 </script>
+  <script>
+(async function(){
+  const pill = document.createElement('div');
+  pill.style.cssText='position:fixed;left:12px;bottom:12px;background:#0e1222;color:#cfe1ff;border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:6px 10px;font:12px system-ui;z-index:99999';
+  pill.textContent='KPIs: loading…';
+  document.body.appendChild(pill);
+
+  const u = new URL(location.href);
+  const src = u.searchParams.get('kpi') || 'kpis.json';
+  try {
+    const j = await fetch(src,{cache:'no-store'}).then(r=>r.ok?r.json():null);
+    const count = j ? Object.keys(j.members||j).length : 0;
+    pill.textContent = `KPIs: ${count} records • src=${src.includes('raw.githubusercontent')?'raw':src}`;
+  } catch(e){
+    pill.textContent = 'KPIs: load failed';
+  }
+})();
+</script>
+
 </body>
 </html>
