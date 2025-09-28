@@ -362,12 +362,12 @@ var kpiReady = fetch(KPI_SRC)
   if (kpiLS) {
     // intercept fetch(KPI_URL)
     var _fetch = window.fetch;
-    window.fetch = function(input, init){
-      if (String(input).endsWith('kpis.json') || String(input)===window.KPI_URL){
-        return Promise.resolve(new Response(kpiLS, {status:200, headers:{'Content-Type':'application/json'}}));
-      }
-      return _fetch(input, init);
-    };
+window.fetch = function(input, init){
+  if (String(input).endsWith('kpis.json') || String(input)===window.KPI_URL){
+    return Promise.resolve(new Response(kpiLS, {status:200, headers:{'Content-Type':'application/json'}}));
+  }
+  return _fetch(input, init);
+};
   }
 
   // 3) Minimal in-page editor: open with ?dev=1 to paste JSON quickly
