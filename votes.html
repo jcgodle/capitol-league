@@ -56,11 +56,11 @@
 <div class="nav">
   <div class="brand">Fantasy <b>Politics</b></div>
   <div class="seg" id="view">
-    <a class="btn" href="#" data-route="Scoreboard">Scoreboard</a>
-    <a class="btn" href="#" data-route="Cards">Cards</a>
-    <a class="btn on" href="#" data-route="Votes">Votes</a>
-    <a class="btn" href="#" data-route="Draft">Draft</a>
-    <a class="btn" href="#" data-route="Rules">Rules</a>
+    <a class="btn" href="index.html">Scoreboard</a>
+    <a class="btn" href="cards.html">Cards</a>
+    <a class="btn on" href="votes.html">Votes</a>
+    <a class="btn" href="#">Draft</a>
+    <a class="btn" href="#">Rules</a>
   </div>
 </div>
 
@@ -97,20 +97,6 @@
 
 <!-- page code -->
 <script>
-(function router(){
-  const routes = {
-    'Scoreboard':'Scoreboard Page.html',
-    'Cards':'Cards Page.html',
-    'Votes':'Votes Page.html',
-    'Draft':'Draft Page.html',
-    'Rules':'Rules Page.html'
-  };
-  document.getElementById('view').addEventListener('click', e=>{
-    const el = e.target.closest('[data-route]'); if(!el) return;
-    e.preventDefault(); const key = el.dataset.route; if(routes[key]) location.href = routes[key];
-  });
-})();
-
 const $ = sel => document.querySelector(sel);
 const list = $('#list'), q = $('#q'), ch = $('#ch'), res = $('#res'), sortSel = $('#sort'), selected = $('#selected');
 
@@ -193,7 +179,6 @@ function deepLink(){
 }
 
 async function boot(){
-  // minimal “Selected” echo of filters
   const pills = [];
   if(ch.value) pills.push('Chamber: '+ch.value);
   if(res.value) pills.push('Result: '+(res.value==='pass'?'Passed':'Failed'));
@@ -205,7 +190,6 @@ async function boot(){
     ]);
     hydrate(votes || []);
   }catch(err){
-    // Fallback stub if data layer not ready
     const stub = [
       {id:'hr-1234', bill_number:'H.R. 1234 — Infrastructure Investment and Resilience Act', chamber:'House', date:'2025-09-19', result:'Passed', yes:287, no:143, summary:'Funds bridges, rail, upgrades.'},
       {id:'s-987', bill_number:'S. 987 — Fiscal Responsibility and Budget Reform', chamber:'Senate', date:'2025-09-14', result:'Failed', yes:49, no:51, summary:'Caps discretionary spending growth.'},
