@@ -6,17 +6,21 @@
 <title>Capitol League — Cards</title>
 <style>
   :root{
-    --nav-h: 64px; --panel:#171a2b; --panel-2:#1d2140; --text:#e7e9f4; --muted:#9aa1bd; --border:1px solid rgba(255,255,255,.06); --shadow:0 8px 24px rgba(0,0,0,.25);
+    --panel:#171a2b; --panel-2:#1d2140; --text:#e7e9f4; --muted:#9aa1bd; --border:1px solid rgba(255,255,255,.06); --shadow:0 8px 24px rgba(0,0,0,.25);
     --card-w:320px; --card-h:448px; --thumb-scale:.82; --radius:14px;
     --back-paper:#F3E5C3; --back-ink:#1C1F2B; --back-ink-2:#2A2E45; --back-chip:#303754; --back-tile:#fff; --back-border:#E3CFA2;
   }
   *,*::before,*::after{box-sizing:border-box}
-  html,body{height:100%}
-  body{margin:0;background:linear-gradient(180deg,#0b0e1a,#0f1220);color:var(--text);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
-  .topnav{position:sticky;top:0;left:0;right:0;height:var(--nav-h);background:rgba(16,19,36,.95);backdrop-filter:blur(10px);border-bottom:var(--border);z-index:1000;box-shadow:0 2px 10px rgba(0,0,0,.35)}
-  .topnav__inner{height:100%;max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 16px;gap:12px}
-  .seg{display:flex;gap:8px;align-items:center}
-  .seg-btn{appearance:none;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:var(--muted);font-weight:800;font-size:12px;padding:8px 12px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;min-height:34px}
+  html,body{margin:0;background:linear-gradient(180deg,#0b0e1a,#0f1220);color:var(--text);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+
+  /* ===== Header (responsive, non-clipping) ===== */
+  .topnav{position:sticky;top:0;left:0;right:0;background:rgba(16,19,36,.95);backdrop-filter:blur(10px);border-bottom:var(--border);z-index:1000;box-shadow:0 2px 10px rgba(0,0,0,.35)}
+  .topnav__inner{max-width:1280px;margin:0 auto;padding:8px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px}
+  #leftControls,#rightControls{display:flex;flex-wrap:wrap;align-items:center;gap:10px;min-width:0;flex:1 1 320px}
+  .brand{font-weight:900;letter-spacing:.4px;color:var(--text);text-align:center;flex:1 1 100%;order:1}
+  .brand span{color:#6ea8fe}
+  .seg{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .seg-btn{appearance:none;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:var(--muted);font-weight:800;font-size:12px;padding:8px 12px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;min-height:34px;white-space:nowrap}
   .seg-btn:hover{color:#fff}
   .seg-btn.active{background:#6ea8fe;color:#0b1020;border-color:#6ea8fe}
   .field{display:flex;align-items:center;gap:8px}
@@ -24,10 +28,9 @@
   .input::placeholder{color:#9aa1bd}
   .select{appearance:none;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:#e7e9f4;padding:8px 10px;border-radius:10px;font:800 12px/1 system-ui}
   .select option{color:#0b1020}
-  .brand{justify-self:center;font-weight:900;letter-spacing:.4px;color:var(--text)}
-  .brand span{color:#6ea8fe}
+  @media (min-width:900px){ .brand{order:0;flex:0 0 auto} }
 
-  .app{padding-top:var(--nav-h)}
+  /* ===== Grid + Cards ===== */
   .main{max-width:1280px;margin:0 auto;padding:16px}
   .grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(calc(var(--card-w)*var(--thumb-scale) + 24px), 1fr));gap:16px}
   .thumb{background:#0f142e;border:var(--border);border-radius:14px;box-shadow:var(--shadow);padding:10px;display:grid;place-items:center;cursor:pointer}
@@ -60,93 +63,23 @@
   .kpi .v{font-weight:900;font-size:18px}
   .stat{background:var(--back-tile);border:1px solid var(--back-border);border-radius:10px;padding:10px;font-size:12px;color:var(--back-ink)}
   .stat strong{display:block;color:var(--back-ink-2);margin-bottom:4px}
-  /* equal widths per segment group */
-  #chamberSeg,#partySeg,#badgeSeg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:8px}
-  #chamberSeg .seg-btn,#partySeg .seg-btn,#badgeSeg .seg-btn{width:100%}
 </style>
-  <style>.seg-btn{white-space:nowrap}</style>
-<style>.seg-btn{white-space:nowrap; height:34px; line-height:34px}</style>
-  <style>
-/* Make the sticky header horizontally scrollable with snap */
-.topnav{ height:var(--nav-h); }                   /* keep fixed height */
-.topnav__inner{
-  overflow-x:auto; overflow-y:hidden;
-  scroll-snap-type:x proximity;
-  -webkit-overflow-scrolling:touch;
-  scrollbar-width:none;
-}
-.topnav__inner::-webkit-scrollbar{ display:none; }
-.topnav__inner > *{ scroll-snap-align:start; }    /* left, brand, right segments */
-.nav, .seg{ flex-wrap:nowrap; }                   /* keep pills on one line */
-</style>
-<style>
-/* Header: allow horizontal scroll + snap when too narrow */
-.topnav{
-  overflow-x:auto;            /* enable sideways scroll */
-  -webkit-overflow-scrolling:touch;
-  scroll-snap-type:x proximity;
-}
-.topnav__inner{
-  width:max-content;          /* grow to fit content so parent can scroll */
-  min-width:max-content;
-}
-.topnav__inner > *{ scroll-snap-align:start; }
-
-/* Keep items on one line and non-shrinking */
-.nav, .seg{ flex-wrap:nowrap; }
-.seg-btn{ flex:0 0 auto; }    /* pills don’t shrink */
-.brand{ white-space:nowrap; } /* title stays in one line */
-</style>
-<style>
-/* Make the sticky header side-scroll instead of clipping */
-.topnav{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
-.topnav::-webkit-scrollbar{ display:none; }
-
-/* Turn inner grid into a non-wrapping flex row that can grow wider than the viewport */
-.topnav__inner{
-  display:flex;               /* override grid */
-  gap:12px;
-  align-items:center;
-  width:max-content;          /* allow overflow width */
-  min-width:max-content;
-}
-
-/* Keep each section on one line and prevent shrinking */
-.topnav__inner > *{ flex:0 0 auto; scroll-snap-align:start; }
-.nav, .seg{ flex-wrap:nowrap; }
-.brand{ white-space:nowrap; }
-</style>
-<style>
-/* Header wraps to new lines when narrow */
-.topnav{ height:auto; }                      /* let it grow */
-.topnav__inner{
-  display:flex; flex-wrap:wrap;              /* wrap rows */
-  align-items:center; gap:12px; padding:0 16px;
-}
-#leftControls, #rightControls{
-  display:flex; flex-wrap:wrap; gap:8px;
-  flex:1 1 360px;                            /* allow break to next line */
-}
-.brand{ flex:0 0 auto; margin-inline:auto; white-space:nowrap; }
-.nav, .seg{ flex-wrap:wrap; }                /* pills can wrap */
-.seg-btn{ flex:0 0 auto; }                   /* don’t squish pills */
-</style>
-
-
 </head>
 <body>
   <header class="topnav"><div class="topnav__inner">
-      <div class="seg" id="leftControls">
+      <div id="leftControls">
         <div class="field"><input id="searchInput" class="input" type="search" placeholder="Search name" autocomplete="off" /></div>
-        <div class="field"><select id="stateSelect" class="select"><option value="all">All States</option><option value="AL">AL</option><option value="AK">AK</option><option value="AZ">AZ</option><option value="AR">AR</option><option value="CA">CA</option><option value="CO">CO</option><option value="CT">CT</option><option value="DE">DE</option><option value="FL">FL</option><option value="GA">GA</option><option value="HI">HI</option><option value="ID">ID</option><option value="IL">IL</option><option value="IN">IN</option><option value="IA">IA</option><option value="KS">KS</option><option value="KY">KY</option><option value="LA">LA</option><option value="ME">ME</option><option value="MD">MD</option><option value="MA">MA</option><option value="MI">MI</option><option value="MN">MN</option><option value="MS">MS</option><option value="MO">MO</option><option value="MT">MT</option><option value="NE">NE</option><option value="NV">NV</option><option value="NH">NH</option><option value="NJ">NJ</option><option value="NM">NM</option><option value="NY">NY</option><option value="NC">NC</option><option value="ND">ND</option><option value="OH">OH</option><option value="OK">OK</option><option value="OR">OR</option><option value="PA">PA</option><option value="RI">RI</option><option value="SC">SC</option><option value="SD">SD</option><option value="TN">TN</option><option value="TX">TX</option><option value="UT">UT</option><option value="VT">VT</option><option value="VA">VA</option><option value="WA">WA</option><option value="WV">WV</option><option value="WI">WI</option><option value="WY">WY</option><option value="DC">DC</option></select></div>
+        <div class="field"><select id="stateSelect" class="select"><option value="all">All States</option><option>AL</option><option>AK</option><option>AZ</option><option>AR</option><option>CA</option><option>CO</option><option>CT</option><option>DE</option><option>FL</option><option>GA</option><option>HI</option><option>ID</option><option>IL</option><option>IN</option><option>IA</option><option>KS</option><option>KY</option><option>LA</option><option>ME</option><option>MD</option><option>MA</option><option>MI</option><option>MN</option><option>MS</option><option>MO</option><option>MT</option><option>NE</option><option>NV</option><option>NH</option><option>NJ</option><option>NM</option><option>NY</option><option>NC</option><option>ND</option><option>OH</option><option>OK</option><option>OR</option><option>PA</option><option>RI</option><option>SC</option><option>SD</option><option>TN</option><option>TX</option><option>UT</option><option>VT</option><option>VA</option><option>WA</option><option>WV</option><option>WI</option><option>WY</option><option>DC</option></select></div>
         <div class="seg" id="chamberSeg">
           <button class="seg-btn active" data-chamber="all">All</button>
           <button class="seg-btn" data-chamber="senate">Senate</button>
           <button class="seg-btn" data-chamber="house">House</button>
         </div>
       </div>
+
       <div class="brand">Capitol <span>League</span></div>
-      <div class="seg" id="rightControls">
+
+      <div id="rightControls">
         <div class="seg" id="partySeg">
           <button class="seg-btn active" data-party="all">All</button>
           <button class="seg-btn" data-party="Dem">Dem</button>
@@ -161,293 +94,203 @@
         </div>
       </div>
     </div></header>
+
   <main class="main">
     <div id="cardGrid" class="grid" aria-live="polite"></div>
   </main>
-
-<div id="statusPill" class="pill" style="position:fixed;left:12px;bottom:12px;background:#0e1222;color:#cfe1ff;border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:6px 10px;font:12px system-ui;z-index:99999">KPIs: loading…</div>
 
 <script>
 (function(){
   'use strict';
 
-  // ---------------- Endpoints (supports ?kpi= JSON or CSV; raw or encoded)
-  var DATA_URL = 'https://unitedstates.github.io/congress-legislators/legislators-current.json';
-  var KPI_URL  = 'kpis.json';
-  var qs = location.href.split('?kpi=')[1];
-  var KPI_SRC = qs ? decodeURIComponent(qs.split('#')[0]) : KPI_URL;
+  /* ===== Config ===== */
+  const DATA_URL = 'https://unitedstates.github.io/congress-legislators/legislators-current.json';
+  const urlKpi = new URLSearchParams(location.search).get('kpi');
+  const KPI_CSV = urlKpi || 'https://raw.githubusercontent.com/jcgodle/capitol-league/main/dist/kpis.csv';
 
-  // ---------------- Utils
-  function IMG(bioguide){ return 'https://unitedstates.github.io/images/congress/225x275/' + bioguide + '.jpg'; }
-  function stateName(code){var S={AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",CT:"Connecticut",DE:"Delaware",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NY:"New York",NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming",DC:"District of Columbia"};return S[code]||code;}
-  function partyLabel(p){ if(!p) return ''; if(/^Dem/i.test(p)) return 'DEMOCRAT'; if(/^Rep/i.test(p)) return 'REPUBLICAN'; if(/^Ind/i.test(p)) return 'INDEPENDENT'; return p.toUpperCase(); }
-  function initials(str){return (str||'').split(/\s+/).map(w=>w[0]||'').join('').slice(0,3).toUpperCase();}
+  /* ===== DOM / State ===== */
+  const grid = document.getElementById('cardGrid');
+  let chamberFilter='all', partyFilter='all', stateFilter='all', badgeFilter='all', searchQuery='';
+  let membersAll = [];
+  let kpis = {}; // govtrack -> {total,miss}
 
-  // ---------------- KPI Normalizer
-  function normalizeKPI(j){
-    var map = {}; if(!j) return map;
-    if (Array.isArray(j)){
-      j.forEach(function(it){
-        var id = it.govtrack || it.govtrack_id || (it.id&&it.id.govtrack) || it.id || it.person_id || it.person;
-        if (id!=null){
-          var tv = +(it.total_votes ?? it.total ?? it.votes ?? 0);
-          var mv = +(it.missed_votes ?? it.misses ?? 0);
-          map[String(id)] = { total_votes: tv, missed_votes: mv };
-        }
-      }); return map;
-    }
-    if (j.members && typeof j.members==='object'){
-      Object.keys(j.members).forEach(function(k){
-        var v=j.members[k]||{};
-        var tv = +(v.total_votes ?? v.total ?? v.votes ?? 0);
-        var mv = +(v.missed_votes ?? v.misses ?? 0);
-        map[String(k)] = { total_votes: tv, missed_votes: mv };
-      }); return map;
-    }
-    Object.keys(j).forEach(function(k){
-      var v=j[k]||{};
-      var tv = +(v.total_votes ?? v.total ?? v.votes ?? 0);
-      var mv = +(v.missed_votes ?? v.misses ?? 0);
-      map[String(k)] = { total_votes: tv||0, missed_votes: mv||0 };
-    }); return map;
-  }
-
-  // ---------------- KPI Loader (JSON or CSV)
-  var kpiData = {};
-  var kpiReady = (async function(){
-    try{
-      var r = await fetch(KPI_SRC,{cache:'no-store'});
-      if(!r.ok){ kpiData={}; status('KPIs: load failed'); return; }
-      var ct = (r.headers.get('content-type')||'').toLowerCase();
-      if (ct.includes('text/csv') || /\.csv(\?|$)/i.test(KPI_SRC)){
-        var txt = await r.text();
-        var lines = txt.trim().split(/[\r\n]+/);
-        // detect header
-        var header = lines[0].toLowerCase().includes('govtrack');
-        if (header) lines.shift();
-        var map = {};
-        lines.forEach(function(row){
-          if(!row.trim()) return;
-          var c = row.split(',').map(s=>s.trim());
-          var id=c[0]; var total=c[1]; var miss=c[2];
-          if(!id) return;
-          map[String(id)] = { total_votes:+(total||0), missed_votes:+(miss||0) };
-        });
-        kpiData = map;
-      } else {
-        kpiData = normalizeKPI(await r.json());
-      }
-      status('KPIs: '+Object.keys(kpiData).length+' records • src='+(KPI_SRC.includes('://')?'raw':'kpis.json'));
-    }catch(e){ kpiData={}; status('KPIs: load failed'); console.warn(e); }
-  })();
-
-  function status(t){ var pill=document.getElementById('statusPill'); if(pill) pill.textContent=t; }
-
-  function kpiFromCounts(total, missed){
-    var t=+total||0, m=+missed||0, cast=Math.max(0,t-m);
-    return {voted:cast, missedVotes:m, votePct:t?cast/t*100:0, missPct:t?m/t*100:0};
-  }
-  function fetchKPI(govtrackId){
-    if(!govtrackId) return Promise.resolve(null);
-    return kpiReady.then(function(){
-      var e=kpiData[String(govtrackId)];
-      return e? kpiFromCounts(e.total_votes, e.missed_votes) : null;
-    });
-  }
-
-  // Prefill KPIs for all rendered cards so first flip shows numbers
-  function prefillKPIs(){
-    kpiReady.then(function(){
-      document.querySelectorAll('.thumb').forEach(function(card){
-        ensureKPIsForCard(card);
-      });
-    });
-  }
-
-  // ---------------- Dev tools: ?dev=1 tester
-  (function(){
-    var u = new URL(location.href);
-    var kpiLS = localStorage.getItem('capitolLeague.kpis');
-    if (kpiLS){
-      var _fetch = window.fetch;
-      window.fetch = function(input, init){
-        var url = String(input);
-        if (url === KPI_SRC || /kpis\.json($|\?)/.test(url)){
-          return Promise.resolve(new Response(kpiLS,{status:200,headers:{'Content-Type':'application/json'}}));
-        }
-        return _fetch(input, init);
-      };
-    }
-    if (u.searchParams.get('dev')==='1'){
-      var box = document.createElement('div');
-      box.style.cssText='position:fixed;right:12px;bottom:12px;width:360px;background:#0e1222;color:#e7e9f4;border:1px solid rgba(255,255,255,.15);border-radius:10px;box-shadow:0 10px 24px rgba(0,0,0,.4);z-index:99999;padding:10px;font:12px system-ui';
-      box.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><strong>KPI Tester</strong><button id="kpiClose" style="all:unset;cursor:pointer;padding:4px 8px;border:1px solid rgba(255,255,255,.2);border-radius:6px;">×</button></div><textarea id="kpiTxt" rows="10" style="width:100%;background:#0b1020;color:#cfe1ff;border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:8px;font:12px/1.3 ui-monospace,Consolas,monospace" placeholder=\'{"400040":{"total_votes":15702,"missed_votes":3}}\'>'
-        + (kpiLS||'') + '</textarea><div style="display:flex;gap:8px;margin-top:8px;"><button id="kpiSave" style="all:unset;background:#6ea8fe;color:#081126;border-radius:8px;padding:8px 10px;font-weight:800;cursor:pointer;">Save & Reload</button><button id="kpiClear" style="all:unset;background:#2b2f47;color:#e7e9f4;border-radius:8px;padding:8px 10px;font-weight:800;cursor:pointer;">Clear Override</button></div><div style="opacity:.7;margin-top:6px">Tip: flip a card after reload to see KPIs.</div>';
-      document.body.appendChild(box);
-      document.getElementById('kpiClose').onclick = function(){ box.remove(); };
-      document.getElementById('kpiSave').onclick = function(){
-        const t = document.getElementById('kpiTxt').value;
-        try { JSON.parse(t); localStorage.setItem('capitolLeague.kpis', t); location.reload(); }
-        catch(e){ alert('Invalid JSON'); }
-      };
-      document.getElementById('kpiClear').onclick = function(){ localStorage.removeItem('capitolLeague.kpis'); location.reload(); };
-    }
-  })();
-
-  // ---------------- State + rendering
-  var grid = document.getElementById('cardGrid');
-  var chamberFilter='all', partyFilter='all', stateFilter='all', badgeFilter='all', searchQuery='';
-  var membersAll=[];
+  /* ===== Utils ===== */
+  const IMG = (bioguide)=> 'https://unitedstates.github.io/images/congress/225x275/'+bioguide+'.jpg';
+  const stateName = (code)=>({AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",CT:"Connecticut",DE:"Delaware",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NY:"New York",NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming",DC:"District of Columbia"}[code]||code);
+  const partyLabel = (p)=>!p?'':(/^Dem/i.test(p)?'DEMOCRAT':/^Rep/i.test(p)?'REPUBLICAN':/^Ind/i.test(p)?'INDEPENDENT':p.toUpperCase());
 
   function computeBadge(m){
-    var y = parseInt((m.careerStart||'').slice(0,4),10) || 0;
+    const y = parseInt((m.start||'').slice(0,4),10)||0;
     if(/^Ind/i.test(m.party)) return {label:'Wild Card', cls:'badge-wild', key:'wild'};
     if(y && y<=2015) return {label:'Ironman', cls:'badge-iron', key:'iron'};
     if(y>=2023) return {label:'Rookie', cls:'badge-rookie', key:'rookie'};
     return null;
   }
 
-  function cardEl(m){
-    var art=document.createElement('article'); art.className='thumb'; art.tabIndex=0; art.setAttribute('role','button'); art.dataset.name=m.name; art.dataset.govtrack=m.govtrack||''; art.dataset.bioguide=m.bioguide||'';
-    var badge = computeBadge(m); var badgeHTML = badge ? '<div class="badge-chip '+badge.cls+'" title="'+badge.label+'">'+badge.label+'</div>' : '';
-    var startYear = m.careerStart?m.careerStart.slice(0,4):'';
-    art.innerHTML = '<div class="scale-wrap"><div class="card"><div class="flip">'
-      +'<section class="face front">'
-      +  '<div class="accent"><span>'+m.state+'</span></div>'
-      +  badgeHTML
-      +  '<header class="header"><div></div><div class="chip">'+partyLabel(m.party)+'</div></header>'
-      +  '<div class="photo">'+(m.photo?('<img alt="Portrait of '+m.name.replace(/"/g,'&quot;')+'" src="'+m.photo+'">'):'')+'</div>'
-      +  '<footer class="footer"><div><div class="name">'+m.name.toUpperCase()+'</div><div class="meta">'+stateName(m.state)+' • Since '+(startYear||'')+'</div></div><div class="badge" data-score-el>+0 pts</div></footer>'
-      +'</section>'
-      +'<section class="face back">'
-      +  '<header class="header"><div>Career Stats</div><div class="chip">'+m.state+'</div></header>'
-      +  '<div class="stats">'
-      +    '<div class="stat"><strong>Party</strong> '+m.party+'</div>'
-      +    '<div class="stat"><strong>Chamber</strong> '+m.chamber+'</div>'
-      +    '<div class="stat"><strong>Term</strong> '+(m.start||'')+' → '+(m.end||'')+'</div>'
-      +    '<div class="stat"><strong>Bioguide</strong> '+(m.bioguide||'')+'</div>'
-      +    '<div class="stat"><strong>GovTrack</strong> '+(m.govtrack||'')+'</div>'
-      +    '<div class="stat kpis">'
-      +      '<div class="kpi"><strong>Career Votes</strong><div class="v" data-kpi="votes">…</div></div>'
-      +      '<div class="kpi"><strong>Misses</strong><div class="v" data-kpi="misses">…</div></div>'
-      +      '<div class="kpi"><strong>Vote %</strong><div class="v" data-kpi="votePct">…</div></div>'
-      +      '<div class="kpi"><strong>Miss %</strong><div class="v" data-kpi="missPct">…</div></div>'
-      +    '</div>'
-      +  '</div>'
-      +'</section>'
-      +'</div></div></div>';
-
-    var img = art.querySelector('.photo img');
-    if(img){
-      img.addEventListener('error', function(){
-        var ph = img.parentElement; img.remove();
-        var d = document.createElement('div');
-        d.textContent = initials(m.name); d.style.font='900 52px/1.2 system-ui'; d.style.color='#cfd3ea';
-        ph.appendChild(d);
-      }, {once:true});
+  /* ===== KPI load (CSV) ===== */
+  function parseCSV(text){
+    // Expect header: govtrack,total_votes,missed_votes
+    const rows = text.trim().split(/\r?\n/);
+    if(!rows.length) return {};
+    const [h,...lines] = rows;
+    const map = {};
+    for(const line of lines){
+      if(!line.trim()) continue;
+      const [id,total,miss] = line.split(',').map(s=>s.trim());
+      if(id) map[String(id)] = { total: +total||0, miss: +miss||0 };
     }
-    art.addEventListener('click', function(){ art.classList.toggle('flipped'); if(art.classList.contains('flipped')) ensureKPIsForCard(art); });
-    art.addEventListener('keydown', function(e){ if((e.key==='Enter'||e.key===' ')){ e.preventDefault(); art.classList.toggle('flipped'); if(art.classList.contains('flipped')) ensureKPIsForCard(art); }});
+    return map;
+  }
+  const kpiReady = fetch(KPI_CSV, {cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{ kpis = t? parseCSV(t) : {}; }).catch(()=>{ kpis = {}; });
+
+  function kpiFor(govtrack){
+    const e = kpis[String(govtrack)];
+    if(!e) return null;
+    const cast = Math.max(0, (e.total||0) - (e.miss||0));
+    const pct = e.total? (cast/e.total*100) : 0;
+    const mp = e.total? (e.miss/e.total*100) : 0;
+    return { voted: cast, missed: e.miss||0, votePct: pct, missPct: mp };
+  }
+
+  function applyKPIs(card, data){
+    const q=(s)=>card.querySelector('[data-kpi="'+s+'"]');
+    const set=(el, v)=>{ if(el) el.textContent=v; };
+    if(!data){ set(q('votes'),'N/A'); set(q('misses'),'N/A'); set(q('votePct'),'N/A'); set(q('missPct'),'N/A'); return; }
+    set(q('votes'), (data.voted||0).toLocaleString());
+    set(q('misses'), (data.missed||0).toLocaleString());
+    set(q('votePct'), (data.votePct||0).toFixed(1)+'%');
+    set(q('missPct'), (data.missPct||0).toFixed(1)+'%');
+  }
+
+  /* ===== Cards ===== */
+  function cardEl(m){
+    const art=document.createElement('article');
+    art.className='thumb'; art.tabIndex=0; art.setAttribute('role','button');
+    art.dataset.govtrack=m.govtrack||''; art.dataset.name=m.name;
+
+    const badge = computeBadge(m);
+    const badgeHTML = badge ? `<div class="badge-chip ${badge.cls}" title="${badge.label}">${badge.label}</div>` : '';
+    const startYear = m.careerStart? m.careerStart.slice(0,4):'';
+
+    art.innerHTML = `
+      <div class="scale-wrap"><div class="card"><div class="flip">
+        <section class="face front">
+          <div class="accent"><span>${m.state}</span></div>
+          ${badgeHTML}
+          <header class="header"><div></div><div class="chip">${partyLabel(m.party)}</div></header>
+          <div class="photo">${m.photo?(`<img alt="Portrait of ${m.name.replace(/"/g,'&quot;')}" src="${m.photo}" onerror="this.remove()">`):''}</div>
+          <footer class="footer">
+            <div>
+              <div class="name">${m.name.toUpperCase()}</div>
+              <div class="meta">${stateName(m.state)} • Since ${startYear||''}</div>
+            </div>
+            <div class="badge" data-score-el>+0 pts</div>
+          </footer>
+        </section>
+        <section class="face back">
+          <header class="header"><div>Career Stats</div><div class="chip">${m.state}</div></header>
+          <div class="stats">
+            <div class="stat"><strong>Party</strong> ${m.party}</div>
+            <div class="stat"><strong>Chamber</strong> ${m.chamber}</div>
+            <div class="stat"><strong>Term</strong> ${m.start||''} → ${m.end||''}</div>
+            <div class="stat"><strong>Bioguide</strong> ${m.bioguide||''}</div>
+            <div class="stat"><strong>GovTrack</strong> ${m.govtrack||''}</div>
+            <div class="stat kpis">
+              <div class="kpi"><strong>Career Votes</strong><div class="v" data-kpi="votes">…</div></div>
+              <div class="kpi"><strong>Misses</strong><div class="v" data-kpi="misses">…</div></div>
+              <div class="kpi"><strong>Vote %</strong><div class="v" data-kpi="votePct">…</div></div>
+              <div class="kpi"><strong>Miss %</strong><div class="v" data-kpi="missPct">…</div></div>
+            </div>
+          </div>
+        </section>
+      </div></div></div>
+    `;
+    function hydrateKPIs(){
+      const g = art.dataset.govtrack;
+      applyKPIs(art, g? kpiFor(g) : null);
+    }
+    art.addEventListener('click', ()=>{ art.classList.toggle('flipped'); if(art.classList.contains('flipped')) hydrateKPIs(); });
+    art.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); art.classList.toggle('flipped'); if(art.classList.contains('flipped')) hydrateKPIs(); }});
     return art;
   }
 
-  function applyKPIs(card,k){
-    var q=function(s){return card.querySelector('[data-kpi="'+s+'"]');};
-    if(!k){ ['votes','misses','votePct','missPct'].forEach(function(s){ var el=q(s); if(el) el.textContent='N/A'; }); return; }
-    var elV=q('votes'), elM=q('misses'), elVP=q('votePct'), elMP=q('missPct');
-    if(elV) elV.textContent=(k.voted||0).toLocaleString();
-    if(elM) elM.textContent=(k.missedVotes||0).toLocaleString();
-    if(elVP) elVP.textContent=(k.votePct||0).toFixed(1)+'%';
-    if(elMP) elMP.textContent=(k.missPct||0).toFixed(1)+'%';
-  }
-  function ensureKPIsForCard(card){ var id=card && card.dataset.govtrack; if(!id){ applyKPIs(card,null); return; } fetchKPI(id).then(function(k){ applyKPIs(card,k); }); }
-
-  function render(members){
+  function render(list){
     grid.innerHTML='';
-    var frag=document.createDocumentFragment();
-    members.forEach(function(m){ frag.appendChild(cardEl(m)); });
+    const frag=document.createDocumentFragment();
+    list.forEach(m=>frag.appendChild(cardEl(m)));
     grid.appendChild(frag);
-    prefillKPIs(); // prefill after render
   }
+
   function applyFilters(){
-    var q = searchQuery.trim().toLowerCase();
-    var out = membersAll.filter(function(m){
-      var okC = (chamberFilter==='all') || (chamberFilter==='senate' && m.chamber==='Senate') || (chamberFilter==='house' && m.chamber==='House');
-      var okP = (partyFilter==='all') || (partyFilter==='Dem' && /^Dem/i.test(m.party||'')) || (partyFilter==='Rep' && /^Rep/i.test(m.party||'')) || (partyFilter==='Ind' && /^Ind/i.test(m.party||''));
-      var okS = (stateFilter==='all') || (m.state===stateFilter);
-      var okB = true; if(badgeFilter!=='all'){ var b = computeBadge(m); okB = !!b && b.key===badgeFilter; }
-      var okQ = !q || (m.name && m.name.toLowerCase().indexOf(q)!==-1);
+    const q = searchQuery.trim().toLowerCase();
+    const out = membersAll.filter(m=>{
+      const okC = (chamberFilter==='all') || (chamberFilter==='senate' && m.chamber==='Senate') || (chamberFilter==='house' && m.chamber==='House');
+      const okP = (partyFilter==='all') || (partyFilter==='Dem' && /^Dem/i.test(m.party||'')) || (partyFilter==='Rep' && /^Rep/i.test(m.party||'')) || (partyFilter==='Ind' && /^Ind/i.test(m.party||''));
+      const okS = (stateFilter==='all') || (m.state===stateFilter);
+      let okB = true;
+      if(badgeFilter!=='all'){ const b = computeBadge(m); okB = !!b && b.key===badgeFilter; }
+      const okQ = !q || (m.name && m.name.toLowerCase().includes(q));
       return okC && okP && okS && okB && okQ;
     });
     render(out);
   }
 
-  // ---------------- Initial data load
-  fetch(DATA_URL, {cache:'no-store'})
-    .then(function(r){ return r.json(); })
-    .then(function(list){
-      var members = list.map(function(r){
-        var id=r.id||{}, name=r.name||{}, terms=r.terms||[], first=terms[0]||{}, last=terms[terms.length-1]||{};
-        var chamber = last.type==='sen'?'Senate':(last.type==='rep'?'House':'');
-        return {
-          bioguide:id.bioguide,
-          govtrack:id.govtrack,
-          name:(name.official_full||((name.first||'')+' '+(name.last||''))).trim(),
-          state:last.state||'',
-          party:last.party||'',
-          chamber:chamber,
-          start:last.start,
-          careerStart:first.start,
-          end:last.end,
-          photo:id.bioguide?IMG(id.bioguide):''
-        };
-      }).filter(function(m){ return m.chamber && m.end && new Date(m.end)>new Date(); });
-      membersAll = members;
-      applyFilters();
-    })
-    .catch(function(e){ grid.innerHTML='<div style="opacity:.7">Failed to load roster.</div>'; console.warn(e); });
+  /* ===== Data load ===== */
+  Promise.all([
+    fetch(DATA_URL,{cache:'no-store'}).then(r=>r.json()),
+    kpiReady
+  ]).then(([list])=>{
+    const members = list.map(r=>{
+      const id=r.id||{}, name=r.name||{}, terms=r.terms||[], first=terms[0]||{}, last=terms[terms.length-1]||{};
+      const chamber = last.type==='sen'?'Senate':(last.type==='rep'?'House':'');
+      return {
+        bioguide:id.bioguide,
+        govtrack:id.govtrack,
+        name:(name.official_full||((name.first||'')+' '+(name.last||''))).trim(),
+        state:last.state||'',
+        party:last.party||'',
+        chamber,
+        start:last.start,
+        careerStart:first.start,
+        end:last.end,
+        photo:id.bioguide?IMG(id.bioguide):''
+      };
+    }).filter(m=>m.chamber && m.end && new Date(m.end)>new Date());
+    membersAll = members;
+    applyFilters();
+  }).catch(()=>{
+    grid.innerHTML='<div style="opacity:.7">Failed to load roster.</div>';
+  });
 
-  // ---------------- Header interactions
-  var chamberSeg = document.getElementById('chamberSeg');
-  var partySeg = document.getElementById('partySeg');
-  var badgeSeg = document.getElementById('badgeSeg');
-  var stateSelect = document.getElementById('stateSelect');
-  var searchInput = document.getElementById('searchInput');
+  /* ===== Controls ===== */
+  const chamberSeg = document.getElementById('chamberSeg');
+  const partySeg   = document.getElementById('partySeg');
+  const badgeSeg   = document.getElementById('badgeSeg');
+  const stateSelect= document.getElementById('stateSelect');
+  const searchInput= document.getElementById('searchInput');
 
-  chamberSeg.addEventListener('click', function(e){
-    var b = e.target.closest('button[data-chamber]'); if(!b) return;
+  chamberSeg.addEventListener('click', (e)=>{
+    const b = e.target.closest('button[data-chamber]'); if(!b) return;
     chamberFilter = b.dataset.chamber;
-    Array.prototype.forEach.call(chamberSeg.querySelectorAll('.seg-btn'), function(x){ x.classList.toggle('active', x===b); });
+    [...chamberSeg.querySelectorAll('.seg-btn')].forEach(x=>x.classList.toggle('active',x===b));
     applyFilters();
   });
-  partySeg.addEventListener('click', function(e){
-    var b = e.target.closest('button[data-party]'); if(!b) return;
+  partySeg.addEventListener('click', (e)=>{
+    const b = e.target.closest('button[data-party]'); if(!b) return;
     partyFilter = b.dataset.party;
-    Array.prototype.forEach.call(partySeg.querySelectorAll('.seg-btn'), function(x){ x.classList.toggle('active', x===b); });
+    [...partySeg.querySelectorAll('.seg-btn')].forEach(x=>x.classList.toggle('active',x===b));
     applyFilters();
   });
-  badgeSeg.addEventListener('click', function(e){
-    var b = e.target.closest('button[data-badge]'); if(!b) return;
+  badgeSeg.addEventListener('click', (e)=>{
+    const b = e.target.closest('button[data-badge]'); if(!b) return;
     badgeFilter = b.dataset.badge;
-    Array.prototype.forEach.call(badgeSeg.querySelectorAll('.seg-btn'), function(x){ x.classList.toggle('active', x===b); });
+    [...badgeSeg.querySelectorAll('.seg-btn')].forEach(x=>x.classList.toggle('active',x===b));
     applyFilters();
   });
   stateSelect.addEventListener('change', function(){ stateFilter = this.value; applyFilters(); });
   searchInput.addEventListener('input', function(){ searchQuery = this.value||''; applyFilters(); });
-})();
-</script>
-  <script>
-(function(){
-  const header = document.querySelector('.topnav');
-  if(!header) return;
-  const setH = () => {
-    document.documentElement.style.setProperty('--nav-h', header.offsetHeight + 'px');
-  };
-  new ResizeObserver(setH).observe(header);
-  window.addEventListener('load', setH, {once:true});
-  window.addEventListener('resize', setH);
-})();
-</script>
 
+})();
+</script>
 </body>
 </html>
