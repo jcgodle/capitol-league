@@ -186,6 +186,15 @@
     });
   }
 
+  // Prefill KPIs for all rendered cards so first flip shows numbers
+  function prefillKPIs(){
+    kpiReady.then(function(){
+      document.querySelectorAll('.thumb').forEach(function(card){
+        ensureKPIsForCard(card);
+      });
+    });
+  }
+
   // ---------------- Dev tools: ?dev=1 tester
   (function(){
     var u = new URL(location.href);
@@ -284,7 +293,13 @@
   }
   function ensureKPIsForCard(card){ var id=card && card.dataset.govtrack; if(!id){ applyKPIs(card,null); return; } fetchKPI(id).then(function(k){ applyKPIs(card,k); }); }
 
-  function render(members){ grid.innerHTML=''; var frag=document.createDocumentFragment(); members.forEach(function(m){ frag.appendChild(cardEl(m)); }); grid.appendChild(frag); }
+  function render(members){
+    grid.innerHTML='';
+    var frag=document.createDocumentFragment();
+    members.forEach(function(m){ frag.appendChild(cardEl(m)); });
+    grid.appendChild(frag);
+    prefillKPIs(); // prefill after render
+  }
   function applyFilters(){
     var q = searchQuery.trim().toLowerCase();
     var out = membersAll.filter(function(m){
