@@ -175,11 +175,12 @@ function normalizeKPI(j){
     }
     return map;
   }
-  var kpiReady = fetch(KPI_URL).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){ kpiData = normalizeKPI(j); }).catch(function(){ kpiData = {}; });
-
-  function kpiFromCounts(total, missed){ var t=+total||0, m=+missed||0, cast=Math.max(0,t-m); return {voted:cast, missedVotes:m, votePct:t?cast/t*100:0, missPct:t?m/t*100:0}; }
-  function fetchKPI(govtrackId){ if(!govtrackId) return Promise.resolve(null); return kpiReady.then(function(){ var e=kpiData[String(govtrackId)]; return e? kpiFromCounts(e.total_votes, e.missed_votes) : null; }); }
-  function applyKPIs(card,k){ var q=function(s){return card.querySelector('[data-kpi="'+s+'"]');}; if(!k){ ['votes','misses','votePct','missPct'].forEach(function(s){ var el=q(s); if(el) el.textContent='N/A'; }); return; } var elV=q('votes'), elM=q('misses'), elVP=q('votePct'), elMP=q('missPct'); if(elV) elV.textContent=(k.voted||0).toLocaleString(); if(elM) elM.textContent=(k.missedVotes||0).toLocaleString(); if(elVP) elVP.textContent=(k.votePct||0).toFixed(1)+'%'; if(elMP) elMP.textContent=(k.missPct||0).toFixed(1)+'%'; }
+ // --- KPI loader
+var kpiData = {};
+var kpiReady = fetch(KPI_URL)
+  .then(function(r){ return r.ok ? r.json() : null; })
+  .then(function(j){ kpiData = normalizeKPI(j); })
+  .catch(function(){ kpiData = {}; });
 
   // Badge: use careerStart (first term), per fix
   function computeBadge(m){
