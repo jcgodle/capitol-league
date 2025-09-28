@@ -1,3 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Fantasy Politics — Votes</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+<body style="margin:0;background:#0f1220;display:grid;place-items:center;height:100vh;color:#e7e9f4;font:16px system-ui">
+  <p>Votes page coming soon</p>
+</body>
+</html>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
