@@ -172,9 +172,11 @@ function normalizeKPI(j){
   return map;
 }
 
-  // Endpoints
-  var DATA_URL = 'https://unitedstates.github.io/congress-legislators/legislators-current.json';
-  var KPI_URL  = 'kpis.json'; // local file
+// Endpoints
+var DATA_URL = 'https://unitedstates.github.io/congress-legislators/legislators-current.json';
+var KPI_URL  = 'kpis.json';
+// honor ?kpi=<url> override
+var KPI_SRC = (new URL(location.href)).searchParams.get('kpi') || KPI_URL;
 
   // Utils
   function IMG(bioguide){ return 'https://unitedstates.github.io/images/congress/225x275/' + bioguide + '.jpg'; }
@@ -198,9 +200,10 @@ function normalizeKPI(j){
     }
     return map;
   }
- // --- KPI loader
+
+  // KPI loader
 var kpiData = {};
-var kpiReady = fetch(KPI_URL)
+var kpiReady = fetch(KPI_SRC)
   .then(function(r){ return r.ok ? r.json() : null; })
   .then(function(j){ kpiData = normalizeKPI(j); })
   .catch(function(){ kpiData = {}; });
