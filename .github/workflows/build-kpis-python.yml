@@ -28,14 +28,12 @@ jobs:
       - name: Debug workspace
         run: |
           set -euxo pipefail
-          pwd
-          ls -la
-          ls -la scripts || true
+          pwd; ls -la; ls -la scripts || true
           python -V
-          head -n 60 scripts/build_kpis.py
+          head -n 40 scripts/build_kpis.py
       - name: Build KPIs
         run: |
-          set -euxo pipefail
+          set -euo pipefail
           python -u scripts/build_kpis.py
       - name: Show dist
         run: |
