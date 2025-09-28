@@ -79,6 +79,24 @@
 .topnav__inner > *{ scroll-snap-align:start; }    /* left, brand, right segments */
 .nav, .seg{ flex-wrap:nowrap; }                   /* keep pills on one line */
 </style>
+<style>
+/* Header: allow horizontal scroll + snap when too narrow */
+.topnav{
+  overflow-x:auto;            /* enable sideways scroll */
+  -webkit-overflow-scrolling:touch;
+  scroll-snap-type:x proximity;
+}
+.topnav__inner{
+  width:max-content;          /* grow to fit content so parent can scroll */
+  min-width:max-content;
+}
+.topnav__inner > *{ scroll-snap-align:start; }
+
+/* Keep items on one line and non-shrinking */
+.nav, .seg{ flex-wrap:nowrap; }
+.seg-btn{ flex:0 0 auto; }    /* pills don’t shrink */
+.brand{ white-space:nowrap; } /* title stays in one line */
+</style>
 
 
 </head>
