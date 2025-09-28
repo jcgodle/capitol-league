@@ -96,6 +96,8 @@
     <div id="cardGrid" class="grid" aria-live="polite"></div>
   </main>
 
+<div id="statusPill" class="pill" style="position:fixed;left:12px;bottom:12px;background:#0e1222;color:#cfe1ff;border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:6px 10px;font:12px system-ui;z-index:99999">KPIs: loading…</div>
+
 <script>
 (function(){
   'use strict';
@@ -146,25 +148,31 @@
   var kpiReady = (async function(){
     try{
       var r = await fetch(KPI_SRC,{cache:'no-store'});
-      if(!r.ok){ kpiData={}; return; }
+      if(!r.ok){ kpiData={}; status('KPIs: load failed'); return; }
       var ct = (r.headers.get('content-type')||'').toLowerCase();
       if (ct.includes('text/csv') || /\.csv(\?|$)/i.test(KPI_SRC)){
         var txt = await r.text();
-        var lines = txt.trim().split(/\r?\n/);
-        var head  = lines.shift().split(',').map(s=>s.trim().toLowerCase());
-        var idx = { id:head.indexOf('govtrack'), total:head.indexOf('total_votes'), miss:head.indexOf('missed_votes') };
+        var lines = txt.trim().split(/[\r\n]+/);
+        // detect header
+        var header = lines[0].toLowerCase().includes('govtrack');
+        if (header) lines.shift();
         var map = {};
         lines.forEach(function(row){
+          if(!row.trim()) return;
           var c = row.split(',').map(s=>s.trim());
-          var id = c[idx.id]; if(!id) return;
-          map[String(id)] = { total_votes:+(c[idx.total]||0), missed_votes:+(c[idx.miss]||0) };
+          var id=c[0]; var total=c[1]; var miss=c[2];
+          if(!id) return;
+          map[String(id)] = { total_votes:+(total||0), missed_votes:+(miss||0) };
         });
         kpiData = map;
       } else {
         kpiData = normalizeKPI(await r.json());
       }
-    }catch(e){ kpiData={}; }
+      status('KPIs: '+Object.keys(kpiData).length+' records • src='+(KPI_SRC.includes('://')?'raw':'kpis.json'));
+    }catch(e){ kpiData={}; status('KPIs: load failed'); console.warn(e); }
   })();
+
+  function status(t){ var pill=document.getElementById('statusPill'); if(pill) pill.textContent=t; }
 
   function kpiFromCounts(total, missed){
     var t=+total||0, m=+missed||0, cast=Math.max(0,t-m);
@@ -178,7 +186,7 @@
     });
   }
 
-  // ---------------- Dev tools: local override + tester + status pill
+  // ---------------- Dev tools: ?dev=1 tester
   (function(){
     var u = new URL(location.href);
     var kpiLS = localStorage.getItem('capitolLeague.kpis');
@@ -206,21 +214,6 @@
       };
       document.getElementById('kpiClear').onclick = function(){ localStorage.removeItem('capitolLeague.kpis'); location.reload(); };
     }
-    // status pill
-    (async function(){
-      var pill = document.createElement('div');
-      pill.style.cssText='position:fixed;left:12px;bottom:12px;background:#0e1222;color:#cfe1ff;border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:6px 10px;font:12px system-ui;z-index:99999';
-      pill.textContent='KPIs: loading…'; document.body.appendChild(pill);
-      try{
-        var r = await fetch(KPI_SRC,{cache:'no-store'});
-        if(!r.ok){ pill.textContent='KPIs: load failed'; return; }
-        var text = await r.text();
-        var count = 0;
-        if (/^govtrack/i.test(text.trim())){ count = Math.max(0, text.trim().split(/\r?\n/).length-1); }
-        else { var j = JSON.parse(text); count = j.members?Object.keys(j.members).length:Object.keys(j).length; }
-        pill.textContent = 'KPIs: '+count+' records • src=' + (KPI_SRC.includes('://')?'raw':'kpis.json');
-      }catch(e){ pill.textContent='KPIs: load failed'; }
-    })();
   })();
 
   // ---------------- State + rendering
