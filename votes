@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Fantasy Politics — Votes</title>
+<style>
+  :root{
+    --nav-h:68px;--content-max:1320px;--gutter:20px;--gap:16px;--radius:14px;
+    --panel:#171a2b;--panel-2:#1d2140;--text:#e7e9f4;--muted:#9aa1bd;
+    --accent:#6ea8fe;--border:1px solid rgba(255,255,255,.06);--shadow:0 8px 24px rgba(0,0,0,.25);
+    --ok:#27c281;--bad:#d34a4a;
+  }
+  *,*:before,*:after{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;color:var(--text);background:linear-gradient(180deg,#0b0e1a,#0f1220);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--content-max);margin:0 auto;padding:16px var(--gutter) 60px}
+
+  /* Top bar */
+  .nav{height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 var(--gutter);border-bottom:var(--border);background:#0e1222;position:sticky;top:0;z-index:10}
+  .brand{font-weight:700;letter-spacing:.2px}
+  .brand b{color:var(--accent)}
+  .seg{display:flex;gap:8px;background:rgba(255,255,255,.04);padding:6px;border-radius:999px;border:var(--border)}
+  .seg .btn{padding:8px 14px;border-radius:999px;cursor:pointer;opacity:.9}
+  .seg .btn:hover{opacity:1;background:rgba(255,255,255,.05)}
+  .seg .on{background:var(--accent);color:#0b0e1a}
+
+  /* Controls */
+  .controls{display:grid;grid-template-columns:1fr 200px 200px 200px;gap:var(--gap);padding:16px;background:var(--panel);border:var(--border);border-radius:var(--radius);box-shadow:var(--shadow);margin-top:16px}
+  .input,.select{height:38px;background:var(--panel-2);border:var(--border);border-radius:10px;color:var(--text);padding:0 12px;outline:none}
+  .input::placeholder{color:var(--muted)}
+
+  /* List */
+  .section-title{margin:18px 6px 8px;color:var(--muted);font-size:.95rem}
+  .votes{display:flex;flex-direction:column;gap:12px}
+  .vote{background:var(--panel);border:var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+  .vote header{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:14px 16px 8px}
+  .bill{font-weight:600}
+  .meta{color:var(--muted);font-size:.9rem}
+  .badges{display:flex;gap:8px;align-items:center}
+  .badge{font-size:.82rem;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:var(--border)}
+  .pass{background:rgba(39,194,129,.14);color:#78e2ba}
+  .fail{background:rgba(211,74,74,.14);color:#f09b9b}
+  .details{padding:0 16px 14px;color:var(--muted)}
+  .tools{display:flex;gap:8px}
+  .tool{cursor:pointer;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,.05);border:var(--border);font-size:.82rem}
+  .tool:hover{background:rgba(255,255,255,.08)}
+  .hide{display:none}
+  .pin{outline:2px solid rgba(110,168,254,.45)}
+</style>
+</head>
+<body>
+
+<!-- Top navigation -->
+<div class="nav">
+  <div class="brand">Fantasy <b>Politics</b></div>
+  <div class="seg" id="view">
+    <a class="btn" href="#" data-route="Scoreboard">Scoreboard</a>
+    <a class="btn" href="#" data-route="Cards">Cards</a>
+    <a class="btn on" href="#" data-route="Votes">Votes</a>
+    <a class="btn" href="#" data-route="Draft">Draft</a>
+    <a class="btn" href="#" data-route="Rules">Rules</a>
+  </div>
+</div>
+
+<div class="wrap">
+  <!-- Controls -->
+  <div class="controls">
+    <input id="q" class="input" placeholder="Search bill title, number…"/>
+    <select id="ch" class="select">
+      <option value="">All Chambers</option>
+      <option>House</option>
+      <option>Senate</option>
+    </select>
+    <select id="res" class="select">
+      <option value="">All Results</option>
+      <option value="pass">Passed</option>
+      <option value="fail">Failed</option>
+    </select>
+    <select id="sort" class="select">
+      <option value="new">Sort: Newest</option>
+      <option value="old">Sort: Oldest</option>
+    </select>
+  </div>
+
+  <div class="section-title">Selected:</div>
+  <div id="selected" class="badges" style="margin:0 6px 16px;"></div>
+
+  <div id="list" class="votes"></div>
+</div>
+
+<!-- libs -->
+<script src="fp-shims.js"></script>
+<script src="fp-data.js"></script>
+<script src="fp-live.js"></script>
+
+<!-- page code -->
+<script>
+(function router(){
+  const routes = {
+    'Scoreboard':'Scoreboard Page.html',
+    'Cards':'Cards Page.html',
+    'Votes':'Votes Page.html',
+    'Draft':'Draft Page.html',
+    'Rules':'Rules Page.html'
+  };
+  document.getElementById('view').addEventListener('click', e=>{
+    const el = e.target.closest('[data-route]'); if(!el) return;
+    e.preventDefault(); const key = el.dataset.route; if(routes[key]) location.href = routes[key];
+  });
+})();
+
+const $ = sel => document.querySelector(sel);
+const list = $('#list'), q = $('#q'), ch = $('#ch'), res = $('#res'), sortSel = $('#sort'), selected = $('#selected');
+
+function renderVote(v){
+  const id = v.id || (v.bill_number || v.bill || 'bill').toLowerCase().replace(/\s+/g,'-');
+  const passed = v.result?.toLowerCase() === 'passed';
+  const el = document.createElement('article');
+  el.className = 'vote';
+  el.id = 'vote-' + id;
+
+  const yeas = v.yeas ?? v.yes ?? v.ayes ?? v.yea ?? 0;
+  const nays = v.nays ?? v.no ?? v.nay ?? 0;
+  const chamber = (v.chamber || v.body || '').replace(/^[a-z]/, m=>m.toUpperCase());
+  const date = v.date ? new Date(v.date) : null;
+  const dateTxt = date ? date.toLocaleDateString(undefined, {month:'short', day:'numeric', year:'numeric'}) : '';
+
+  el.innerHTML = `
+    <header>
+      <div>
+        <div class="bill">${v.bill_number || v.bill || v.title || 'Bill'}</div>
+        <div class="meta">${chamber}${dateTxt ? ' · ' + dateTxt : ''}</div>
+      </div>
+      <div class="badges">
+        <span class="badge ${passed?'pass':'fail'}">${passed?'Passed':'Failed'}</span>
+        <span class="badge">Yeas ${yeas}</span>
+        <span class="badge">Nays ${nays}</span>
+        <div class="tools">
+          <button class="tool" data-copy="#${el.id}">Copy link</button>
+          <button class="tool" data-toggle>Details</button>
+        </div>
+      </div>
+    </header>
+    <div class="details hide">${v.summary || v.description || 'No summary available.'}</div>
+  `;
+  el.addEventListener('click', e=>{
+    if(e.target.matches('[data-toggle]')){
+      el.querySelector('.details').classList.toggle('hide');
+    }else if(e.target.matches('[data-copy]')){
+      const h = location.href.split('#')[0] + '#' + el.id;
+      navigator.clipboard?.writeText(h);
+      e.target.textContent = 'Copied';
+      setTimeout(()=>e.target.textContent='Copy link',900);
+    }
+  });
+  return el;
+}
+
+function applyFilters(all){
+  const term = q.value.trim().toLowerCase();
+  const chamber = ch.value;
+  const result = res.value;
+  let rows = all.filter(v=>{
+    const t = (v.bill_number||v.bill||v.title||'').toLowerCase();
+    if(term && !t.includes(term)) return false;
+    if(chamber && (v.chamber||'').toLowerCase() !== chamber.toLowerCase()) return false;
+    if(result){
+      const passed = (v.result||'').toLowerCase()==='passed';
+      if(result==='pass' && !passed) return false;
+      if(result==='fail' && passed) return false;
+    }
+    return true;
+  });
+  rows.sort((a,b)=>{
+    const da = +new Date(a.date||0), db = +new Date(b.date||0);
+    return sortSel.value==='old' ? da-db : db-da;
+  });
+  return rows;
+}
+
+function hydrate(all){
+  list.innerHTML='';
+  applyFilters(all).forEach(v=>list.appendChild(renderVote(v)));
+}
+
+function deepLink(){
+  if(location.hash.startsWith('#vote-')){
+    const target = document.getElementById(location.hash.slice(1));
+    if(target){ target.classList.add('pin'); target.querySelector('.details')?.classList.remove('hide'); target.scrollIntoView({behavior:'smooth',block:'start'}); setTimeout(()=>target.classList.remove('pin'),1600); }
+  }
+}
+
+async function boot(){
+  // minimal “Selected” echo of filters
+  const pills = [];
+  if(ch.value) pills.push('Chamber: '+ch.value);
+  if(res.value) pills.push('Result: '+(res.value==='pass'?'Passed':'Failed'));
+  selected.innerHTML = pills.map(x=>`<span class="badge">${x}</span>`).join('');
+
+  try{
+    const [sens, house, votes] = await Promise.all([
+      fpData.senators(), fpData.house(), fpData.votesLast30d()
+    ]);
+    hydrate(votes || []);
+  }catch(err){
+    // Fallback stub if data layer not ready
+    const stub = [
+      {id:'hr-1234', bill_number:'H.R. 1234 — Infrastructure Investment and Resilience Act', chamber:'House', date:'2025-09-19', result:'Passed', yes:287, no:143, summary:'Funds bridges, rail, upgrades.'},
+      {id:'s-987', bill_number:'S. 987 — Fiscal Responsibility and Budget Reform', chamber:'Senate', date:'2025-09-14', result:'Failed', yes:49, no:51, summary:'Caps discretionary spending growth.'},
+      {id:'hr-2222', bill_number:'H.R. 2222 — Rural Healthcare Expansion Act', chamber:'House', date:'2025-08-05', result:'Passed', yes:298, no:128, summary:'Incentivizes clinic staffing.'}
+    ];
+    hydrate(stub);
+  }
+  deepLink();
+}
+
+['input','change'].forEach(ev=>{
+  q.addEventListener(ev, ()=>boot());
+  ch.addEventListener(ev, ()=>boot());
+  res.addEventListener(ev, ()=>boot());
+  sortSel.addEventListener(ev, ()=>boot());
+});
+
+document.addEventListener('DOMContentLoaded', boot);
+window.addEventListener('hashchange', deepLink);
+</script>
+</body>
+</html>
