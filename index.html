@@ -116,6 +116,21 @@
 .nav, .seg{ flex-wrap:nowrap; }
 .brand{ white-space:nowrap; }
 </style>
+<style>
+/* Header wraps to new lines when narrow */
+.topnav{ height:auto; }                      /* let it grow */
+.topnav__inner{
+  display:flex; flex-wrap:wrap;              /* wrap rows */
+  align-items:center; gap:12px; padding:0 16px;
+}
+#leftControls, #rightControls{
+  display:flex; flex-wrap:wrap; gap:8px;
+  flex:1 1 360px;                            /* allow break to next line */
+}
+.brand{ flex:0 0 auto; margin-inline:auto; white-space:nowrap; }
+.nav, .seg{ flex-wrap:wrap; }                /* pills can wrap */
+.seg-btn{ flex:0 0 auto; }                   /* don’t squish pills */
+</style>
 
 
 </head>
@@ -421,5 +436,18 @@
   searchInput.addEventListener('input', function(){ searchQuery = this.value||''; applyFilters(); });
 })();
 </script>
+  <script>
+(function(){
+  const header = document.querySelector('.topnav');
+  if(!header) return;
+  const setH = () => {
+    document.documentElement.style.setProperty('--nav-h', header.offsetHeight + 'px');
+  };
+  new ResizeObserver(setH).observe(header);
+  window.addEventListener('load', setH, {once:true});
+  window.addEventListener('resize', setH);
+})();
+</script>
+
 </body>
 </html>
