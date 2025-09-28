@@ -108,6 +108,46 @@
   var badgeFilter = 'all';
   var searchQuery = '';
   var membersAll = [];
+// --- KPI normalizer (new)
+function normalizeKPI(j){
+  var map = {};
+  if(!j) return map;
+
+  // Array form
+  if (Array.isArray(j)){
+    j.forEach(function(it){
+      var id = it.govtrack || it.govtrack_id || (it.id&&it.id.govtrack) || it.id || it.person_id || it.person;
+      if (id!=null){
+        var tv = +(it.total_votes ?? it.total ?? it.votes ?? 0);
+        var mv = +(it.missed_votes ?? it.misses ?? 0);
+        map[String(id)] = { total_votes: tv, missed_votes: mv };
+      }
+    });
+    return map;
+  }
+
+  // Object with members{}
+  if (j.members && typeof j.members==='object'){
+    Object.keys(j.members).forEach(function(k){
+      var v = j.members[k]||{};
+      var tv = +(v.total_votes ?? v.total ?? v.votes ?? 0);
+      var mv = +(v.missed_votes ?? v.misses ?? 0);
+      map[String(k)] = { total_votes: tv, missed_votes: mv };
+    });
+    return map;
+  }
+
+  // Flat object { "400040": {...} }
+  Object.keys(j).forEach(function(k){
+    var v = j[k]||{};
+    var tv = +(v.total_votes ?? v.total ?? v.votes ?? 0);
+    var mv = +(v.missed_votes ?? v.misses ?? 0);
+    if (!Number.isNaN(tv) || !Number.isNaN(mv)){
+      map[String(k)] = { total_votes: tv||0, missed_votes: mv||0 };
+    }
+  });
+  return map;
+}
 
   // Endpoints
   var DATA_URL = 'https://unitedstates.github.io/congress-legislators/legislators-current.json';
