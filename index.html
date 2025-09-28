@@ -113,7 +113,11 @@ function normalizeKPI(j){
   var map = {};
   if(!j) return map;
 
-  // Array form
+ // --- KPI normalizer
+function normalizeKPI(j){
+  var map = {};
+  if(!j) return map;
+
   if (Array.isArray(j)){
     j.forEach(function(it){
       var id = it.govtrack || it.govtrack_id || (it.id&&it.id.govtrack) || it.id || it.person_id || it.person;
@@ -125,6 +129,25 @@ function normalizeKPI(j){
     });
     return map;
   }
+
+  if (j.members && typeof j.members==='object'){
+    Object.keys(j.members).forEach(function(k){
+      var v=j.members[k]||{};
+      var tv = +(v.total_votes ?? v.total ?? v.votes ?? 0);
+      var mv = +(v.missed_votes ?? v.misses ?? 0);
+      map[String(k)] = { total_votes: tv, missed_votes: mv };
+    });
+    return map;
+  }
+
+  Object.keys(j).forEach(function(k){
+    var v=j[k]||{};
+    var tv = +(v.total_votes ?? v.total ?? v.votes ?? 0);
+    var mv = +(v.missed_votes ?? v.misses ?? 0);
+    map[String(k)] = { total_votes: tv||0, missed_votes: mv||0 };
+  });
+  return map;
+}
 
   // Object with members{}
   if (j.members && typeof j.members==='object'){
