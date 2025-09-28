@@ -323,5 +323,125 @@
 
 })();
 </script>
+  <script id="kpi-loader">
+(() => {
+  // 1) Where to load KPIs from: ?kpi=<csv-or-json-url>
+  const KPI_URL = new URLSearchParams(location.search).get("kpi")
+                || "dist/kpis.csv"; // fallback you generate via Actions
+
+  // 2) Helpers
+  const by = sel => Array.from(document.querySelectorAll(sel));
+  const attr = (el, k) => el?.getAttribute(k) ?? "";
+  const num = v => Number(String(v || "0").replace(/[, ]/g,"")) || 0;
+  const pct = (n,d) => (d>0? ((n/d)*100).toFixed(1) : "0.0");
+
+  // 3) Parse CSV (tiny, robust enough for our three columns)
+  function parseCSV(text){
+    const rows = text.trim().split(/\r?\n/);
+    const [h, ...body] = rows;
+    const header = h.split(",").map(s=>s.trim());
+    const gi = header.findIndex(k=>/govtrack/i.test(k));
+    const ti = header.findIndex(k=>/total/i.test(k));
+    const mi = header.findIndex(k=>/missed/i.test(k));
+    if (gi<0 || ti<0 || mi<0) throw new Error("CSV missing required columns");
+    const map = new Map();
+    for (const line of body){
+      const cols = line.split(","); // our CSV is simple (no quoted commas)
+      const id = String(cols[gi]).trim();
+      map.set(id, {
+        total_votes: num(cols[ti]),
+        missed_votes: num(cols[mi]),
+      });
+    }
+    return map;
+  }
+
+  // 4) Parse JSON (if you ever point to kpis.json instead)
+  async function parseMaybeJSON(res){
+    const ct = res.headers.get("content-type") || "";
+    if (ct.includes("application/json")) {
+      const obj = await res.json();
+      const map = new Map();
+      for (const [id, v] of Object.entries(obj)) {
+        map.set(String(id), {
+          total_votes: num(v.total_votes),
+          missed_votes: num(v.missed_votes),
+        });
+      }
+      return map;
+    } else {
+      const txt = await res.text();
+      return parseCSV(txt);
+    }
+  }
+
+  // 5) Load once, keep in memory
+  let KPI_MAP = new Map();
+  const kpiReady = fetch(KPI_URL, {cache:"no-store"})
+    .then(r => { if(!r.ok) throw new Error("KPI fetch failed"); return parseMaybeJSON(r); })
+    .then(map => (KPI_MAP = map))
+    .catch(err => {
+      console.error("KPI load error:", err);
+      // Soft-fail: keep empty map, UI will show N/A
+      KPI_MAP = new Map();
+    });
+
+  // 6) Fill one card’s KPIs
+  function fillCardKPIs(card){
+    // Expect an element holding the numeric GovTrack ID
+    // (you already render it on the back stats panel)
+    const gv = card.querySelector('[data-stat="govtrack"]') || card.querySelector('.govtrack');
+    if (!gv) return;
+
+    // Normalize the ID (strip spaces etc.)
+    const id = (gv.textContent || "").replace(/\D+/g,"");
+    if (!id) return;
+
+    const k = KPI_MAP.get(id);
+    const total = k?.total_votes ?? 0;
+    const missed = k?.missed_votes ?? 0;
+    const votePct = pct(total - missed, total);
+    const missPct = pct(missed, total);
+
+    const set = (sel, val) => {
+      const el = card.querySelector(sel);
+      if (el) el.textContent = (val ?? "N/A");
+    };
+
+    // Match your markup cells; adjust selectors if yours differ
+    set('[data-kpi="total_votes"] .v', total ? total.toLocaleString() : "N/A");
+    set('[data-kpi="missed_votes"] .v', total ? missed.toLocaleString() : "N/A");
+    set('[data-kpi="vote_pct"] .v', total ? `${votePct}%` : "N/A");
+    set('[data-kpi="miss_pct"] .v', total ? `${missPct}%` : "N/A");
+
+    card.dataset.kpiFilled = "1";
+  }
+
+  // 7) Fill all visible cards once KPIs are ready
+  async function fillAll(){
+    await kpiReady;
+    by('.card').forEach(c => fillCardKPIs(c));
+  }
+
+  // 8) Observe future cards (if your grid lazy-loads or filters)
+  const obs = new MutationObserver(muts => {
+    for (const m of muts) {
+      m.addedNodes.forEach(n => {
+        if (n.nodeType === 1) {
+          if (n.matches?.('.card')) fillCardKPIs(n);
+          n.querySelectorAll?.('.card').forEach(fillCardKPIs);
+        }
+      });
+    }
+  });
+
+  // 9) Kick everything off
+  document.addEventListener('DOMContentLoaded', () => {
+    fillAll();
+    obs.observe(document.body, {childList:true, subtree:true});
+  });
+})();
+</script>
+
 </body>
 </html>
