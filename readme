@@ -1,0 +1,14 @@
+# KPI Automation (No API key)
+
+This runs your aggregator, maps Bioguide → GovTrack, and writes site-ready files.
+
+## Files
+- scripts/build_kpis.py
+- scripts/map_bioguide_to_govtrack.py
+- .github/workflows/build-kpis-python.yml
+
+## Use
+1) Put these files in your repo root alongside your `capitol_league_rollcall_aggregate.py`.
+2) Push to `main`. The Action writes `dist/kpis.csv` and `dist/kpis.json` nightly and on push.
+3) Point the site to:
+   ?kpi=https://raw.githubusercontent.com/OWNER/REPO/main/dist/kpis.csv
