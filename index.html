@@ -81,7 +81,7 @@
           <span class="label">View</span>
           <div class="segmented" role="tablist" aria-label="Primary views">
             <button class="active" aria-selected="true" role="tab">Scoreboard</button>
-            <button class="disabled" aria-disabled="true" role="tab" title="Coming soon" onclick="location.href='/cards.html'">Cards</button>
+            <button class="disabled" aria-disabled="true" role="tab" title="Cards" onclick="location.href='cards.html'">Cards</button>
             <button class="disabled" aria-disabled="true" role="tab" title="Coming soon">Votes</button>
             <button class="disabled" aria-disabled="true" role="tab" title="Coming soon">Draft</button>
             <button class="disabled" aria-disabled="true" role="tab" title="Coming soon">Rules</button>
@@ -170,8 +170,8 @@ let SCORE = null, VOTES = null, SCOPE = "week";
 
 init();
 async function init(){
-  SCORE = await loadJSON('/data/scoreboard.json', MOCK_SCORE);
-  VOTES = await loadJSON('/data/votes.json', MOCK_VOTES);
+  SCORE = await loadJSON('data/scoreboard.json', MOCK_SCORE);
+  VOTES = await loadJSON('data/votes.json', MOCK_VOTES);
   renderTeam(SCORE.team);
   setScope(SCOPE);
   bindUI();
