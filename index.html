@@ -282,5 +282,43 @@
   searchInput.addEventListener('input', function(){ searchQuery = this.value||''; applyFilters(); });
 })();
 </script>
+  <script>
+/* --- Dev overrides: URL param + localStorage --- */
+(function(){
+  // 1) URL param: ?kpi=<url>  (also supports ?data=<url> for roster, if ever)
+  var u = new URL(location.href);
+  var kpiParam = u.searchParams.get('kpi');
+  if (kpiParam) window.KPI_URL = kpiParam; // overrides 'kpis.json' without code changes
+
+  // 2) Local override in localStorage: set once, persists across reloads
+  var kpiLS = localStorage.getItem('capitolLeague.kpis');
+  if (kpiLS) {
+    // intercept fetch(KPI_URL)
+    var _fetch = window.fetch;
+    window.fetch = function(input, init){
+      if (String(input).endsWith('kpis.json') || String(input)===window.KPI_URL){
+        return Promise.resolve(new Response(kpiLS, {status:200, headers:{'Content-Type':'application/json'}}));
+      }
+      return _fetch(input, init);
+    };
+  }
+
+  // 3) Minimal in-page editor: open with ?dev=1 to paste JSON quickly
+  if (u.searchParams.get('dev')==='1'){
+    var box = document.createElement('div');
+    box.style.cssText='position:fixed;right:12px;bottom:12px;width:360px;background:#0e1222;color:#e7e9f4;border:1px solid rgba(255,255,255,.15);border-radius:10px;box-shadow:0 10px 24px rgba(0,0,0,.4);z-index:99999;padding:10px;font:12px system-ui';
+    box.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><strong>KPI Tester</strong><button id="kpiClose" style="all:unset;cursor:pointer;padding:4px 8px;border:1px solid rgba(255,255,255,.2);border-radius:6px;">×</button></div><textarea id="kpiTxt" rows="10" style="width:100%;background:#0b1020;color:#cfe1ff;border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:8px;font:12px/1.3 ui-monospace,Consolas,monospace" placeholder=\'{"400040":{"total_votes":15702,"missed_votes":0}}\'>'
+      + (kpiLS||'') + '</textarea><div style="display:flex;gap:8px;margin-top:8px;"><button id="kpiSave" style="all:unset;background:#6ea8fe;color:#081126;border-radius:8px;padding:8px 10px;font-weight:800;cursor:pointer;">Save & Reload</button><button id="kpiClear" style="all:unset;background:#2b2f47;color:#e7e9f4;border-radius:8px;padding:8px 10px;font-weight:800;cursor:pointer;">Clear Override</button></div><div style="opacity:.7;margin-top:6px">Tip: flip a card after reload to see KPIs.</div>';
+    document.body.appendChild(box);
+    document.getElementById('kpiClose').onclick = function(){ box.remove(); };
+    document.getElementById('kpiSave').onclick = function(){
+      const t = document.getElementById('kpiTxt').value;
+      try { JSON.parse(t); localStorage.setItem('capitolLeague.kpis', t); location.reload(); }
+      catch(e){ alert('Invalid JSON'); }
+    };
+    document.getElementById('kpiClear').onclick = function(){ localStorage.removeItem('capitolLeague.kpis'); location.reload(); };
+  }
+})();
+</script>
 </body>
 </html>
