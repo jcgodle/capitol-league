@@ -97,6 +97,25 @@
 .seg-btn{ flex:0 0 auto; }    /* pills don’t shrink */
 .brand{ white-space:nowrap; } /* title stays in one line */
 </style>
+<style>
+/* Make the sticky header side-scroll instead of clipping */
+.topnav{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
+.topnav::-webkit-scrollbar{ display:none; }
+
+/* Turn inner grid into a non-wrapping flex row that can grow wider than the viewport */
+.topnav__inner{
+  display:flex;               /* override grid */
+  gap:12px;
+  align-items:center;
+  width:max-content;          /* allow overflow width */
+  min-width:max-content;
+}
+
+/* Keep each section on one line and prevent shrinking */
+.topnav__inner > *{ flex:0 0 auto; scroll-snap-align:start; }
+.nav, .seg{ flex-wrap:nowrap; }
+.brand{ white-space:nowrap; }
+</style>
 
 
 </head>
