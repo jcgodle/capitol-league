@@ -66,6 +66,20 @@
 </style>
   <style>.seg-btn{white-space:nowrap}</style>
 <style>.seg-btn{white-space:nowrap; height:34px; line-height:34px}</style>
+  <style>
+/* Make the sticky header horizontally scrollable with snap */
+.topnav{ height:var(--nav-h); }                   /* keep fixed height */
+.topnav__inner{
+  overflow-x:auto; overflow-y:hidden;
+  scroll-snap-type:x proximity;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.topnav__inner::-webkit-scrollbar{ display:none; }
+.topnav__inner > *{ scroll-snap-align:start; }    /* left, brand, right segments */
+.nav, .seg{ flex-wrap:nowrap; }                   /* keep pills on one line */
+</style>
+
 
 </head>
 <body>
