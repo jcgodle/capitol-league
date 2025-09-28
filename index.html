@@ -15,10 +15,6 @@
   body{margin:0;background:linear-gradient(180deg,#0b0e1a,#0f1220);color:var(--text);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
   .topnav{position:sticky;top:0;left:0;right:0;height:var(--nav-h);background:rgba(16,19,36,.95);backdrop-filter:blur(10px);border-bottom:var(--border);z-index:1000;box-shadow:0 2px 10px rgba(0,0,0,.35)}
   .topnav__inner{height:100%;max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 16px;gap:12px}
-  .nav{display:flex;gap:14px;align-items:center}
-  .nav a{color:var(--muted);text-decoration:none;font-weight:700;font-size:13px;padding:8px 10px;border-radius:10px}
-  .nav a:hover{color:var(--text);background:rgba(255,255,255,.06)}
-  .nav a.active{color:#fff;background:rgba(110,168,254,.18)}
   .seg{display:flex;gap:8px;align-items:center}
   .seg-btn{appearance:none;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:var(--muted);font-weight:800;font-size:12px;padding:8px 12px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;min-height:34px}
   .seg-btn:hover{color:#fff}
@@ -64,6 +60,9 @@
   .kpi .v{font-weight:900;font-size:18px}
   .stat{background:var(--back-tile);border:1px solid var(--back-border);border-radius:10px;padding:10px;font-size:12px;color:var(--back-ink)}
   .stat strong{display:block;color:var(--back-ink-2);margin-bottom:4px}
+  /* equal widths per segment group */
+  #chamberSeg,#partySeg,#badgeSeg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:8px}
+  #chamberSeg .seg-btn,#partySeg .seg-btn,#badgeSeg .seg-btn{width:100%}
 </style>
 </head>
 <body>
@@ -100,115 +99,135 @@
 <script>
 (function(){
   'use strict';
-  // DOM refs and state
-  var grid = document.getElementById('cardGrid');
-  var chamberFilter = 'all';
-  var partyFilter = 'all';
-  var stateFilter = 'all';
-  var badgeFilter = 'all';
-  var searchQuery = '';
-  var membersAll = [];
-// --- KPI normalizer (new)
-function normalizeKPI(j){
-  var map = {};
-  if(!j) return map;
 
- // --- KPI normalizer
-function normalizeKPI(j){
-  var map = {};
-  if(!j) return map;
+  // ---------------- Endpoints (supports ?kpi= JSON or CSV; raw or encoded)
+  var DATA_URL = 'https://unitedstates.github.io/congress-legislators/legislators-current.json';
+  var KPI_URL  = 'kpis.json';
+  var qs = location.href.split('?kpi=')[1];
+  var KPI_SRC = qs ? decodeURIComponent(qs.split('#')[0]) : KPI_URL;
 
-  if (Array.isArray(j)){
-    j.forEach(function(it){
-      var id = it.govtrack || it.govtrack_id || (it.id&&it.id.govtrack) || it.id || it.person_id || it.person;
-      if (id!=null){
-        var tv = +(it.total_votes ?? it.total ?? it.votes ?? 0);
-        var mv = +(it.missed_votes ?? it.misses ?? 0);
-        map[String(id)] = { total_votes: tv, missed_votes: mv };
-      }
-    });
-    return map;
-  }
-
-  if (j.members && typeof j.members==='object'){
-    Object.keys(j.members).forEach(function(k){
-      var v=j.members[k]||{};
-      var tv = +(v.total_votes ?? v.total ?? v.votes ?? 0);
-      var mv = +(v.missed_votes ?? v.misses ?? 0);
-      map[String(k)] = { total_votes: tv, missed_votes: mv };
-    });
-    return map;
-  }
-
-  Object.keys(j).forEach(function(k){
-    var v=j[k]||{};
-    var tv = +(v.total_votes ?? v.total ?? v.votes ?? 0);
-    var mv = +(v.missed_votes ?? v.misses ?? 0);
-    map[String(k)] = { total_votes: tv||0, missed_votes: mv||0 };
-  });
-  return map;
-}
-
-  // Object with members{}
-  if (j.members && typeof j.members==='object'){
-    Object.keys(j.members).forEach(function(k){
-      var v = j.members[k]||{};
-      var tv = +(v.total_votes ?? v.total ?? v.votes ?? 0);
-      var mv = +(v.missed_votes ?? v.misses ?? 0);
-      map[String(k)] = { total_votes: tv, missed_votes: mv };
-    });
-    return map;
-  }
-
-  // Flat object { "400040": {...} }
-  Object.keys(j).forEach(function(k){
-    var v = j[k]||{};
-    var tv = +(v.total_votes ?? v.total ?? v.votes ?? 0);
-    var mv = +(v.missed_votes ?? v.misses ?? 0);
-    if (!Number.isNaN(tv) || !Number.isNaN(mv)){
-      map[String(k)] = { total_votes: tv||0, missed_votes: mv||0 };
-    }
-  });
-  return map;
-}
-
-// Endpoints
-var DATA_URL = 'https://unitedstates.github.io/congress-legislators/legislators-current.json';
-var KPI_URL  = 'kpis.json';
-// honor ?kpi=<url> override
-var KPI_SRC = (new URL(location.href)).searchParams.get('kpi') || KPI_URL;
-
-  // Utils
+  // ---------------- Utils
   function IMG(bioguide){ return 'https://unitedstates.github.io/images/congress/225x275/' + bioguide + '.jpg'; }
   function stateName(code){var S={AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",CT:"Connecticut",DE:"Delaware",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NY:"New York",NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming",DC:"District of Columbia"};return S[code]||code;}
   function partyLabel(p){ if(!p) return ''; if(/^Dem/i.test(p)) return 'DEMOCRAT'; if(/^Rep/i.test(p)) return 'REPUBLICAN'; if(/^Ind/i.test(p)) return 'INDEPENDENT'; return p.toUpperCase(); }
   function initials(str){return (str||'').split(/\s+/).map(w=>w[0]||'').join('').slice(0,3).toUpperCase();}
 
-  // Static KPI support
-  var kpiData = {};
+  // ---------------- KPI Normalizer
   function normalizeKPI(j){
-    var map = {};
-    if(!j) return map;
-    if(Array.isArray(j)){
-      j.forEach(function(it){ var id = it.govtrack || it.govtrack_id || (it.id&&it.id.govtrack) || it.id || it.person_id || it.person; if(id!=null){ map[String(id)]={ total_votes:+it.total_votes||0, missed_votes:+it.missed_votes||0 }; } });
-    } else if(j && typeof j === 'object'){
-      if(j.members && typeof j.members==='object'){
-        Object.keys(j.members).forEach(function(k){ var v=j.members[k]||{}; map[String(k)]={ total_votes:+(v.total_votes||v.total||0), missed_votes:+(v.missed_votes||v.misses||0) }; });
-      } else {
-        Object.keys(j).forEach(function(k){ var v=j[k]||{}; if(v && (v.total_votes!=null || v.missed_votes!=null)) map[String(k)]={ total_votes:+(v.total_votes||0), missed_votes:+(v.missed_votes||0) }; });
-      }
+    var map = {}; if(!j) return map;
+    if (Array.isArray(j)){
+      j.forEach(function(it){
+        var id = it.govtrack || it.govtrack_id || (it.id&&it.id.govtrack) || it.id || it.person_id || it.person;
+        if (id!=null){
+          var tv = +(it.total_votes ?? it.total ?? it.votes ?? 0);
+          var mv = +(it.missed_votes ?? it.misses ?? 0);
+          map[String(id)] = { total_votes: tv, missed_votes: mv };
+        }
+      }); return map;
     }
-    return map;
+    if (j.members && typeof j.members==='object'){
+      Object.keys(j.members).forEach(function(k){
+        var v=j.members[k]||{};
+        var tv = +(v.total_votes ?? v.total ?? v.votes ?? 0);
+        var mv = +(v.missed_votes ?? v.misses ?? 0);
+        map[String(k)] = { total_votes: tv, missed_votes: mv };
+      }); return map;
+    }
+    Object.keys(j).forEach(function(k){
+      var v=j[k]||{};
+      var tv = +(v.total_votes ?? v.total ?? v.votes ?? 0);
+      var mv = +(v.missed_votes ?? v.misses ?? 0);
+      map[String(k)] = { total_votes: tv||0, missed_votes: mv||0 };
+    }); return map;
   }
 
-  // KPI loader
-var kpiData = {};
-var kpiReady = fetch(KPI_SRC)
-  .then(function(r){ return r.ok ? r.json() : null; })
-  .then(function(j){ kpiData = normalizeKPI(j); })
-  .catch(function(){ kpiData = {}; });
+  // ---------------- KPI Loader (JSON or CSV)
+  var kpiData = {};
+  var kpiReady = (async function(){
+    try{
+      var r = await fetch(KPI_SRC,{cache:'no-store'});
+      if(!r.ok){ kpiData={}; return; }
+      var ct = (r.headers.get('content-type')||'').toLowerCase();
+      if (ct.includes('text/csv') || /\.csv(\?|$)/i.test(KPI_SRC)){
+        var txt = await r.text();
+        var lines = txt.trim().split(/\r?\n/);
+        var head  = lines.shift().split(',').map(s=>s.trim().toLowerCase());
+        var idx = { id:head.indexOf('govtrack'), total:head.indexOf('total_votes'), miss:head.indexOf('missed_votes') };
+        var map = {};
+        lines.forEach(function(row){
+          var c = row.split(',').map(s=>s.trim());
+          var id = c[idx.id]; if(!id) return;
+          map[String(id)] = { total_votes:+(c[idx.total]||0), missed_votes:+(c[idx.miss]||0) };
+        });
+        kpiData = map;
+      } else {
+        kpiData = normalizeKPI(await r.json());
+      }
+    }catch(e){ kpiData={}; }
+  })();
 
-  // Badge: use careerStart (first term), per fix
+  function kpiFromCounts(total, missed){
+    var t=+total||0, m=+missed||0, cast=Math.max(0,t-m);
+    return {voted:cast, missedVotes:m, votePct:t?cast/t*100:0, missPct:t?m/t*100:0};
+  }
+  function fetchKPI(govtrackId){
+    if(!govtrackId) return Promise.resolve(null);
+    return kpiReady.then(function(){
+      var e=kpiData[String(govtrackId)];
+      return e? kpiFromCounts(e.total_votes, e.missed_votes) : null;
+    });
+  }
+
+  // ---------------- Dev tools: local override + tester + status pill
+  (function(){
+    var u = new URL(location.href);
+    var kpiLS = localStorage.getItem('capitolLeague.kpis');
+    if (kpiLS){
+      var _fetch = window.fetch;
+      window.fetch = function(input, init){
+        var url = String(input);
+        if (url === KPI_SRC || /kpis\.json($|\?)/.test(url)){
+          return Promise.resolve(new Response(kpiLS,{status:200,headers:{'Content-Type':'application/json'}}));
+        }
+        return _fetch(input, init);
+      };
+    }
+    if (u.searchParams.get('dev')==='1'){
+      var box = document.createElement('div');
+      box.style.cssText='position:fixed;right:12px;bottom:12px;width:360px;background:#0e1222;color:#e7e9f4;border:1px solid rgba(255,255,255,.15);border-radius:10px;box-shadow:0 10px 24px rgba(0,0,0,.4);z-index:99999;padding:10px;font:12px system-ui';
+      box.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><strong>KPI Tester</strong><button id="kpiClose" style="all:unset;cursor:pointer;padding:4px 8px;border:1px solid rgba(255,255,255,.2);border-radius:6px;">×</button></div><textarea id="kpiTxt" rows="10" style="width:100%;background:#0b1020;color:#cfe1ff;border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:8px;font:12px/1.3 ui-monospace,Consolas,monospace" placeholder=\'{"400040":{"total_votes":15702,"missed_votes":3}}\'>'
+        + (kpiLS||'') + '</textarea><div style="display:flex;gap:8px;margin-top:8px;"><button id="kpiSave" style="all:unset;background:#6ea8fe;color:#081126;border-radius:8px;padding:8px 10px;font-weight:800;cursor:pointer;">Save & Reload</button><button id="kpiClear" style="all:unset;background:#2b2f47;color:#e7e9f4;border-radius:8px;padding:8px 10px;font-weight:800;cursor:pointer;">Clear Override</button></div><div style="opacity:.7;margin-top:6px">Tip: flip a card after reload to see KPIs.</div>';
+      document.body.appendChild(box);
+      document.getElementById('kpiClose').onclick = function(){ box.remove(); };
+      document.getElementById('kpiSave').onclick = function(){
+        const t = document.getElementById('kpiTxt').value;
+        try { JSON.parse(t); localStorage.setItem('capitolLeague.kpis', t); location.reload(); }
+        catch(e){ alert('Invalid JSON'); }
+      };
+      document.getElementById('kpiClear').onclick = function(){ localStorage.removeItem('capitolLeague.kpis'); location.reload(); };
+    }
+    // status pill
+    (async function(){
+      var pill = document.createElement('div');
+      pill.style.cssText='position:fixed;left:12px;bottom:12px;background:#0e1222;color:#cfe1ff;border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:6px 10px;font:12px system-ui;z-index:99999';
+      pill.textContent='KPIs: loading…'; document.body.appendChild(pill);
+      try{
+        var r = await fetch(KPI_SRC,{cache:'no-store'});
+        if(!r.ok){ pill.textContent='KPIs: load failed'; return; }
+        var text = await r.text();
+        var count = 0;
+        if (/^govtrack/i.test(text.trim())){ count = Math.max(0, text.trim().split(/\r?\n/).length-1); }
+        else { var j = JSON.parse(text); count = j.members?Object.keys(j.members).length:Object.keys(j).length; }
+        pill.textContent = 'KPIs: '+count+' records • src=' + (KPI_SRC.includes('://')?'raw':'kpis.json');
+      }catch(e){ pill.textContent='KPIs: load failed'; }
+    })();
+  })();
+
+  // ---------------- State + rendering
+  var grid = document.getElementById('cardGrid');
+  var chamberFilter='all', partyFilter='all', stateFilter='all', badgeFilter='all', searchQuery='';
+  var membersAll=[];
+
   function computeBadge(m){
     var y = parseInt((m.careerStart||'').slice(0,4),10) || 0;
     if(/^Ind/i.test(m.party)) return {label:'Wild Card', cls:'badge-wild', key:'wild'};
@@ -221,20 +240,13 @@ var kpiReady = fetch(KPI_SRC)
     var art=document.createElement('article'); art.className='thumb'; art.tabIndex=0; art.setAttribute('role','button'); art.dataset.name=m.name; art.dataset.govtrack=m.govtrack||''; art.dataset.bioguide=m.bioguide||'';
     var badge = computeBadge(m); var badgeHTML = badge ? '<div class="badge-chip '+badge.cls+'" title="'+badge.label+'">'+badge.label+'</div>' : '';
     var startYear = m.careerStart?m.careerStart.slice(0,4):'';
-    // Build front/back
     art.innerHTML = '<div class="scale-wrap"><div class="card"><div class="flip">'
       +'<section class="face front">'
       +  '<div class="accent"><span>'+m.state+'</span></div>'
       +  badgeHTML
       +  '<header class="header"><div></div><div class="chip">'+partyLabel(m.party)+'</div></header>'
       +  '<div class="photo">'+(m.photo?('<img alt="Portrait of '+m.name.replace(/"/g,'&quot;')+'" src="'+m.photo+'">'):'')+'</div>'
-      +  '<footer class="footer">'
-      +    '<div>'
-      +      '<div class="name">'+m.name.toUpperCase()+'</div>'
-      +      '<div class="meta">'+stateName(m.state)+' • Since '+(startYear||'')+'</div>'
-      +    '</div>'
-      +    '<div class="badge" data-score-el>+0 pts</div>'
-      +  '</footer>'
+      +  '<footer class="footer"><div><div class="name">'+m.name.toUpperCase()+'</div><div class="meta">'+stateName(m.state)+' • Since '+(startYear||'')+'</div></div><div class="badge" data-score-el>+0 pts</div></footer>'
       +'</section>'
       +'<section class="face back">'
       +  '<header class="header"><div>Career Stats</div><div class="chip">'+m.state+'</div></header>'
@@ -254,33 +266,31 @@ var kpiReady = fetch(KPI_SRC)
       +'</section>'
       +'</div></div></div>';
 
-    // Image fallback to initials on 404
     var img = art.querySelector('.photo img');
     if(img){
       img.addEventListener('error', function(){
-        var ph = img.parentElement;
-        img.remove();
+        var ph = img.parentElement; img.remove();
         var d = document.createElement('div');
-        d.textContent = initials(m.name);
-        d.style.font = '900 52px/1.2 system-ui';
-        d.style.color = '#cfd3ea';
+        d.textContent = initials(m.name); d.style.font='900 52px/1.2 system-ui'; d.style.color='#cfd3ea';
         ph.appendChild(d);
       }, {once:true});
-    } else {
-      var ph = art.querySelector('.photo');
-      var d = document.createElement('div');
-      d.textContent = initials(m.name);
-      d.style.font = '900 52px/1.2 system-ui';
-      d.style.color = '#cfd3ea';
-      ph.appendChild(d);
     }
-
     art.addEventListener('click', function(){ art.classList.toggle('flipped'); if(art.classList.contains('flipped')) ensureKPIsForCard(art); });
     art.addEventListener('keydown', function(e){ if((e.key==='Enter'||e.key===' ')){ e.preventDefault(); art.classList.toggle('flipped'); if(art.classList.contains('flipped')) ensureKPIsForCard(art); }});
     return art;
   }
 
+  function applyKPIs(card,k){
+    var q=function(s){return card.querySelector('[data-kpi="'+s+'"]');};
+    if(!k){ ['votes','misses','votePct','missPct'].forEach(function(s){ var el=q(s); if(el) el.textContent='N/A'; }); return; }
+    var elV=q('votes'), elM=q('misses'), elVP=q('votePct'), elMP=q('missPct');
+    if(elV) elV.textContent=(k.voted||0).toLocaleString();
+    if(elM) elM.textContent=(k.missedVotes||0).toLocaleString();
+    if(elVP) elVP.textContent=(k.votePct||0).toFixed(1)+'%';
+    if(elMP) elMP.textContent=(k.missPct||0).toFixed(1)+'%';
+  }
   function ensureKPIsForCard(card){ var id=card && card.dataset.govtrack; if(!id){ applyKPIs(card,null); return; } fetchKPI(id).then(function(k){ applyKPIs(card,k); }); }
+
   function render(members){ grid.innerHTML=''; var frag=document.createDocumentFragment(); members.forEach(function(m){ frag.appendChild(cardEl(m)); }); grid.appendChild(frag); }
   function applyFilters(){
     var q = searchQuery.trim().toLowerCase();
@@ -295,7 +305,7 @@ var kpiReady = fetch(KPI_SRC)
     render(out);
   }
 
-  // Initial data load
+  // ---------------- Initial data load
   fetch(DATA_URL, {cache:'no-store'})
     .then(function(r){ return r.json(); })
     .then(function(list){
@@ -320,7 +330,7 @@ var kpiReady = fetch(KPI_SRC)
     })
     .catch(function(e){ grid.innerHTML='<div style="opacity:.7">Failed to load roster.</div>'; console.warn(e); });
 
-  // Header interactions
+  // ---------------- Header interactions
   var chamberSeg = document.getElementById('chamberSeg');
   var partySeg = document.getElementById('partySeg');
   var badgeSeg = document.getElementById('badgeSeg');
@@ -349,64 +359,5 @@ var kpiReady = fetch(KPI_SRC)
   searchInput.addEventListener('input', function(){ searchQuery = this.value||''; applyFilters(); });
 })();
 </script>
-  <script>
-/* --- Dev overrides: URL param + localStorage --- */
-(function(){
-  // 1) URL param: ?kpi=<url>  (also supports ?data=<url> for roster, if ever)
-  var u = new URL(location.href);
-  var kpiParam = u.searchParams.get('kpi');
-  if (kpiParam) window.KPI_URL = kpiParam; // overrides 'kpis.json' without code changes
-
-  // 2) Local override in localStorage: set once, persists across reloads
-  var kpiLS = localStorage.getItem('capitolLeague.kpis');
-  if (kpiLS) {
-    // intercept fetch(KPI_URL)
-    var _fetch = window.fetch;
-window.fetch = function(input, init){
-  var url = String(input);
-  if (kpiLS && (url === KPI_SRC || /kpis\.json($|\?)/.test(url))){
-    return Promise.resolve(new Response(kpiLS, {status:200, headers:{'Content-Type':'application/json'}}));
-  }
-  return _fetch(input, init);
-};
-
-  }
-
-  // 3) Minimal in-page editor: open with ?dev=1 to paste JSON quickly
-  if (u.searchParams.get('dev')==='1'){
-    var box = document.createElement('div');
-    box.style.cssText='position:fixed;right:12px;bottom:12px;width:360px;background:#0e1222;color:#e7e9f4;border:1px solid rgba(255,255,255,.15);border-radius:10px;box-shadow:0 10px 24px rgba(0,0,0,.4);z-index:99999;padding:10px;font:12px system-ui';
-    box.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><strong>KPI Tester</strong><button id="kpiClose" style="all:unset;cursor:pointer;padding:4px 8px;border:1px solid rgba(255,255,255,.2);border-radius:6px;">×</button></div><textarea id="kpiTxt" rows="10" style="width:100%;background:#0b1020;color:#cfe1ff;border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:8px;font:12px/1.3 ui-monospace,Consolas,monospace" placeholder=\'{"400040":{"total_votes":15702,"missed_votes":0}}\'>'
-      + (kpiLS||'') + '</textarea><div style="display:flex;gap:8px;margin-top:8px;"><button id="kpiSave" style="all:unset;background:#6ea8fe;color:#081126;border-radius:8px;padding:8px 10px;font-weight:800;cursor:pointer;">Save & Reload</button><button id="kpiClear" style="all:unset;background:#2b2f47;color:#e7e9f4;border-radius:8px;padding:8px 10px;font-weight:800;cursor:pointer;">Clear Override</button></div><div style="opacity:.7;margin-top:6px">Tip: flip a card after reload to see KPIs.</div>';
-    document.body.appendChild(box);
-    document.getElementById('kpiClose').onclick = function(){ box.remove(); };
-    document.getElementById('kpiSave').onclick = function(){
-      const t = document.getElementById('kpiTxt').value;
-      try { JSON.parse(t); localStorage.setItem('capitolLeague.kpis', t); location.reload(); }
-      catch(e){ alert('Invalid JSON'); }
-    };
-    document.getElementById('kpiClear').onclick = function(){ localStorage.removeItem('capitolLeague.kpis'); location.reload(); };
-  }
-})();
-</script>
-  <script>
-(async function(){
-  const pill = document.createElement('div');
-  pill.style.cssText='position:fixed;left:12px;bottom:12px;background:#0e1222;color:#cfe1ff;border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:6px 10px;font:12px system-ui;z-index:99999';
-  pill.textContent='KPIs: loading…';
-  document.body.appendChild(pill);
-
-  const u = new URL(location.href);
-  const src = u.searchParams.get('kpi') || 'kpis.json';
-  try {
-    const j = await fetch(src,{cache:'no-store'}).then(r=>r.ok?r.json():null);
-    const count = j ? Object.keys(j.members||j).length : 0;
-    pill.textContent = `KPIs: ${count} records • src=${src.includes('raw.githubusercontent')?'raw':src}`;
-  } catch(e){
-    pill.textContent = 'KPIs: load failed';
-  }
-})();
-</script>
-
 </body>
 </html>
