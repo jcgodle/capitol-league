@@ -367,5 +367,13 @@
 
 })();
 </script>
+  <script>
+  (function(){
+    const p=new URLSearchParams(location.search).get('id');
+    if(!p) return;
+    // call your existing openCard(id) or equivalent on Cards page
+    if(typeof openCard==='function') setTimeout(()=>openCard(p), 0);
+  })();
+</script>
 </body>
 </html>
