@@ -15,6 +15,7 @@
   body{margin:0;color:var(--text);background:linear-gradient(180deg,#0b0e1a,#0f1220);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial}
   a{color:inherit;text-decoration:none}
   .wrap{max-width:var(--content-max);margin:0 auto;padding:16px var(--gutter) 60px}
+
   /* Top bar */
   .nav{height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 var(--gutter);border-bottom:var(--border);background:#0e1222;position:sticky;top:0;z-index:10}
   .brand{font-weight:700;letter-spacing:.2px}
@@ -23,22 +24,28 @@
   .seg .btn{padding:8px 14px;border-radius:999px;cursor:pointer;opacity:.9}
   .seg .btn:hover{opacity:1;background:rgba(255,255,255,.05)}
   .seg .on{background:var(--accent);color:#0b0e1a}
+
   /* Controls */
   .controls{display:grid;grid-template-columns:1fr 200px 200px 200px;gap:var(--gap);padding:16px;background:var(--panel);border:var(--border);border-radius:var(--radius);box-shadow:var(--shadow);margin-top:16px}
   .input,.select{height:38px;background:var(--panel-2);border:var(--border);border-radius:10px;color:var(--text);padding:0 12px;outline:none}
   .input::placeholder{color:var(--muted)}
   .section-title{margin:18px 6px 8px;color:var(--muted);font-size:.95rem}
+
   /* Cards */
   .votes{display:flex;flex-direction:column;gap:12px}
-  .vote{background:var(--panel);border:var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
-  .vote header{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:14px 16px 8px}
+  .vote{background:var(--panel);border:var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+  .vote header{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:14px 16px;cursor:pointer}
+  .vote header:hover{background:#141936}
   .bill{font-weight:600}
   .meta{color:var(--muted);font-size:.9rem}
   .badges{display:flex;gap:8px;align-items:center}
   .badge{font-size:.82rem;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:var(--border)}
-  .pass{background:rgba(39,194,129,.14);color:#78e2ba}.fail{background:rgba(211,74,74,.14);color:#f09b9b}
-  /* Rich body */
-  .vote .body{display:grid;grid-template-columns:1.6fr 1fr;gap:16px;padding:0 16px 16px}
+  .pass{background:rgba(39,194,129,.14);color:#78e2ba}
+  .fail{background:rgba(211,74,74,.14);color:#f09b9b}
+
+  /* Accordion body */
+  .body{display:none}
+  .open .body{display:grid;grid-template-columns:1.6fr 1fr;gap:16px;padding:0 16px 16px}
   .panel{background:#121631;border:var(--border);border-radius:12px;padding:14px}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   .kv{background:#0f142b;border:var(--border);border-radius:10px;padding:10px}
@@ -55,7 +62,7 @@
   .tool{cursor:pointer;padding:8px 12px;border-radius:8px;background:#0f142b;border:var(--border);font-size:.82rem}
   .tool:hover{background:rgba(255,255,255,.08)}
   .pin{outline:2px solid rgba(110,168,254,.45)}
-  @media (max-width:980px){.vote .body{grid-template-columns:1fr}}
+  @media (max-width:980px){.open .body{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -154,7 +161,6 @@ function renderVote(v){
           </div>
         </div>
       </div>
-
       <aside class="panel">
         <div class="btns">
           <button class="tool" data-copy="#${'vote-'+id}">Copy link</button>
@@ -167,6 +173,13 @@ function renderVote(v){
       </aside>
     </div>
   `;
+
+  // Accordion behavior: only one open
+  el.querySelector('header').addEventListener('click', ()=>{
+    document.querySelectorAll('.vote.open').forEach(v=>{ if(v!==el) v.classList.remove('open'); });
+    el.classList.toggle('open');
+  });
+
   el.addEventListener('click', e=>{
     if(e.target.matches('[data-copy]')){
       const h = location.href.split('#')[0] + '#' + el.id;
@@ -207,7 +220,7 @@ function hydrate(all){
 function deepLink(){
   if(location.hash.startsWith('#vote-')){
     const target = document.getElementById(location.hash.slice(1));
-    if(target){ target.classList.add('pin'); target.scrollIntoView({behavior:'smooth',block:'start'}); setTimeout(()=>target.classList.remove('pin'),1600); }
+    if(target){ target.classList.add('open'); target.scrollIntoView({behavior:'smooth',block:'start'}); setTimeout(()=>target.classList.remove('pin'),1600); }
   }
 }
 
