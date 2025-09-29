@@ -9,14 +9,12 @@
     --nav-h:68px;--content-max:1320px;--gutter:20px;--gap:16px;--radius:14px;
     --panel:#171a2b;--panel-2:#1d2140;--text:#e7e9f4;--muted:#9aa1bd;
     --accent:#6ea8fe;--border:1px solid rgba(255,255,255,.06);--shadow:0 8px 24px rgba(0,0,0,.25);
-    --ok:#27c281;--bad:#d34a4a;
   }
   *,*:before,*:after{box-sizing:border-box}
   html,body{height:100%}
   body{margin:0;color:var(--text);background:linear-gradient(180deg,#0b0e1a,#0f1220);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial}
   a{color:inherit;text-decoration:none}
   .wrap{max-width:var(--content-max);margin:0 auto;padding:16px var(--gutter) 60px}
-
   /* Top bar */
   .nav{height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 var(--gutter);border-bottom:var(--border);background:#0e1222;position:sticky;top:0;z-index:10}
   .brand{font-weight:700;letter-spacing:.2px}
@@ -25,14 +23,12 @@
   .seg .btn{padding:8px 14px;border-radius:999px;cursor:pointer;opacity:.9}
   .seg .btn:hover{opacity:1;background:rgba(255,255,255,.05)}
   .seg .on{background:var(--accent);color:#0b0e1a}
-
   /* Controls */
   .controls{display:grid;grid-template-columns:1fr 200px 200px 200px;gap:var(--gap);padding:16px;background:var(--panel);border:var(--border);border-radius:var(--radius);box-shadow:var(--shadow);margin-top:16px}
   .input,.select{height:38px;background:var(--panel-2);border:var(--border);border-radius:10px;color:var(--text);padding:0 12px;outline:none}
   .input::placeholder{color:var(--muted)}
-
-  /* List */
   .section-title{margin:18px 6px 8px;color:var(--muted);font-size:.95rem}
+  /* Cards */
   .votes{display:flex;flex-direction:column;gap:12px}
   .vote{background:var(--panel);border:var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
   .vote header{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:14px 16px 8px}
@@ -40,19 +36,30 @@
   .meta{color:var(--muted);font-size:.9rem}
   .badges{display:flex;gap:8px;align-items:center}
   .badge{font-size:.82rem;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:var(--border)}
-  .pass{background:rgba(39,194,129,.14);color:#78e2ba}
-  .fail{background:rgba(211,74,74,.14);color:#f09b9b}
-  .details{padding:0 16px 14px;color:var(--muted)}
-  .tools{display:flex;gap:8px}
-  .tool{cursor:pointer;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,.05);border:var(--border);font-size:.82rem}
+  .pass{background:rgba(39,194,129,.14);color:#78e2ba}.fail{background:rgba(211,74,74,.14);color:#f09b9b}
+  /* Rich body */
+  .vote .body{display:grid;grid-template-columns:1.6fr 1fr;gap:16px;padding:0 16px 16px}
+  .panel{background:#121631;border:var(--border);border-radius:12px;padding:14px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .kv{background:#0f142b;border:var(--border);border-radius:10px;padding:10px}
+  .kv b{display:block;font-size:.78rem;color:var(--muted);margin-bottom:4px}
+  .kv span{font-weight:600}
+  .parties{margin-top:10px}
+  .party-legend{display:flex;gap:14px;font-size:.82rem;color:var(--muted);margin:6px 0}
+  .party-legend i{display:inline-block;width:10px;height:10px;border-radius:999px;margin-right:6px;vertical-align:middle}
+  .bar{height:8px;border-radius:999px;background:#0f142b;overflow:hidden;border:var(--border);position:relative}
+  .bar i{display:block;height:100%;position:absolute;left:0;top:0}
+  .bar .r{background:#b24a4a}.bar .d{background:#4a77d3}.bar .i{background:#d3b84a}
+  .statrow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px}
+  .btns{display:flex;flex-wrap:wrap;gap:8px}
+  .tool{cursor:pointer;padding:8px 12px;border-radius:8px;background:#0f142b;border:var(--border);font-size:.82rem}
   .tool:hover{background:rgba(255,255,255,.08)}
-  .hide{display:none}
   .pin{outline:2px solid rgba(110,168,254,.45)}
+  @media (max-width:980px){.vote .body{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
-<!-- Top navigation -->
 <div class="nav">
   <div class="brand">Fantasy <b>Politics</b></div>
   <div class="seg" id="view">
@@ -65,22 +72,16 @@
 </div>
 
 <div class="wrap">
-  <!-- Controls -->
   <div class="controls">
     <input id="q" class="input" placeholder="Search bill title, number…"/>
     <select id="ch" class="select">
-      <option value="">All Chambers</option>
-      <option>House</option>
-      <option>Senate</option>
+      <option value="">All Chambers</option><option>House</option><option>Senate</option>
     </select>
     <select id="res" class="select">
-      <option value="">All Results</option>
-      <option value="pass">Passed</option>
-      <option value="fail">Failed</option>
+      <option value="">All Results</option><option value="pass">Passed</option><option value="fail">Failed</option>
     </select>
     <select id="sort" class="select">
-      <option value="new">Sort: Newest</option>
-      <option value="old">Sort: Oldest</option>
+      <option value="new">Sort: Newest</option><option value="old">Sort: Oldest</option>
     </select>
   </div>
 
@@ -94,45 +95,83 @@
 const $ = sel => document.querySelector(sel);
 const list = $('#list'), q = $('#q'), ch = $('#ch'), res = $('#res'), sortSel = $('#sort'), selected = $('#selected');
 
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+
 function renderVote(v){
   const id = v.id || (v.bill_number || v.bill || 'bill').toLowerCase().replace(/\s+/g,'-');
-  const passed = v.result?.toLowerCase() === 'passed';
+  const passed = (v.result||'').toLowerCase()==='passed';
+  const yeas = v.yes ?? v.yeas ?? 0, nays = v.no ?? v.nays ?? 0;
+
+  const rY = v.r_yea ?? 110, rN = v.r_nay ?? 120;
+  const dY = v.d_yea ?? 170, dN = v.d_nay ?? 25;
+  const iY = v.i_yea ?? 7,   iN = v.i_nay ?? 0;
+  const total = rY+rN+dY+dN+iY+iN || 1;
+  const rPct = (rY+rN)/total*100, dPct=(dY+dN)/total*100, iPct=(iY+iN)/total*100;
+
+  const dateTxt = v.date ? new Date(v.date).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}) : '';
+  const chamber = (v.chamber||'').replace(/^[a-z]/,m=>m.toUpperCase());
+  const roll = v.roll ? `Roll ${v.roll} · ` : '';
+
   const el = document.createElement('article');
-  el.className = 'vote';
-  el.id = 'vote-' + id;
-
-  const yeas = v.yes ?? v.yeas ?? 0;
-  const nays = v.no ?? v.nays ?? 0;
-  const chamber = (v.chamber || '').replace(/^[a-z]/, m=>m.toUpperCase());
-  const date = v.date ? new Date(v.date) : null;
-  const dateTxt = date ? date.toLocaleDateString(undefined, {month:'short', day:'numeric', year:'numeric'}) : '';
-
+  el.className='vote'; el.id='vote-'+id;
   el.innerHTML = `
     <header>
       <div>
-        <div class="bill">${v.bill_number || v.title || 'Bill'}</div>
-        <div class="meta">${chamber}${dateTxt ? ' · ' + dateTxt : ''}</div>
+        <div class="bill">${esc(v.bill_number||v.title||'Bill')} — ${esc(v.title||'')}</div>
+        <div class="meta">${esc(roll)}${esc(chamber)}${dateTxt?' · '+dateTxt:''}</div>
       </div>
       <div class="badges">
         <span class="badge ${passed?'pass':'fail'}">${passed?'Passed':'Failed'}</span>
         <span class="badge">Yeas ${yeas}</span>
         <span class="badge">Nays ${nays}</span>
-        <div class="tools">
-          <button class="tool" data-copy="#${el.id}">Copy link</button>
-          <button class="tool" data-toggle>Details</button>
-        </div>
       </div>
     </header>
-    <div class="details hide">${v.summary || 'No summary available.'}</div>
+
+    <div class="body">
+      <div class="panel">
+        <div style="margin-bottom:10px;color:var(--muted)">${esc(v.subtitle||v.summary||'')}</div>
+        <div class="grid">
+          <div class="kv"><b>Bill Number</b><span>${esc(v.bill_number||'-')}</span></div>
+          <div class="kv"><b>Result</b><span>${passed?'Passed':'Failed'} (${yeas}–${nays})</span></div>
+          <div class="kv"><b>Chamber</b><span>${esc(chamber||'-')}</span></div>
+          <div class="kv"><b>Date</b><span>${dateTxt||'-'}</span></div>
+        </div>
+        <div class="parties">
+          <div class="party-legend">
+            <span><i style="background:#b24a4a"></i>Republican</span>
+            <span><i style="background:#4a77d3"></i>Democrat</span>
+            <span><i style="background:#d3b84a"></i>Independent</span>
+          </div>
+          <div class="bar" aria-label="Party distribution">
+            <i class="r" style="width:${rPct}%"></i>
+            <i class="d" style="width:${dPct}%;left:${rPct}%"></i>
+            <i class="i" style="width:${iPct}%;left:${rPct+dPct}%"></i>
+          </div>
+          <div class="statrow">
+            <div class="kv"><b>R</b><span>Yeas ${rY} · Nays ${rN}</span></div>
+            <div class="kv"><b>D</b><span>Yeas ${dY} · Nays ${dN}</span></div>
+            <div class="kv"><b>I</b><span>Yeas ${iY} · Nays ${iN}</span></div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="panel">
+        <div class="btns">
+          <button class="tool" data-copy="#${'vote-'+id}">Copy link</button>
+          <button class="tool">Full Text (PDF)</button>
+          <button class="tool">Sponsor & Cosponsors</button>
+          <button class="tool">Amendments</button>
+          <button class="tool">Debate Transcript</button>
+          <button class="tool">CBO Score</button>
+        </div>
+      </aside>
+    </div>
   `;
   el.addEventListener('click', e=>{
-    if(e.target.matches('[data-toggle]')){
-      el.querySelector('.details').classList.toggle('hide');
-    }else if(e.target.matches('[data-copy]')){
+    if(e.target.matches('[data-copy]')){
       const h = location.href.split('#')[0] + '#' + el.id;
       navigator.clipboard?.writeText(h);
-      e.target.textContent = 'Copied';
-      setTimeout(()=>e.target.textContent='Copy link',900);
+      e.target.textContent='Copied'; setTimeout(()=>e.target.textContent='Copy link',900);
     }
   });
   return el;
@@ -168,7 +207,7 @@ function hydrate(all){
 function deepLink(){
   if(location.hash.startsWith('#vote-')){
     const target = document.getElementById(location.hash.slice(1));
-    if(target){ target.classList.add('pin'); target.querySelector('.details')?.classList.remove('hide'); target.scrollIntoView({behavior:'smooth',block:'start'}); setTimeout(()=>target.classList.remove('pin'),1600); }
+    if(target){ target.classList.add('pin'); target.scrollIntoView({behavior:'smooth',block:'start'}); setTimeout(()=>target.classList.remove('pin'),1600); }
   }
 }
 
