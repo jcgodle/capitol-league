@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Capitol League — Scoreboard</title>
 
-<!-- Shared assets in repo root -->
 <link rel="stylesheet" href="shared.css?v=2">
 <script defer src="shared.js?v=2"></script>
 
@@ -61,32 +60,21 @@
   .btns{display:flex;flex-wrap:wrap;gap:8px}
   .tool{cursor:pointer;padding:6px 10px;border-radius:8px;background:#0f142b;border:var(--border);font-size:.8rem}
   .tool:hover{background:rgba(255,255,255,.08)}
-
   @media (max-width:980px){.open .body{grid-template-columns:1fr}}
 </style>
 </head>
 
 <body data-page="scoreboard">
-  <!-- Shared sticky nav mounts here -->
+  <!-- shared nav mounts here -->
   <div id="app-nav"></div>
 
-  <!-- Shared shell: left My Team, right page content -->
+  <!-- shared shell -->
   <div class="cl-shell">
     <aside id="my-team"></aside>
-
     <main class="cl-content">
       <div class="main" id="main">
         <div class="main__toolbar">
-          <div class="toolbar-group">
-            <span class="label">View</span>
-            <div class="segmented" role="tablist" aria-label="Primary views">
-              <button class="active" aria-selected="true" role="tab">Scoreboard</button>
-              <button role="tab" title="Cards" onclick="location.href='cards.html'">Cards</button>
-              <button role="tab" title="Votes" onclick="location.href='votes.html'">Votes</button>
-              <button role="tab" onclick="location.href='draft.html'">draft</button>
-              <button role="tab" onclick="location.href='rules.html'">Rules</button>
-            </div>
-          </div>
+          <!-- remove duplicate page navigation to avoid two navs -->
           <div class="toolbar-group">
             <span class="label">Scope</span>
             <div class="segmented" id="scopeTabs" role="tablist" aria-label="Scope">
@@ -125,17 +113,15 @@
   </div>
 
 <script>
-/* Mock data; replace later */
-const MOCK_SCORE = {
-  team:[
-    {id:"A1",name:"Alex Brewer",party:"D",state:"WI",initials:"AB",scores:{week:128,season:412,career:2011}},
-    {id:"B2",name:"Casey Stone",party:"R",state:"TX",initials:"CS",scores:{week:96,season:305,career:1540}},
-    {id:"C3",name:"Jordan Moss",party:"I",state:"VT",initials:"JM",scores:{week:77,season:221,career:1204}},
-    {id:"D4",name:"Lena Kay",party:"D",state:"CA",initials:"LK",scores:{week:71,season:190,career:1002}},
-    {id:"E5",name:"Ray Boone",party:"R",state:"OH",initials:"RB",scores:{week:64,season:178,career:954}}
-  ]
-};
-const MOCK_VOTES = {
+/* Sample data */
+const SAMPLE_TEAM = [
+  {id:"A1",name:"Alex Brewer",party:"D",state:"WI",initials:"AB",scores:{week:128,season:412,career:2011}},
+  {id:"B2",name:"Casey Stone",party:"R",state:"TX",initials:"CS",scores:{week:96,season:305,career:1540}},
+  {id:"C3",name:"Jordan Moss",party:"I",state:"VT",initials:"JM",scores:{week:77,season:221,career:1204}},
+  {id:"D4",name:"Lena Kay",party:"D",state:"CA",initials:"LK",scores:{week:71,season:190,career:1002}},
+  {id:"E5",name:"Ray Boone",party:"R",state:"OH",initials:"RB",scores:{week:64,season:178,career:954}}
+];
+const SAMPLE_VOTES = {
   week:[
     {id:'s-575', roll:'575', bill_number:'S. 575', title:'Disaster Relief Supplemental', chamber:'Senate', date:'2025-08-22', result:'Passed', yes:70, no:28, summary:'Hurricane and wildfire aid.'},
     {id:'hr-1010', bill_number:'H.R. 1010', title:'Border Infrastructure Upgrade', chamber:'House', date:'2025-08-24', result:'Passed', yes:299, no:126, summary:'Ports of entry modernization.'},
@@ -147,35 +133,38 @@ const MOCK_VOTES = {
 let SCOPE = "week";
 const $ = s=>document.querySelector(s);
 
-init();
-function init(){
-  setScope(SCOPE);
+document.addEventListener("DOMContentLoaded", () => {
   bindUI();
-}
+  setScope(SCOPE);
+});
 
 function bindUI(){
-  $('#scopeTabs').addEventListener('click', e=>{
-    const btn = e.target.closest('button[data-scope]'); if(!btn) return;
-    SCOPE = btn.dataset.scope;
-    [...e.currentTarget.children].forEach(b=>b.classList.toggle('active', b===btn));
-    setScope(SCOPE);
-  });
-  $('#partyBtn').onclick=()=>alert('Filter coming soon');
-  $('#stateBtn').onclick=()=>alert('Filter coming soon');
-  $('#badgesBtn').onclick=()=>alert('Filter coming soon');
+  const tabs = $('#scopeTabs');
+  if(tabs){
+    tabs.addEventListener('click', e=>{
+      const btn = e.target.closest('button[data-scope]'); if(!btn) return;
+      SCOPE = btn.dataset.scope;
+      Array.from(tabs.querySelectorAll('button')).forEach(b=>b.classList.toggle('active', b===btn));
+      btn.setAttribute('aria-selected','true');
+      setScope(SCOPE);
+    });
+  }
+  $('#partyBtn')?.addEventListener('click', ()=>alert('Party filter coming soon'));
+  $('#stateBtn')?.addEventListener('click', ()=>alert('State filter coming soon'));
+  $('#badgesBtn')?.addEventListener('click', ()=>alert('Badges filter coming soon'));
 }
 
 function setScope(scope){
-  const total = MOCK_SCORE.team.reduce((s,m)=>s+(m.scores?.[scope]??0),0);
+  const total = SAMPLE_TEAM.reduce((s,m)=>s+(m.scores?.[scope]??0),0);
   $('#scoreTotal').textContent = new Intl.NumberFormat().format(total);
-  $('#scoreCaption').textContent = `Total points · ${scope[0].toUpperCase()+scope.slice(1)}`;
+  $('#scoreCaption').textContent = `Total points · ${cap(scope)}`;
   $('#votesSection').style.display = scope==="career" ? "none" : "block";
   renderVotes(scope);
 }
 
 function renderVotes(scope){
   const list = $('#votesList'); list.innerHTML='';
-  const rows = (MOCK_VOTES?.[scope]||[]);
+  const rows = (SAMPLE_VOTES?.[scope]||[]);
   if(!rows.length){ list.innerHTML = '<div class="muted">No votes available.</div>'; return; }
   rows.forEach(v=> list.appendChild(voteCard(v)));
 }
@@ -249,6 +238,7 @@ function voteCard(v){
 }
 
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
 </script>
 </body>
 </html>
