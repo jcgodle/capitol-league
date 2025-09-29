@@ -93,19 +93,24 @@
 const API_KEY = "KOURntCmZiIclaOlArU3lZJrkSasn58VS3vZpuam";
 const BASE = "https://api.congress.gov/v3";
 
+// LIST: /v3/house-roll-call-votes/{congress}/{session}
 function listHouseVotes({ congress, session, limit=40, offset=0 }) {
-  const url = `${BASE}/house-roll-call-votes?congress=${congress}&sessionNumber=${session}&limit=${limit}&offset=${offset}&api_key=${API_KEY}&format=json`;
+  const url = `${BASE}/house-roll-call-votes/${congress}/${session}?limit=${limit}&offset=${offset}&api_key=${API_KEY}&format=json`;
   return fetchJSON(url);
 }
+
+// ITEM: /v3/house-roll-call-votes/{congress}/{session}/{roll}
+function getHouseVote({ congress, session, roll }) {
+  const url = `${BASE}/house-roll-call-votes/${congress}/${session}/${roll}?api_key=${API_KEY}&format=json`;
+  return fetchJSON(url);
+}
+
+// MEMBERS: /v3/house-roll-call-votes/{congress}/{session}/{roll}/member-votes
 function getHouseVoteMembers({ congress, session, roll, limit=500, offset=0 }) {
   const url = `${BASE}/house-roll-call-votes/${congress}/${session}/${roll}/member-votes?limit=${limit}&offset=${offset}&api_key=${API_KEY}&format=json`;
   return fetchJSON(url);
 }
-async function fetchJSON(url){
-  const res = await fetch(url);
-  if(!res.ok){ throw new Error(`HTTP ${res.status}`); }
-  return res.json();
-}
+
 
 const $list=document.getElementById("list");
 const $empty=document.getElementById("empty");
