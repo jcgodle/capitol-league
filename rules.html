@@ -1,4 +1,4 @@
-<!-- FILE: rules.html (Player View, read-only) -->
+<!-- FILE: rules.html (Player View, default) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,12 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Fantasy Politics — Rules</title>
   <style>
-    :root{
-      --nav-h:68px;--content-max:1320px;--gutter:20px;--gap:16px;--radius:14px;
-      --panel:#171a2b;--panel-2:#1d2140;--text:#e7e9f4;--muted:#9aa1bd;
-      --accent:#6ea8fe;--border:1px solid #2a315b;--ok:#22c55e;--bad:#ef4444;--warn:#f59e0b;
-      --chip:#0f1427;--chip-br:#2a315b;--bg:#0d1020;--shadow:0 8px 30px rgba(0,0,0,.35);
-    }
+    :root{--nav-h:68px;--content-max:1320px;--gutter:20px;--gap:16px;--radius:14px;--panel:#171a2b;--panel-2:#1d2140;--text:#e7e9f4;--muted:#9aa1bd;--accent:#6ea8fe;--border:1px solid #2a315b;--ok:#22c55e;--bad:#ef4444;--chip:#0f1427;--chip-br:#2a315b;--bg:#0d1020;--shadow:0 8px 30px rgba(0,0,0,.35)}
     html,body{height:100%}
     body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
     a{color:inherit;text-decoration:none}
@@ -27,21 +22,17 @@
     .btn{padding:8px 12px;border-radius:10px;border:var(--border);background:var(--panel-2)}
     /* Layout */
     .page{display:grid;grid-template-columns:280px 1fr;gap:var(--gap);width:100%;max-width:var(--content-max);margin:24px auto;padding:0 var(--gutter)}
-    /* Team rail */
     .rail{position:sticky;top:calc(var(--nav-h)+16px);align-self:start;display:flex;flex-direction:column;gap:12px}
     .rail .card{background:var(--panel);border:var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
     .rail .card h4{margin:10px 12px;color:var(--muted);font-weight:600}
     .roster{padding:10px}
     .leg{display:flex;align-items:center;justify-content:space-between;padding:10px;border-radius:12px;background:var(--chip);border:1px solid var(--chip-br);margin-bottom:8px}
-    .leg-id{display:flex;align-items:center;gap:10px}
     .avatar{width:28px;height:28px;border-radius:50%;background:#334}
     .badge{font-weight:700;font-size:12px;padding:4px 8px;border-radius:999px;background:#0c1226;border:1px solid #2d3563}
-    /* Content */
     .content{display:flex;flex-direction:column;gap:16px}
     .panel{background:var(--panel);border:var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
     .panel .hd{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:var(--border)}
     .panel .bd{padding:16px 18px}
-    .k{display:flex;gap:10px;align-items:center}
     .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;border:1px solid var(--chip-br);background:var(--chip);font-weight:600}
     .pill .p{width:22px;height:22px;display:grid;place-items:center;border-radius:50%}
     .p.ok{background:#0f2a1b;color:#7ef2a5;border:1px solid #145533}
@@ -49,18 +40,15 @@
     .p.neu{background:#101628;color:#9fb4ff;border:1px solid #2a315b}
     .grid{display:grid;gap:12px}
     .grid.rules{grid-template-columns:repeat(2,minmax(0,1fr))}
-    @media(max-width:1100px){.page{grid-template-columns:1fr}.rail{position:relative;top:auto}}
-    /* Read-only look */
-    .ro{opacity:.92}
-    .meta{color:var(--muted);font-size:13px}
-    .calc{display:grid;grid-template-columns:1fr 320px;gap:16px}
-    @media(max-width:980px){.calc{grid-template-columns:1fr}}
-    .list{display:flex;flex-direction:column;gap:10px}
-    .list .row{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:12px;background:var(--chip);border:1px solid var(--chip-br)}
+    @media(max-width:1100px){.page{grid-template-columns:1fr}.rail{position:relative;top:auto}.grid.rules{grid-template-columns:1fr}}
+    /* Local sub-nav */
+    .subnav{display:flex;gap:6px;padding:8px;border:var(--border);background:var(--panel);border-radius:12px}
+    .subtab{padding:8px 12px;border-radius:999px;border:1px solid #2a315b;background:#0f1427}
+    .subtab.active{border-color:#4b83ff;background:linear-gradient(180deg,#1c2446,#151a33)}
   </style>
 </head>
 <body>
-  <!-- Top navigation -->
+  <!-- Global navigation -->
   <nav class="nav">
     <div class="nav-inner">
       <div class="brand">Fantasy <span>Politics</span></div>
@@ -84,112 +72,58 @@
       <div class="card">
         <h4>My Team</h4>
         <div class="roster">
-          <div class="leg">
-            <div class="leg-id">
-              <div class="avatar"></div>
-              <div>
-                <div>Alex Brewer</div>
-                <div class="meta">D • WI</div>
-              </div>
-            </div>
-            <div class="badge">+128</div>
-          </div>
-          <div class="leg">
-            <div class="leg-id">
-              <div class="avatar"></div>
-              <div>
-                <div>Casey Stone</div>
-                <div class="meta">R • TX</div>
-              </div>
-            </div>
-            <div class="badge">+96</div>
-          </div>
+          <div class="leg"><div style="display:flex;gap:10px;align-items:center"><div class="avatar"></div><div><div>Alex Brewer</div><div style="color:#9aa1bd">D • WI</div></div></div><div class="badge">+128</div></div>
+          <div class="leg"><div style="display:flex;gap:10px;align-items:center"><div class="avatar"></div><div><div>Casey Stone</div><div style="color:#9aa1bd">R • TX</div></div></div><div class="badge">+96</div></div>
         </div>
-      </div>
-      <div class="card">
-        <h4>Rules</h4>
-        <div class="bd" style="padding:10px 12px">Read-only view. Switch to Commissioner to edit.</div>
       </div>
     </aside>
 
     <!-- Content -->
     <section class="content">
-      <!-- Commissioner toggle display only -->
-      <div class="panel ro">
-        <div class="hd">
-          <div class="k">Commissioner Mode</div>
-          <div class="meta">View: Player</div>
-        </div>
-        <div class="bd">You can preview all scoring options below. Editing requires commissioner access.</div>
+      <!-- Local sub-nav within Rules section -->
+      <div class="subnav">
+        <a class="subtab active" href="rules.html">Rules</a>
+        <a class="subtab" href="rules-team.html">Team</a>
+        <a class="subtab" href="rules-admin.html">Commissioner</a>
       </div>
 
-      <!-- Baseline Scoring -->
+      <!-- Rules panels -->
       <div class="panel">
-        <div class="hd">
-          <div class="k">Fantasy Politics — Baseline Scoring</div>
-        </div>
+        <div class="hd"><div>Baseline Scoring</div></div>
         <div class="bd grid rules">
-          <div class="pill"><span class="p ok">+10</span> <b>Core Votes</b> — Per Yes/No on tracked bills.</div>
-          <div class="pill"><span class="p bad">−5</span> <b>Missed Vote</b> — No vote recorded.</div>
-          <div class="pill"><span class="p neu">+20</span> <b>Streak</b> — Each 10 consecutive votes cast.</div>
-          <div class="pill"><span class="p neu">+50</span> <b>Perfect Week</b> — No misses among eligible votes.</div>
-          <div class="pill"><span class="p neu">+25</span> <b>Bipartisan Bonus</b> — Opposite party majority on a roll call.</div>
-          <div class="pill"><span class="p bad">−25</span> <b>Missed Key Vote</b> — Stacks with missed-vote penalty.</div>
-          <div class="pill"><span class="p ok">+100</span> <b>Ironman Badge</b> — Season end, fewest missed votes.</div>
-          <div class="pill"><span class="p bad">−100</span> <b>Ghost Badge</b> — Season end, most missed votes.</div>
-          <div class="pill"><span class="p ok">+50</span> <b>Wild Card</b> — Most Yes↔No flips (no alternations).</div>
+          <div class="pill"><span class="p ok">+10</span> Core Votes — Per Yes/No on tracked bills.</div>
+          <div class="pill"><span class="p bad">−5</span> Missed Vote — No vote recorded.</div>
+          <div class="pill"><span class="p neu">+20</span> Streak — Each 10 consecutive votes cast.</div>
+          <div class="pill"><span class="p neu">+50</span> Perfect Week — No misses among eligible votes.</div>
+          <div class="pill"><span class="p neu">+25</span> Bipartisan Bonus — Opposite party majority on a roll call.</div>
+          <div class="pill"><span class="p bad">−25</span> Missed Key Vote — Stacks with missed-vote penalty.</div>
+          <div class="pill"><span class="p ok">+100</span> Ironman Badge — Season end, fewest missed votes.</div>
+          <div class="pill"><span class="p bad">−100</span> Ghost Badge — Season end, most missed votes.</div>
+          <div class="pill"><span class="p ok">+50</span> Wild Card — Most Yes↔No flips.</div>
         </div>
       </div>
 
-      <!-- Options & Safeguards (read-only list) -->
       <div class="panel">
-        <div class="hd"><div class="k">Options & Safeguards</div></div>
-        <div class="bd list">
-          <div class="row"><div>Key‑vote Multiplier</div><div class="meta">×2 on marked key rolls</div></div>
-          <div class="row"><div>Streak Diminishing Returns</div><div class="meta">Second 10‑vote streak in same week = +15</div></div>
-          <div class="row"><div>Party‑line Penalty</div><div class="meta">−10 if 100% party‑line with ≥6 eligible votes</div></div>
-          <div class="row"><div>Bipartisan Weekly Cap</div><div class="meta">Max +50 per legislator per week</div></div>
-          <div class="row"><div>Per‑week Score Cap</div><div class="meta">Core votes capped at 200, extra votes = +1 each</div></div>
-          <div class="row"><div>Bipartisan Majority Threshold</div><div class="meta">Party must exceed threshold for bonus</div></div>
+        <div class="hd"><div>Options & Safeguards</div></div>
+        <div class="bd">
+          <ul style="margin:0;padding-left:18px">
+            <li>Key‑vote Multiplier ×2 on marked key rolls</li>
+            <li>Streak diminishing returns: 2nd 10‑vote streak in same week = +15</li>
+            <li>Party‑line penalty: −10 if 100% party‑line with ≥6 eligible votes</li>
+            <li>Bipartisan weekly cap: +50 per legislator per week</li>
+            <li>Per‑week core cap: 200, extra votes = +1 each</li>
+          </ul>
         </div>
       </div>
 
-      <!-- Weekly Score Calculator (display) -->
       <div class="panel">
-        <div class="hd"><div class="k">Weekly Score Calculator</div></div>
-        <div class="bd calc">
-          <div class="list">
-            <div class="row"><div>Yes votes</div><div>8</div></div>
-            <div class="row"><div>No votes</div><div>2</div></div>
-            <div class="row"><div>Missed votes</div><div>1</div></div>
-            <div class="row"><div>Key votes cast</div><div>0</div></div>
-            <div class="row"><div>Bipartisan votes</div><div>0</div></div>
-            <div class="row"><div>10‑vote streak bundles</div><div>1</div></div>
-            <div class="row"><div>Perfect attendance?</div><div>Yes</div></div>
-            <div class="row"><div>Party‑line 100%?</div><div>No</div></div>
-            <div class="row"><div>Eligible votes</div><div>11</div></div>
-          </div>
-          <div class="list">
-            <div class="row"><div>Core votes (+10 each)</div><div>+100</div></div>
-            <div class="row"><div>Missed votes (−5 each)</div><div>−5</div></div>
-            <div class="row"><div>Key‑vote multiplier</div><div>+0</div></div>
-            <div class="row"><div>Streaks (+20 / +15…)</div><div>+20</div></div>
-            <div class="row"><div>Perfect attendance</div><div>+50</div></div>
-            <div class="row"><div>Bipartisan bonus</div><div>+0</div></div>
-            <div class="row"><div>Party‑line penalty</div><div>+0</div></div>
-            <div class="row"><div>Weekly cap adjustment</div><div>+0</div></div>
-            <div class="row" style="font-weight:700"><div>Total</div><div>165</div></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Season Badges -->
-      <div class="panel">
-        <div class="hd"><div class="k">Season Badges</div></div>
-        <div class="bd list">
-          <div class="row"><div class="pill"><span class="p ok">+100</span> Ironman — Fewest missed votes</div><div class="meta">Tie‑breakers: attendance rate → core points → key‑vote participation → coin flip</div></div>
-          <div class="row"><div class="pill"><span class="p bad">−100</span> Ghost — Most missed votes</div><div class="meta">Same tie‑breakers</div></div>
-          <div class="row"><div class="pill"><span class="p ok">+50</span> Wild Card — Highest flip rate</div><div class="meta">Yes↔No, no alternations</div></div>
+        <div class="hd"><div>Season Badges</div></div>
+        <div class="bd">
+          <ul style="margin:0;padding-left:18px">
+            <li>Ironman +100 — Fewest missed votes</li>
+            <li>Ghost −100 — Most missed votes</li>
+            <li>Wild Card +50 — Highest flip rate (Yes↔No, no alternations)</li>
+          </ul>
         </div>
       </div>
     </section>
@@ -198,15 +132,14 @@
 </html>
 
 
-<!-- FILE: rules-admin-view.html (Commissioner View, editable) -->
+<!-- FILE: rules-team.html (Players List) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Fantasy Politics — Rules (Commissioner)</title>
+  <title>Fantasy Politics — Team</title>
   <style>
-    /* Reuse the same design tokens and structural styles as player page */
     :root{--nav-h:68px;--content-max:1320px;--gutter:20px;--gap:16px;--radius:14px;--panel:#171a2b;--panel-2:#1d2140;--text:#e7e9f4;--muted:#9aa1bd;--accent:#6ea8fe;--border:1px solid #2a315b;--chip:#0f1427;--chip-br:#2a315b;--bg:#0d1020;--shadow:0 8px 30px rgba(0,0,0,.35)}
     html,body{height:100%}
     body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
@@ -232,14 +165,12 @@
     .panel{background:var(--panel);border:var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
     .panel .hd{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:var(--border)}
     .panel .bd{padding:16px 18px}
-    .row{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:12px;background:var(--chip);border:1px solid var(--chip-br);margin-bottom:10px}
-    label{color:var(--muted)}
-    input[type="number"],input[type="text"],select{background:#0c1226;border:1px solid #2a315b;border-radius:10px;color:var(--text);padding:8px 10px;min-width:90px}
-    input[type="checkbox"]{transform:scale(1.2)}
-    .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-    @media(max-width:1100px){.page{grid-template-columns:1fr}.rail{position:relative}}
-    .savebar{position:sticky;bottom:0;display:flex;justify-content:flex-end;gap:10px;padding:12px;background:rgba(13,16,32,.8);backdrop-filter:blur(8px);border-top:var(--border)}
-    .primary{background:#2a4bff;border:1px solid #3c5aff;color:#fff}
+    .subnav{display:flex;gap:6px;padding:8px;border:var(--border);background:var(--panel);border-radius:12px}
+    .subtab{padding:8px 12px;border-radius:999px;border:1px solid #2a315b;background:#0f1427}
+    .subtab.active{border-color:#4b83ff;background:linear-gradient(180deg,#1c2446,#151a33)}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    @media(max-width:900px){.grid{grid-template-columns:1fr}}
+    .row{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:12px;background:#0f1427;border:1px solid #2a315b}
   </style>
 </head>
 <body>
@@ -251,12 +182,9 @@
         <a class="tab" href="cards.html">Cards</a>
         <a class="tab" href="votes.html">Votes</a>
         <a class="tab" href="draft.html">draft</a>
-        <a class="tab active" href="rules-admin-view.html">Rules</a>
+        <a class="tab active" href="rules.html">Rules</a>
       </div>
-      <div class="right">
-        <span class="btn">Commissioner</span>
-        <a class="btn" href="#">Logout</a>
-      </div>
+      <div class="right"><a class="btn" href="#">Search</a><a class="btn" href="#">Login</a></div>
     </div>
   </nav>
 
@@ -269,125 +197,100 @@
           <div class="leg"><div style="display:flex;gap:10px;align-items:center"><div class="avatar"></div><div><div>Casey Stone</div><div style="color:#9aa1bd">R • TX</div></div></div><div class="badge">+96</div></div>
         </div>
       </div>
-      <div class="card"><h4>Admin</h4><div class="bd" style="padding:10px 12px">Edit settings then Save. Players can view all options on public Rules page.</div></div>
     </aside>
 
     <section class="content">
-      <div class="panel">
-        <div class="hd"><div>Commissioner Mode</div><div style="color:#9aa1bd">View: Commissioner</div></div>
-        <div class="bd">Configure scoring and safeguards. Values here drive the calculator and display copy. Hook your persistence later.</div>
+      <div class="subnav">
+        <a class="subtab" href="rules.html">Rules</a>
+        <a class="subtab active" href="rules-team.html">Team</a>
+        <a class="subtab" href="rules-admin.html">Commissioner</a>
       </div>
 
       <div class="panel">
-        <div class="hd"><div>Baseline Scoring</div></div>
-        <div class="bd grid2">
-          <div class="row"><label>Core vote points</label><input type="number" id="p_core" value="10"></div>
-          <div class="row"><label>Missed vote penalty</label><input type="number" id="p_missed" value="-5"></div>
-          <div class="row"><label>Streak per 10 votes</label><input type="number" id="p_streak" value="20"></div>
-          <div class="row"><label>Perfect week bonus</label><input type="number" id="p_perfect" value="50"></div>
-          <div class="row"><label>Bipartisan bonus</label><input type="number" id="p_bipartisan" value="25"></div>
-          <div class="row"><label>Missed key vote penalty</label><input type="number" id="p_keymiss" value="-25"></div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="hd"><div>Options & Safeguards</div></div>
-        <div class="bd grid2">
-          <div class="row"><label><input type="checkbox" id="opt_keymult"> Key‑vote Multiplier ×2</label></div>
-          <div class="row"><label><input type="checkbox" id="opt_dimreturns" checked> Streak Diminishing Returns</label><span style="color:#9aa1bd">2nd 10‑vote streak = +15</span></div>
-          <div class="row"><label><input type="checkbox" id="opt_partyline"> Party‑line Penalty</label><span style="color:#9aa1bd">−10 if 100% with ≥6 eligible</span></div>
-          <div class="row"><label>Bipartisan Weekly Cap</label><input type="number" id="cap_bip_week" value="50"></div>
-          <div class="row"><label>Per‑week Core Score Cap</label><input type="number" id="cap_core_week" value="200"></div>
-          <div class="row"><label>Bipartisan Majority Threshold %</label><input type="number" id="thr_bip" value="55"></div>
-        </div>
-      </div>
-
-      <div class="panel" id="calc">
-        <div class="hd"><div>Weekly Score Calculator</div><button class="btn" onclick="recalc()">Recalculate</button></div>
-        <div class="bd" style="display:grid;grid-template-columns:1fr 320px;gap:16px">
-          <div>
-            <div class="row"><label>Yes votes</label><input type="number" id="in_yes" value="8"></div>
-            <div class="row"><label>No votes</label><input type="number" id="in_no" value="2"></div>
-            <div class="row"><label>Missed votes</label><input type="number" id="in_missed" value="1"></div>
-            <div class="row"><label>Key votes cast</label><input type="number" id="in_keycast" value="0"></div>
-            <div class="row"><label>Bipartisan votes</label><input type="number" id="in_bipvotes" value="0"></div>
-            <div class="row"><label>10‑vote streak bundles</label><input type="number" id="in_streaks" value="1"></div>
-            <div class="row"><label>Perfect attendance?</label>
-              <select id="in_perf"><option value="yes" selected>Yes</option><option>No</option></select></div>
-            <div class="row"><label>Party‑line 100%?</label>
-              <select id="in_party"><option>No</option><option>Yes</option></select></div>
-            <div class="row"><label>Eligible votes</label><input type="number" id="in_eligible" value="11"></div>
-          </div>
-          <div id="out" class="rail card" style="padding:12px"></div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="hd"><div>Season Badges</div></div>
+        <div class="hd"><div>League Players</div></div>
         <div class="bd">
-          <div class="row"><label>Ironman badge</label><input type="number" id="p_iron" value="100"></div>
-          <div class="row"><label>Ghost badge</label><input type="number" id="p_ghost" value="-100"></div>
-          <div class="row"><label>Wild Card badge</label><input type="number" id="p_wild" value="50"></div>
+          <div class="grid">
+            <div class="row"><div>Player: James</div><div class="badge">1st</div></div>
+            <div class="row"><div>Player: Sam</div><div class="badge">2nd</div></div>
+            <div class="row"><div>Player: Riley</div><div class="badge">3rd</div></div>
+            <div class="row"><div>Player: Casey</div><div class="badge">4th</div></div>
+          </div>
+          <div style="color:#9aa1bd;margin-top:10px">Replace with dynamic league roster when backend is ready.</div>
         </div>
-      </div>
-
-      <div class="savebar">
-        <button class="btn" onclick="location.href='rules.html'">View Public Rules</button>
-        <button class="btn primary" id="save">Save Settings</button>
       </div>
     </section>
   </main>
+</body>
+</html>
 
-  <script>
-    function recalc(){
-      const v=(id)=>Number(document.getElementById(id).value||0);
-      const yes=v('in_yes'), no=v('in_no'), missed=v('in_missed');
-      const keycast=v('in_keycast'), bip=v('in_bipvotes'), streaks=v('in_streaks');
-      const perf=document.getElementById('in_perf').value==='yes';
-      const party100=document.getElementById('in_party').value==='Yes';
-      const core=v('p_core'), penMiss=v('p_missed'), pStreak=v('p_streak');
-      const pPerfect=v('p_perfect'), pBip=v('p_bipartisan');
-      const keyMult=document.getElementById('opt_keymult').checked;
-      const dimRet=document.getElementById('opt_dimreturns').checked;
-      const partyPen=document.getElementById('opt_partyline').checked;
-      const capBip=v('cap_bip_week');
-      const capCore=v('cap_core_week');
 
-      const coreVotes = (yes+no)*core;
-      const missedPts = missed*penMiss;
-      const keyPts = keyMult? keycast*core : 0;
-      let streakPts = streaks>0 ? pStreak : 0;
-      if(dimRet && streaks>1){
-        // each additional full streak in same week worth 15
-        streakPts += (streaks-1)*15;
-      }
-      const perfectPts = perf ? pPerfect : 0;
-      let bipPts = Math.min(bip*pBip, capBip);
-      let partyLine = party100 ? -10 : 0;
-      if(!partyPen) partyLine = 0;
+<!-- FILE: rules-admin.html (Commissioner link-only placeholder) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Fantasy Politics — Commissioner</title>
+  <style>
+    :root{--nav-h:68px;--content-max:1320px;--gutter:20px;--gap:16px;--radius:14px;--panel:#171a2b;--panel-2:#1d2140;--text:#e7e9f4;--muted:#9aa1bd;--accent:#6ea8fe;--border:1px solid #2a315b;--chip:#0f1427;--bg:#0d1020}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    a{color:inherit;text-decoration:none}
+    .nav{position:sticky;top:0;z-index:50;height:var(--nav-h);display:flex;align-items:center;justify-content:center;background:rgba(10,12,24,.72);backdrop-filter:saturate(140%) blur(10px);border-bottom:var(--border)}
+    .nav-inner{width:100%;max-width:var(--content-max);display:flex;align-items:center;gap:12px;padding:0 var(--gutter)}
+    .brand{flex:0 0 auto;font-weight:700}
+    .brand span{color:var(--muted)}
+    .nav-tabs{margin:0 auto;display:flex;gap:8px}
+    .tab{padding:10px 14px;border:var(--border);border-radius:999px;background:#0f1427}
+    .tab.active{border-color:#4b83ff;background:linear-gradient(180deg,#1c2446,#151a33)}
+    .right{display:flex;gap:8px}
+    .btn{padding:8px 12px;border-radius:10px;border:var(--border);background:var(--panel-2)}
+    .page{display:grid;grid-template-columns:280px 1fr;gap:16px;max-width:1320px;margin:24px auto;padding:0 20px}
+    .rail{position:sticky;top:calc(var(--nav-h)+16px)}
+    .content{display:flex;flex-direction:column;gap:16px}
+    .panel{background:var(--panel);border:var(--border);border-radius:14px}
+    .panel .hd{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:var(--border)}
+    .panel .bd{padding:16px 18px}
+    .subnav{display:flex;gap:6px;padding:8px;border:var(--border);background:var(--panel);border-radius:12px}
+    .subtab{padding:8px 12px;border-radius:999px;border:1px solid #2a315b;background:#0f1427}
+    .subtab.active{border-color:#4b83ff;background:linear-gradient(180deg,#1c2446,#151a33)}
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="brand">Fantasy <span>Politics</span></div>
+      <div class="nav-tabs">
+        <a class="tab" href="index.html">Scoreboard</a>
+        <a class="tab" href="cards.html">Cards</a>
+        <a class="tab" href="votes.html">Votes</a>
+        <a class="tab" href="draft.html">draft</a>
+        <a class="tab active" href="rules.html">Rules</a>
+      </div>
+      <div class="right"><a class="btn" href="#">Search</a><a class="btn" href="#">Login</a></div>
+    </div>
+  </nav>
 
-      // weekly core cap
-      const coreCapped = Math.min(coreVotes, capCore) + Math.max(0, coreVotes - capCore)*1; // extras worth +1
-      const capAdj = coreCapped - coreVotes;
+  <main class="page">
+    <aside class="rail"></aside>
+    <section class="content">
+      <div class="subnav">
+        <a class="subtab" href="rules.html">Rules</a>
+        <a class="subtab" href="rules-team.html">Team</a>
+        <a class="subtab active" href="rules-admin.html">Commissioner</a>
+      </div>
 
-      const total = coreVotes + missedPts + keyPts + streakPts + perfectPts + bipPts + partyLine + capAdj;
-      const out = `
-        <div class='row'><div>Core votes (+${core} each)</div><div>${coreVotes>=0?'+':''}${coreVotes}</div></div>
-        <div class='row'><div>Missed votes (${penMiss} each)</div><div>${missedPts>=0?'+':''}${missedPts}</div></div>
-        <div class='row'><div>Key‑vote multiplier</div><div>${keyPts>=0?'+':''}${keyPts}</div></div>
-        <div class='row'><div>Streaks (+${pStreak} / +15…)</div><div>${streakPts>=0?'+':''}${streakPts}</div></div>
-        <div class='row'><div>Perfect attendance</div><div>${perfectPts>=0?'+':''}${perfectPts}</div></div>
-        <div class='row'><div>Bipartisan bonus</div><div>${bipPts>=0?'+':''}${bipPts}</div></div>
-        <div class='row'><div>Party‑line penalty</div><div>${partyLine>=0?'+':''}${partyLine}</div></div>
-        <div class='row'><div>Weekly cap adjustment</div><div>${capAdj>=0?'+':''}${capAdj}</div></div>
-        <div class='row' style='font-weight:700'><div>Total</div><div>${total}</div></div>`;
-      document.getElementById('out').innerHTML = out;
-    }
-    recalc();
-
-    document.getElementById('save')?.addEventListener('click',()=>{
-      alert('Settings saved (placeholder). Wire this to your backend or GitHub JSON later.');
-    });
-  </script>
+      <div class="panel">
+        <div class="hd"><div>Commissioner Dashboard</div></div>
+        <div class="bd">
+          <p>This page is a placeholder. Link to your locked admin dashboard or keep this as a login gate.</p>
+          <ul>
+            <li><a href="rules-admin-view.html">Open Admin Settings (legacy prototype)</a></li>
+            <li><a href="rules.html">Back to Rules</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
 </body>
 </html>
