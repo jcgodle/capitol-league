@@ -1,271 +1,307 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Fantasy Politics — Votes</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Capitol League — Votes</title>
 <style>
   :root{
-    --nav-h:68px;--content-max:1320px;--gutter:20px;--gap:16px;--radius:14px;
-    --panel:#171a2b;--panel-2:#1d2140;--text:#e7e9f4;--muted:#9aa1bd;
-    --accent:#6ea8fe;--border:1px solid rgba(255,255,255,.06);--shadow:0 8px 24px rgba(0,0,0,.25);
+    --bg:#0e1020; --panel:#171a2b; --panel2:#1d2140; --text:#e7e9f4; --muted:#9aa1bd;
+    --accent:#6ea8fe; --good:#2fbf71; --bad:#ff6b6b; --warn:#f7b500; --radius:14px; --gap:14px;
+    --border:1px solid rgba(255,255,255,0.08);
   }
-  *,*:before,*:after{box-sizing:border-box}
-  html,body{height:100%}
-  body{margin:0;color:var(--text);background:linear-gradient(180deg,#0b0e1a,#0f1220);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,Segoe UI,Inter,Roboto,Arial}
   a{color:inherit;text-decoration:none}
-  .wrap{max-width:var(--content-max);margin:0 auto;padding:16px var(--gutter) 60px}
-
-  /* Top bar */
-  .nav{height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 var(--gutter);border-bottom:var(--border);background:#0e1222;position:sticky;top:0;z-index:10}
-  .brand{font-weight:700;letter-spacing:.2px}
-  .brand b{color:var(--accent)}
-  .seg{display:flex;gap:8px;background:rgba(255,255,255,.04);padding:6px;border-radius:999px;border:var(--border)}
-  .seg .btn{padding:8px 14px;border-radius:999px;cursor:pointer;opacity:.9}
-  .seg .btn:hover{opacity:1;background:rgba(255,255,255,.05)}
-  .seg .on{background:var(--accent);color:#0b0e1a}
-
-  /* Controls */
-  .controls{display:grid;grid-template-columns:1fr 200px 200px 200px;gap:var(--gap);padding:16px;background:var(--panel);border:var(--border);border-radius:var(--radius);box-shadow:var(--shadow);margin-top:16px}
-  .input,.select{height:38px;background:var(--panel-2);border:var(--border);border-radius:10px;color:var(--text);padding:0 12px;outline:none}
-  .input::placeholder{color:var(--muted)}
-  .section-title{margin:18px 6px 8px;color:var(--muted);font-size:.95rem}
-
-  /* Cards */
-  .votes{display:flex;flex-direction:column;gap:12px}
-  .vote{background:var(--panel);border:var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
-  .vote header{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:14px 16px;cursor:pointer}
-  .vote header:hover{background:#141936}
-  .bill{font-weight:600}
-  .meta{color:var(--muted);font-size:.9rem}
-  .badges{display:flex;gap:8px;align-items:center}
-  .badge{font-size:.82rem;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:var(--border)}
-  .pass{background:rgba(39,194,129,.14);color:#78e2ba}
-  .fail{background:rgba(211,74,74,.14);color:#f09b9b}
-
-  /* Accordion body */
-  .body{display:none}
-  .open .body{display:grid;grid-template-columns:1.6fr 1fr;gap:16px;padding:0 16px 16px}
-  .panel{background:#121631;border:var(--border);border-radius:12px;padding:14px}
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .kv{background:#0f142b;border:var(--border);border-radius:10px;padding:10px}
-  .kv b{display:block;font-size:.78rem;color:var(--muted);margin-bottom:4px}
-  .kv span{font-weight:600}
-  .parties{margin-top:10px}
-  .party-legend{display:flex;gap:14px;font-size:.82rem;color:var(--muted);margin:6px 0}
-  .party-legend i{display:inline-block;width:10px;height:10px;border-radius:999px;margin-right:6px;vertical-align:middle}
-  .bar{height:8px;border-radius:999px;background:#0f142b;overflow:hidden;border:var(--border);position:relative}
-  .bar i{display:block;height:100%;position:absolute;left:0;top:0}
-  .bar .r{background:#b24a4a}.bar .d{background:#4a77d3}.bar .i{background:#d3b84a}
-  .statrow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px}
-  .btns{display:flex;flex-wrap:wrap;gap:8px}
-  .tool{cursor:pointer;padding:8px 12px;border-radius:8px;background:#0f142b;border:var(--border);font-size:.82rem}
-  .tool:hover{background:rgba(255,255,255,.08)}
-  .pin{outline:2px solid rgba(110,168,254,.45)}
-  @media (max-width:980px){.open .body{grid-template-columns:1fr}}
+  .wrap{max-width:1200px;margin:0 auto;padding:20px}
+  header{position:sticky;top:0;background:linear-gradient(180deg,#0e1020 60%,#0e102000);z-index:10}
+  .nav{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:10px 0 14px;border-bottom:var(--border)}
+  .brand{display:flex;gap:10px;align-items:center}
+  .logo{width:34px;height:34px;border-radius:10px;background:var(--accent);display:inline-block}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap}
+  .tab{padding:8px 12px;border:var(--border);border-radius:999px;background:transparent;cursor:pointer}
+  .tab.active{background:var(--panel2);border-color:#2a2e52}
+  .controls{display:flex;gap:10px;flex-wrap:wrap}
+  .input, select{background:var(--panel);border:var(--border);color:var(--text);padding:8px 10px;border-radius:10px}
+  .btn{background:var(--accent);border:none;color:#0d1020;padding:10px 14px;border-radius:10px;cursor:pointer}
+  .grid{display:grid;grid-template-columns:1fr;gap:var(--gap);margin-top:16px}
+  @media(min-width:900px){ .grid{grid-template-columns:1fr 1fr} }
+  .card{background:var(--panel);border:var(--border);border-radius:var(--radius);padding:14px}
+  .head{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center}
+  .pill{font-size:12px;color:var(--muted);padding:4px 8px;border:var(--border);border-radius:999px;background:var(--panel2)}
+  .title{font-weight:600}
+  .sub{color:var(--muted);font-size:13px}
+  details{background:var(--panel2);border:var(--border);border-radius:12px;margin-top:12px}
+  summary{cursor:pointer;list-style:none;padding:12px 14px}
+  summary::-webkit-details-marker{display:none}
+  .rows{display:grid;border-top:var(--border)}
+  .row{display:grid;grid-template-columns:1.2fr .6fr .6fr .6fr .6fr;gap:8px;padding:10px 14px;border-bottom:var(--border);font-size:14px}
+  .row.head{color:var(--muted);background:#151935;font-weight:600}
+  .kpi{display:flex;gap:8px}
+  .kpi span{padding:4px 8px;border-radius:8px;background:#14183a;border:var(--border);font-size:12px}
+  .tag-win{background:rgba(47,191,113,.12);border:1px solid rgba(47,191,113,.3);color:#8de0b4}
+  .tag-lose{background:rgba(255,107,107,.12);border:1px solid rgba(255,107,107,.3);color:#ffb3b3}
+  .footer{margin-top:18px;color:var(--muted);font-size:12px}
+  .empty{padding:30px;text-align:center;color:var(--muted);border:var(--border);border-radius:12px;background:#12142a}
 </style>
 </head>
 <body>
+  <header>
+    <div class="wrap nav">
+      <div class="brand">
+        <span class="logo"></span>
+        <div>
+          <div style="font-weight:700">Capitol League</div>
+          <div class="sub">Votes</div>
+        </div>
+      </div>
+      <div class="tabs">
+        <button class="tab active" data-chamber="house">House</button>
+        <button class="tab" data-chamber="senate" disabled title="Congress.gov votes API is House-only for now">Senate</button>
+      </div>
+      <div class="controls">
+        <select id="congressSel">
+          <option value="119">119th (2025-2026)</option>
+          <option value="118">118th (2023-2024)</option>
+        </select>
+        <select id="sessionSel">
+          <option value="1">1st session</option>
+          <option value="2">2nd session</option>
+        </select>
+        <input id="q" class="input" placeholder="Filter text… (bill, question)" />
+        <button id="refreshBtn" class="btn">Refresh</button>
+      </div>
+    </div>
+  </header>
 
-<div class="nav">
-  <div class="brand">Fantasy <b>Politics</b></div>
-  <div class="seg" id="view">
-    <a class="btn" href="index.html">Scoreboard</a>
-    <a class="btn" href="cards.html">Cards</a>
-    <a class="btn on" href="votes.html">Votes</a>
-    <a class="btn" href="#">Draft</a>
-    <a class="btn" href="#">Rules</a>
-  </div>
-</div>
-
-<div class="wrap">
-  <div class="controls">
-    <input id="q" class="input" placeholder="Search bill title, number…"/>
-    <select id="ch" class="select">
-      <option value="">All Chambers</option><option>House</option><option>Senate</option>
-    </select>
-    <select id="res" class="select">
-      <option value="">All Results</option><option value="pass">Passed</option><option value="fail">Failed</option>
-    </select>
-    <select id="sort" class="select">
-      <option value="new">Sort: Newest</option><option value="old">Sort: Oldest</option>
-    </select>
-  </div>
-
-  <div class="section-title">Selected:</div>
-  <div id="selected" class="badges" style="margin:0 6px 16px;"></div>
-
-  <div id="list" class="votes"></div>
-</div>
+  <main class="wrap">
+    <div id="list" class="grid"></div>
+    <div id="empty" class="empty" style="display:none;">No votes found.</div>
+    <div class="footer" id="foot"></div>
+  </main>
 
 <script>
-const $ = sel => document.querySelector(sel);
-const list = $('#list'), q = $('#q'), ch = $('#ch'), res = $('#res'), sortSel = $('#sort'), selected = $('#selected');
+/*
+  Configure your Congress.gov API key.
+  Docs + change log: https://api.congress.gov/  (served via api.data.gov)
+  House Roll Call Votes endpoints (beta) launched May 13, 2025.
+  You will likely use list -> item -> member-votes endpoints.
+  Blog announcement: https://blogs.loc.gov/law/2025/05/introducing-house-roll-call-votes-in-the-congress-gov-api/
+*/
+const API_KEY = "KOURntCmZiIclaOlArU3lZJrkSasn58VS3vZpuam"; // <- required
 
-function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+// Endpoint builders. Adjust paths if Congress.gov updates naming.
+const BASE = "https://api.congress.gov/v3";
 
-function renderVote(v){
-  const id = v.id || (v.bill_number || v.bill || 'bill').toLowerCase().replace(/\s+/g,'-');
-  const passed = (v.result||'').toLowerCase()==='passed';
-  const yeas = v.yes ?? v.yeas ?? 0, nays = v.no ?? v.nays ?? 0;
+// List votes associated with legislation (House, 118th+). Supports pagination via offset.
+function listHouseVotes({ congress, session, limit=40, offset=0 }) {
+  // Known pattern in v3: collection path segments, query keys follow camelCase in many endpoints.
+  // If this 404s in your environment, change the path below to whatever the docs specify today.
+  const url = `${BASE}/house-roll-call-votes?congress=${congress}&sessionNumber=${session}&limit=${limit}&offset=${offset}&api_key=${API_KEY}&format=json`;
+  return fetchJSON(url);
+}
 
-  const rY = v.r_yea ?? 110, rN = v.r_nay ?? 120;
-  const dY = v.d_yea ?? 170, dN = v.d_nay ?? 25;
-  const iY = v.i_yea ?? 7,   iN = v.i_nay ?? 0;
-  const total = rY+rN+dY+dN+iY+iN || 1;
-  const rPct = (rY+rN)/total*100, dPct=(dY+dN)/total*100, iPct=(iY+iN)/total*100;
+// Item details by roll number.
+function getHouseVote({ congress, session, roll }) {
+  const url = `${BASE}/house-roll-call-votes/${congress}/${session}/${roll}?api_key=${API_KEY}&format=json`;
+  return fetchJSON(url);
+}
 
-  const dateTxt = v.date ? new Date(v.date).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}) : '';
-  const chamber = (v.chamber||'').replace(/^[a-z]/,m=>m.toUpperCase());
-  const roll = v.roll ? `Roll ${v.roll} · ` : '';
+// Member-level positions for a roll. Returns BioGuide IDs and positions.
+function getHouseVoteMembers({ congress, session, roll, limit=500, offset=0 }) {
+  const url = `${BASE}/house-roll-call-votes/${congress}/${session}/${roll}/member-votes?limit=${limit}&offset=${offset}&api_key=${API_KEY}&format=json`;
+  return fetchJSON(url);
+}
 
-  const el = document.createElement('article');
-  el.className='vote'; el.id='vote-'+id;
-  el.innerHTML = `
-    <header>
-      <div>
-        <div class="bill">${esc(v.bill_number||v.title||'Bill')} — ${esc(v.title||'')}</div>
-        <div class="meta">${esc(roll)}${esc(chamber)}${dateTxt?' · '+dateTxt:''}</div>
-      </div>
-      <div class="badges">
-        <span class="badge ${passed?'pass':'fail'}">${passed?'Passed':'Failed'}</span>
-        <span class="badge">Yeas ${yeas}</span>
-        <span class="badge">Nays ${nays}</span>
-      </div>
-    </header>
+// Generic fetch with readable errors.
+async function fetchJSON(url){
+  const res = await fetch(url);
+  if(!res.ok){
+    const text = await res.text().catch(()=> "");
+    throw new Error(`HTTP ${res.status}: ${text.slice(0,160)}`);
+  }
+  return res.json();
+}
 
-    <div class="body">
-      <div class="panel">
-        <div style="margin-bottom:10px;color:var(--muted)">${esc(v.subtitle||v.summary||'')}</div>
-        <div class="grid">
-          <div class="kv"><b>Bill Number</b><span>${esc(v.bill_number||'-')}</span></div>
-          <div class="kv"><b>Result</b><span>${passed?'Passed':'Failed'} (${yeas}–${nays})</span></div>
-          <div class="kv"><b>Chamber</b><span>${esc(chamber||'-')}</span></div>
-          <div class="kv"><b>Date</b><span>${dateTxt||'-'}</span></div>
-        </div>
-        <div class="parties">
-          <div class="party-legend">
-            <span><i style="background:#b24a4a"></i>Republican</span>
-            <span><i style="background:#4a77d3"></i>Democrat</span>
-            <span><i style="background:#d3b84a"></i>Independent</span>
-          </div>
-          <div class="bar" aria-label="Party distribution">
-            <i class="r" style="width:${rPct}%"></i>
-            <i class="d" style="width:${dPct}%;left:${rPct}%"></i>
-            <i class="i" style="width:${iPct}%;left:${rPct+dPct}%"></i>
-          </div>
-          <div class="statrow">
-            <div class="kv"><b>R</b><span>Yeas ${rY} · Nays ${rN}</span></div>
-            <div class="kv"><b>D</b><span>Yeas ${dY} · Nays ${dN}</span></div>
-            <div class="kv"><b>I</b><span>Yeas ${iY} · Nays ${iN}</span></div>
-          </div>
-        </div>
-      </div>
-      <aside class="panel">
-        <div class="btns">
-          <button class="tool" data-copy="#${'vote-'+id}">Copy link</button>
-          <button class="tool">Full Text (PDF)</button>
-          <button class="tool">Sponsor & Cosponsors</button>
-          <button class="tool">Amendments</button>
-          <button class="tool">Debate Transcript</button>
-          <button class="tool">CBO Score</button>
-        </div>
-      </aside>
-    </div>
-  `;
+// UI wiring
+const $list = document.getElementById("list");
+const $empty = document.getElementById("empty");
+const $foot = document.getElementById("foot");
+const $q = document.getElementById("q");
+const $congress = document.getElementById("congressSel");
+const $session = document.getElementById("sessionSel");
+const $refresh = document.getElementById("refreshBtn");
+const $tabs = document.querySelectorAll(".tab");
 
-  // Accordion behavior: only one open
-  el.querySelector('header').addEventListener('click', ()=>{
-    document.querySelectorAll('.vote.open').forEach(v=>{ if(v!==el) v.classList.remove('open'); });
-    el.classList.toggle('open');
-  });
+let state = {
+  chamber: "house",
+  congress: $congress.value,
+  session: $session.value,
+  votes: [],
+  lastFetched: null
+};
 
-  el.addEventListener('click', e=>{
-    if(e.target.matches('[data-copy]')){
-      const h = location.href.split('#')[0] + '#' + el.id;
-      navigator.clipboard?.writeText(h);
-      e.target.textContent='Copied'; setTimeout(()=>e.target.textContent='Copy link',900);
+$tabs.forEach(b=>b.addEventListener("click", ()=>{
+  if(b.disabled) return;
+  $tabs.forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");
+  state.chamber = b.dataset.chamber;
+  loadVotes();
+}));
+
+$congress.addEventListener("change", ()=>{ state.congress = $congress.value; loadVotes(); });
+$session.addEventListener("change", ()=>{ state.session = $session.value; loadVotes(); });
+$refresh.addEventListener("click", ()=> loadVotes() );
+$q.addEventListener("input", ()=> render());
+
+async function loadVotes(){
+  $list.innerHTML = "";
+  $empty.style.display = "none";
+  $foot.textContent = "Loading…";
+  try{
+    if(state.chamber !== "house") {
+      $empty.style.display = "block";
+      $empty.textContent = "Senate feed not available from this API yet.";
+      $foot.textContent = "Source: Congress.gov API (House only for votes, 118th+).";
+      return;
     }
-  });
-  return el;
-}
+    // Pull first page only to keep it fast; you can add pagination if needed.
+    const data = await listHouseVotes({ congress: state.congress, session: state.session, limit: 40, offset: 0 });
 
-function applyFilters(all){
-  const term = q.value.trim().toLowerCase();
-  const chamber = ch.value;
-  const result = res.value;
-  let rows = all.filter(v=>{
-    const t = (v.bill_number||v.title||'').toLowerCase();
-    if(term && !t.includes(term)) return false;
-    if(chamber && (v.chamber||'').toLowerCase() !== chamber.toLowerCase()) return false;
-    if(result){
-      const passed = (v.result||'').toLowerCase()==='passed';
-      if(result==='pass' && !passed) return false;
-      if(result==='fail' && passed) return false;
-    }
-    return true;
-  });
-  rows.sort((a,b)=>{
-    const da = +new Date(a.date||0), db = +new Date(b.date||0);
-    return sortSel.value==='old' ? da-db : db-da;
-  });
-  return rows;
-}
-
-function hydrate(all){
-  list.innerHTML='';
-  applyFilters(all).forEach(v=>list.appendChild(renderVote(v)));
-}
-
-function deepLink(){
-  if(location.hash.startsWith('#vote-')){
-    const target = document.getElementById(location.hash.slice(1));
-    if(target){ target.classList.add('open'); target.scrollIntoView({behavior:'smooth',block:'start'}); setTimeout(()=>target.classList.remove('pin'),1600); }
+    // Congress.gov v3 responses are shaped as { pagination, houseRollCallVotes: { ...items } }.
+    // Normalize defensively in case of schema tweaks.
+    const coll = data?.houseRollCallVotes?.items || data?.items || [];
+    state.votes = coll.map(normalizeListItem);
+    state.lastFetched = new Date();
+    render();
+    const total = data?.pagination?.count ?? state.votes.length;
+    $foot.textContent = `Showing ${state.votes.length} of ${total} — Congress ${state.congress}, Session ${state.session}.`;
+  }catch(err){
+    console.error(err);
+    $list.innerHTML = "";
+    $empty.style.display = "block";
+    $empty.textContent = "Failed to load votes. Check API key and endpoint path in the JS header.";
+    $foot.textContent = String(err.message || err);
   }
 }
 
-async function boot(){
-  const pills = [];
-  if(ch.value) pills.push('Chamber: '+ch.value);
-  if(res.value) pills.push('Result: '+(res.value==='pass'?'Passed':'Failed'));
-  selected.innerHTML = pills.map(x=>`<span class="badge">${x}</span>`).join('');
-
-  const mock = [
-    {id:'hr-1001', bill_number:'H.R. 1001', title:'Infrastructure Investment and Jobs', chamber:'House',  date:'2025-09-24', result:'Passed', yes:321, no:109, summary:'Highways, bridges, broadband.'},
-    {id:'s-204',   bill_number:'S. 204',   title:'Climate Resilience Act',           chamber:'Senate', date:'2025-09-22', result:'Failed', yes:48,  no:52,  summary:'Renewables and coastal protection.'},
-    {id:'hr-1002', bill_number:'H.R. 1002', title:'Small Business Relief',           chamber:'House',  date:'2025-09-20', result:'Passed', yes:298, no:127, summary:'Tax credits and loans.'},
-    {id:'s-310',   bill_number:'S. 310',   title:'Supply Chain Security',            chamber:'Senate', date:'2025-09-18', result:'Passed', yes:74,  no:24,  summary:'Domestic manufacturing incentives.'},
-    {id:'hr-1003', bill_number:'H.R. 1003', title:'Rural Healthcare Expansion',      chamber:'House',  date:'2025-09-17', result:'Passed', yes:305, no:119, summary:'Clinics and telemedicine grants.'},
-    {id:'s-402',   bill_number:'S. 402',   title:'Fiscal Responsibility Reform',     chamber:'Senate', date:'2025-09-16', result:'Failed', yes:49,  no:51,  summary:'Spending caps and PAYGO.'},
-    {id:'hr-1004', bill_number:'H.R. 1004', title:'Veterans Housing Support',        chamber:'House',  date:'2025-09-15', result:'Passed', yes:330, no:94,  summary:'VA vouchers and rehab funds.'},
-    {id:'s-255',   bill_number:'S. 255',   title:'Data Privacy Standards',           chamber:'Senate', date:'2025-09-13', result:'Passed', yes:68,  no:30,  summary:'Uniform national privacy rules.'},
-    {id:'hr-1005', bill_number:'H.R. 1005', title:'Cybersecurity Modernization',     chamber:'House',  date:'2025-09-12', result:'Passed', yes:289, no:136, summary:'State and local cyber grants.'},
-    {id:'s-512',   bill_number:'S. 512',   title:'Public Lands Conservation',        chamber:'Senate', date:'2025-09-10', result:'Failed', yes:47,  no:53,  summary:'Trail and habitat funding.'},
-    {id:'hr-1006', bill_number:'H.R. 1006', title:'STEM Education Boost',            chamber:'House',  date:'2025-09-08', result:'Passed', yes:314, no:110, summary:'Scholarships and lab upgrades.'},
-    {id:'s-520',   bill_number:'S. 520',   title:'Transportation Safety Rules',      chamber:'Senate', date:'2025-09-06', result:'Passed', yes:72,  no:26,  summary:'Rail inspections and standards.'},
-    {id:'hr-1007', bill_number:'H.R. 1007', title:'Affordable Housing Tax Credit',   chamber:'House',  date:'2025-09-05', result:'Failed', yes:218, no:212, summary:'LIHTC expansion.'},
-    {id:'s-531',   bill_number:'S. 531',   title:'Semiconductor R&D Grants',         chamber:'Senate', date:'2025-09-03', result:'Passed', yes:76,  no:22,  summary:'Chip research funding.'},
-    {id:'hr-1008', bill_number:'H.R. 1008', title:'Opioid Response Enhancement',     chamber:'House',  date:'2025-09-02', result:'Passed', yes:338, no:86,  summary:'Treatment access and naloxone.'},
-    {id:'s-545',   bill_number:'S. 545',   title:'Farm Drought Assistance',          chamber:'Senate', date:'2025-08-30', result:'Failed', yes:50,  no:50,  summary:'Emergency water programs.'},
-    {id:'hr-1009', bill_number:'H.R. 1009', title:'AI Safety and Transparency',      chamber:'House',  date:'2025-08-28', result:'Passed', yes:284, no:141, summary:'Model reporting and audits.'},
-    {id:'s-560',   bill_number:'S. 560',   title:'Student Loan Refinancing',         chamber:'Senate', date:'2025-08-26', result:'Failed', yes:46,  no:54,  summary:'Rate caps and refinance window.'},
-    {id:'hr-1010', bill_number:'H.R. 1010', title:'Border Infrastructure Upgrade',   chamber:'House',  date:'2025-08-24', result:'Passed', yes:299, no:126, summary:'Ports of entry modernization.'},
-    {id:'s-575',   bill_number:'S. 575',   title:'Disaster Relief Supplemental',     chamber:'Senate', date:'2025-08-22', result:'Passed', yes:70,  no:28,  summary:'Hurricane and wildfire aid.'}
-  ];
-
-  hydrate(mock);
-  deepLink();
+function normalizeListItem(it){
+  // Try common fields; fall back gracefully.
+  return {
+    roll: it.rollNumber ?? it.roll ?? "?",
+    date: it.voteDate ?? it.date ?? "",
+    question: it.voteQuestionText ?? it.voteQuestion ?? "",
+    result: it.resultText ?? it.result ?? "",
+    bill: it.billNumber ?? it.bill ?? it.measureNumber ?? "",
+    description: it.description ?? it.voteDescription ?? "",
+    link: it.url ?? it.link ?? "",
+    totals: {
+      yea: it.yeaTotal ?? it.yeas ?? it.totalYes ?? 0,
+      nay: it.nayTotal ?? it.nays ?? it.totalNo ?? 0,
+      present: it.presentTotal ?? it.present ?? 0,
+      notvoting: it.notVotingTotal ?? it.notVoting ?? 0
+    }
+  };
 }
 
-['input','change'].forEach(ev=>{
-  q.addEventListener(ev, ()=>boot());
-  ch.addEventListener(ev, ()=>boot());
-  res.addEventListener(ev, ()=>boot());
-  sortSel.addEventListener(ev, ()=>boot());
-});
+function render(){
+  const needle = $q.value.trim().toLowerCase();
+  const items = state.votes.filter(v=>{
+    if(!needle) return true;
+    return [v.bill, v.question, v.description, v.result].some(s=> String(s||"").toLowerCase().includes(needle));
+  });
+  if(items.length===0){
+    $list.innerHTML = "";
+    $empty.style.display = "block";
+    $empty.textContent = "No votes match your filter.";
+    return;
+  }
+  $empty.style.display = "none";
+  $list.innerHTML = items.map(cardHTML).join("");
+  attachExpandHandlers();
+}
 
-document.addEventListener('DOMContentLoaded', boot);
-window.addEventListener('hashchange', deepLink);
+function cardHTML(v){
+  const outcomeOK = /agree|passed|agreed/i.test(v.result);
+  return `
+  <article class="card">
+    <div class="head">
+      <span class="pill">Roll ${v.roll}</span>
+      <div>
+        <div class="title">${escapeHTML(v.question || "Vote")}</div>
+        <div class="sub">${escapeHTML(v.bill || "—")} • ${escapeHTML(v.date || "")}</div>
+      </div>
+      <div class="kpi">
+        <span class="${outcomeOK?'tag-win':'tag-lose'}">${escapeHTML(v.result || "Result")}</span>
+      </div>
+    </div>
+
+    <details>
+      <summary>Details</summary>
+      <div class="rows">
+        <div class="row head"><div>Description</div><div>Yea</div><div>Nay</div><div>Present</div><div>Not voting</div></div>
+        <div class="row">
+          <div>${escapeHTML(v.description || "—")}</div>
+          <div>${v.totals.yea ?? "—"}</div>
+          <div>${v.totals.nay ?? "—"}</div>
+          <div>${v.totals.present ?? "—"}</div>
+          <div>${v.totals.notvoting ?? "—"}</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap;padding:12px 14px;">
+        <button class="btn btn-members" data-roll="${v.roll}">Member votes</button>
+        ${v.link ? `<a class="tab" href="${v.link}" target="_blank" rel="noopener">Open on Congress.gov</a>` : ""}
+      </div>
+      <div class="memberMount" id="m-${v.roll}" style="padding:0 14px 14px;"></div>
+    </details>
+  </article>`;
+}
+
+function attachExpandHandlers(){
+  document.querySelectorAll(".btn-members").forEach(btn=>{
+    btn.onclick = async ()=>{
+      const roll = btn.dataset.roll;
+      const mount = document.getElementById(`m-${roll}`);
+      if(!mount) return;
+      btn.disabled = true; btn.textContent = "Loading…";
+      try{
+        const data = await getHouseVoteMembers({ congress: state.congress, session: state.session, roll });
+        const members = (data?.memberVotes?.items || data?.items || []).map(n=>{
+          return {
+            name: n?.member?.name ?? n?.name ?? "Member",
+            party: n?.member?.party ?? n?.party ?? "—",
+            state: n?.member?.state ?? n?.state ?? "—",
+            vote: n?.position ?? n?.vote ?? "—"
+          };
+        });
+        mount.innerHTML = memberTableHTML(members);
+      }catch(err){
+        mount.innerHTML = `<div class="sub" style="color:#ffb3b3">Failed to load member votes. Verify /member-votes endpoint path.</div>`;
+      }finally{
+        btn.disabled = false; btn.textContent = "Member votes";
+      }
+    };
+  });
+}
+
+function memberTableHTML(rows){
+  if(rows.length===0) return `<div class="sub">No member data.</div>`;
+  const head = `<div class="row head"><div>Member</div><div>Party</div><div>State</div><div style="grid-column: span 2;">Position</div></div>`;
+  const body = rows.map(r=>`
+    <div class="row">
+      <div>${escapeHTML(r.name)}</div>
+      <div>${escapeHTML(r.party)}</div>
+      <div>${escapeHTML(r.state)}</div>
+      <div style="grid-column: span 2;">${escapeHTML(r.vote)}</div>
+    </div>`).join("");
+  return `<div class="rows" style="margin-top:8px">${head}${body}</div>`;
+}
+
+function escapeHTML(s){ return String(s??"").replace(/[&<>"]/g, c=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c])); }
+
+// Kick off
+loadVotes();
 </script>
 </body>
 </html>
