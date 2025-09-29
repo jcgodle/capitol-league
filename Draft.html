@@ -8,56 +8,44 @@
   :root{
     --nav-h:68px; --content-max:1320px; --gutter:20px; --gap:16px; --radius:14px;
     --panel:#111425; --panel-2:#171a2b; --panel-3:#1d2140;
-    --text:#e7e9f4; --muted:#9aa1bd; --accent:#6ea8fe; --good:#62d487; --warn:#f0b35a;
+    --text:#e7e9f4; --muted:#9aa1bd; --accent:#6ea8fe; --good:#62d487;
     --chip:#0f1330; --border:1px solid #222746; --shadow:0 8px 28px rgba(0,0,0,.35);
   }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0; background:#0c0f1e; color:var(--text); font:14px/1.45 system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-  }
+  *{box-sizing:border-box} html,body{height:100%}
+  body{margin:0; background:#0c0f1e; color:var(--text); font:14px/1.45 system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
 
-  /* Top bar */
-  .top{
-    height:var(--nav-h); display:flex; align-items:center; justify-content:center;
-    border-bottom:var(--border); background:#0b0e1a; position:sticky; top:0; z-index:50;
-  }
-  .brand{display:flex; align-items:center; gap:8px; color:#cbd5ff; font-weight:700; letter-spacing:.2px}
+  .top{height:var(--nav-h); display:flex; align-items:center; justify-content:center; border-bottom:var(--border); background:#0b0e1a; position:sticky; top:0; z-index:50}
+  .brand{display:flex; align-items:center; gap:8px; color:#cbd5ff; font-weight:700}
   .brand b{color:#fff}
   .top .actions{position:absolute; right:16px; display:flex; gap:10px}
   .btn{height:34px; padding:0 12px; border-radius:10px; border:var(--border); background:var(--panel-2); color:var(--text); cursor:pointer}
   .btn:hover{filter:brightness(1.08)}
 
-  /* Shell */
   .shell{display:grid; grid-template-columns:290px 1fr; gap:18px; max-width:var(--content-max); margin:20px auto; padding:0 16px 24px}
   @media (max-width:1100px){ .shell{grid-template-columns:260px 1fr} }
   @media (max-width:880px){ .shell{grid-template-columns:1fr} .side{order:2} }
 
-  /* Side rail */
   .side{background:var(--panel-2); border:var(--border); border-radius:var(--radius); padding:14px}
   .row{display:flex; justify-content:space-between; align-items:center}
   .side h3{margin:2px 0 8px; font-size:15px; color:#cdd2f7}
   .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; background:var(--chip); border:var(--border); color:#cbd1ff; font-size:12px}
   .list{margin-top:12px; display:flex; flex-direction:column; gap:12px}
-  .member{background:var(--panel-3); border:var(--border); border-radius:12px; padding:12px; display:flex; align-items:center; gap:12px}
+  .member{background:var(--panel-3); border:var(--border); border-radius:12px; padding:12px; display:flex; align-items:center; gap:12px; position:relative}
   .avatar{width:36px; height:36px; border-radius:50%; display:grid; place-items:center; font-weight:700; color:#111425; background:#c7d2fe}
   .score-badge{margin-left:auto; background:#0d1b14; color:#9af1bb; border:1px solid #193d2b; padding:4px 8px; border-radius:10px; font-size:12px}
+  .kick{position:absolute; top:8px; right:8px; width:24px; height:24px; border-radius:8px; border:var(--border); background:#0f1330; color:#cfd4ff; cursor:pointer}
 
-  /* Main */
   .main{background:var(--panel-2); border:var(--border); border-radius:var(--radius); padding:14px}
   .tabs{display:flex; gap:8px; flex-wrap:wrap}
-  .tab{padding:8px 12px; border-radius:10px; background:var(--panel-3); border:var(--border); color:#cbd1ff; cursor:pointer; user-select:none}
+  .tab{padding:8px 12px; border-radius:10px; background:var(--panel-3); border:var(--border); color:#cbd1ff; cursor:pointer; user-select:none; text-decoration:none}
   .tab.active, .tab:hover{outline:2px solid #2b335f}
 
   .filters{display:grid; grid-template-columns:1fr 180px 180px 180px 180px; gap:10px; margin:12px 0}
   @media (max-width:1100px){ .filters{grid-template-columns:1fr 1fr 1fr} }
   @media (max-width:680px){ .filters{grid-template-columns:1fr 1fr} }
-  .field, .select{
-    height:36px; border-radius:10px; background:#0e1228; border:var(--border); color:#dfe2ff; padding:0 12px; width:100%;
-  }
+  .field, .select{height:36px; border-radius:10px; background:#0e1228; border:var(--border); color:#dfe2ff; padding:0 12px; width:100%}
   input::placeholder{color:#6271a8}
 
-  /* Table list */
   .table{margin-top:8px; border-radius:12px; overflow:hidden; border:var(--border)}
   .rowi{display:grid; grid-template-columns:48px 1fr 220px 230px; gap:0; align-items:center; background:var(--panel-3); border-bottom:var(--border); padding:10px 12px}
   @media (max-width:980px){ .rowi{grid-template-columns:48px 1fr 200px} .meta{display:none} }
@@ -68,41 +56,10 @@
   .btn-sm{height:30px; padding:0 10px; border-radius:10px; border:var(--border); background:#0f1330; color:#eaefff; cursor:pointer}
   .btn-sm.primary{background:#1a255b}
   .btn-sm.good{background:#0f2a1c; border-color:#1f5236; color:#b7ffd0}
-  .btn-sm:hover{filter:brightness(1.08)}
+  .btn-sm.warn{background:#2a1010; border-color:#5b3030; color:#ffd2d2}
+  .btn-sm[disabled]{opacity:.5; cursor:default}
 
   .initial{width:36px; height:36px; border-radius:50%; display:grid; place-items:center; color:#0b0e1a; font-weight:800; background:#9fb4ff}
-
-  /* Modal Card */
-  .modal{position:fixed; inset:0; display:none; place-items:center; background:rgba(4,6,14,.6); z-index:100}
-  .modal.open{display:grid}
-  .card-wrap{width:520px; max-width:92vw; background:#0a0e22; border:var(--border); border-radius:14px; box-shadow:var(--shadow); position:relative; padding:20px}
-  .modal h4{margin:0 0 10px}
-  .close{position:absolute; top:10px; right:12px; background:#111735; border:var(--border); width:32px; height:32px; border-radius:8px; color:#cfd4ff; cursor:pointer}
-
-  .flip{
-    perspective:1000px; height:520px; position:relative;
-  }
-  .flip-inner{
-    position:absolute; inset:0; transition:transform .6s; transform-style:preserve-3d;
-  }
-  .flip.show-back{transform:rotateY(180deg)}
-  .face{position:absolute; inset:0; backface-visibility:hidden; background:#0e1228; border-radius:16px; padding:16px; border:var(--border)}
-  .back{transform:rotateY(180deg)}
-  .tip{margin-top:10px; color:#92a1d5; font-size:12px; text-align:center}
-
-  /* Front styling */
-  .topband{height:60px; border-radius:12px; background:linear-gradient(90deg,#7c89ff,#e35288); padding:10px 14px; color:#fff; display:flex; align-items:center; justify-content:space-between}
-  .portrait{margin:14px 0; height:300px; border-radius:12px; background:#0c0f23; border:var(--border); display:grid; place-items:center; overflow:hidden}
-  .ph{width:100%; height:100%; background:radial-gradient(80% 80% at 50% 30%, #2a335f, #0c1027)}
-  .name{font-size:22px; font-weight:800}
-  .meta-line{color:#aeb8ff; font-size:12px}
-
-  /* Back styling */
-  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px}
-  .tile{background:#0b1026; border:var(--border); border-radius:12px; padding:10px}
-  .k{font-size:11px; color:#8ea1d6}
-  .v{font-weight:700; margin-top:4px}
-  .badge{font-size:12px; color:#cfe1ff}
 </style>
 </head>
 <body>
@@ -115,7 +72,6 @@
   </div>
 
   <div class="shell">
-    <!-- Left rail -->
     <aside class="side">
       <div class="row">
         <h3>My Team</h3>
@@ -125,18 +81,16 @@
         <span class="pill">Roster • <span id="rostCount">0</span>/10</span>
         <span class="pill">Cap • <span id="capOk">OK</span></span>
       </div>
-
       <div id="teamList" class="list"></div>
     </aside>
 
-    <!-- Main -->
     <main class="main">
       <div class="tabs" role="tablist" aria-label="View">
-        <span class="tab">Scoreboard</span>
-        <span class="tab">Cards</span>
-        <span class="tab active">Votes</span>
+        <a class="tab" href="Scoreboard.html">Scoreboard</a>
+        <a class="tab" href="Cards.html">Cards</a>
+        <a class="tab" href="Votes.html">Votes</a>
         <span class="tab active">Draft</span>
-        <span class="tab">Rules</span>
+        <a class="tab" href="Rules.html">Rules</a>
         <span style="margin-left:auto" class="tab active">All</span>
         <span class="tab">Senate</span>
         <span class="tab">House</span>
@@ -152,7 +106,6 @@
         </select>
         <select id="state" class="select">
           <option value="">All States</option>
-          <!-- simple subset -->
           <option>TX</option><option>VT</option><option>MA</option>
         </select>
         <select id="avail" class="select">
@@ -171,101 +124,31 @@
     </main>
   </div>
 
-  <!-- Card Modal -->
-  <div id="modal" class="modal" aria-modal="true" role="dialog">
-    <div class="card-wrap">
-      <button class="close" id="closeBtn">✕</button>
-      <h4 id="cardTitle">CARD</h4>
-      <div class="flip" id="flip">
-        <div class="flip-inner" id="flipInner">
-          <!-- Front -->
-          <section class="face front">
-            <div class="topband">
-              <div>
-                <div style="font-weight:700; font-size:12px" id="frontChamber">UNITED STATES SENATE</div>
-                <div style="font-size:12px; opacity:.9">Topps-inspired (no branding)</div>
-              </div>
-              <div style="font-weight:800" id="frontState">TX</div>
-            </div>
-            <div class="portrait"><div class="ph" id="frontPhoto"></div></div>
-            <div class="name" id="frontName">NAME</div>
-            <div class="meta-line" id="frontMeta">Texas • Since 2013</div>
-            <div style="display:flex; justify-content:flex-end; margin-top:10px">
-              <span class="chip mono" id="frontScore">+000 pts</span>
-            </div>
-          </section>
-
-          <!-- Back -->
-          <section class="face back">
-            <div class="row" style="gap:10px">
-              <div style="font-weight:800" id="backName">NAME — Card</div>
-              <span class="chip mono" id="backId">ID: …</span>
-            </div>
-            <div class="grid2" style="margin-top:10px">
-              <div class="tile">
-                <div class="k">Tenure</div>
-                <div class="v" id="tenure">2013–Present</div>
-              </div>
-              <div class="tile">
-                <div class="k">Party/State</div>
-                <div class="v" id="partyState">R • TX</div>
-              </div>
-              <div class="tile">
-                <div class="k">Season Score</div>
-                <div class="v" id="seasonScore">+128</div>
-              </div>
-              <div class="tile">
-                <div class="k">Badges</div>
-                <div class="v badge" id="badges">Longest Tenure • Most Non-Votes</div>
-              </div>
-            </div>
-          </section>
-        </div>
-      </div>
-      <div class="tip">Tip: click or hover to flip the card.</div>
-    </div>
-  </div>
-
 <script>
-/* --- Data --- */
 const DATA = [
-  {
-    id:'SEN-TX-CRUZ', slug:'cruz', name:'Ted Cruz', initials:'TC',
-    chamber:'Senate', party:'R', state:'TX', since:2013,
-    adp:12, score:128, badges:['Longest Tenure','Most Non-Votes']
-  },
-  {
-    id:'SEN-VT-SANDERS', slug:'sanders', name:'Bernie Sanders', initials:'BS',
-    chamber:'Senate', party:'I', state:'VT', since:2007,
-    adp:8, score:117, badges:['Progressive Block','High Sponsor Count']
-  },
-  {
-    id:'SEN-MA-WARREN', slug:'warren', name:'Elizabeth Warren', initials:'EW',
-    chamber:'Senate', party:'D', state:'MA', since:2013,
-    adp:16, score:112, badges:['Committee Lead','Amendment Wins']
-  }
+  {id:'SEN-TX-CRUZ', slug:'cruz', name:'Ted Cruz', initials:'TC', chamber:'Senate', party:'R', state:'TX', since:2013, adp:12, score:128},
+  {id:'SEN-VT-SANDERS', slug:'sanders', name:'Bernie Sanders', initials:'BS', chamber:'Senate', party:'I', state:'VT', since:2007, adp:8, score:117},
+  {id:'SEN-MA-WARREN', slug:'warren', name:'Elizabeth Warren', initials:'EW', chamber:'Senate', party:'D', state:'MA', since:2013, adp:16, score:112},
 ];
 
-/* --- State --- */
 let team = [];
 const maxTeam = 10;
 
-/* --- Elements --- */
 const listEl = document.getElementById('list');
 const teamList = document.getElementById('teamList');
 const rostCount = document.getElementById('rostCount');
 
-/* --- Render list --- */
 function renderList(rows = DATA){
   listEl.innerHTML = '';
   rows.forEach(p=>{
+    const drafted = team.some(t=>t.id===p.id);
     const row = document.createElement('div');
     row.className = 'rowi';
     row.innerHTML = `
       <div><div class="initial">${p.initials}</div></div>
       <div>
         <div style="font-weight:700">${p.name}</div>
-        <div style="font-size:12px; color:#a9b5e8">${p.chamber === 'Senate' ? 'Senator' : 'Rep.'} • ${p.party} • ${p.state} • Since ${p.since}</div>
+        <div style="font-size:12px; color:#a9b5e8">${p.chamber==='Senate'?'Senator':'Rep.'} • ${p.party} • ${p.state} • Since ${p.since}</div>
       </div>
       <div class="meta">
         <span class="chip mono">ADP ${p.adp}</span>
@@ -273,18 +156,20 @@ function renderList(rows = DATA){
       </div>
       <div class="actionsRow">
         <button class="btn-sm" onclick="queuePlayer('${p.id}')">Queue</button>
-        <button class="btn-sm good" onclick="draftPlayer('${p.id}')">Draft</button>
-        <button class="btn-sm primary" onclick="openCard('${p.id}')">Card</button>
+        ${drafted
+          ? `<button class="btn-sm warn" onclick="removePlayer('${p.id}')">Remove</button>`
+          : `<button class="btn-sm good" onclick="draftPlayer('${p.id}')">Draft</button>`}
+        <button class="btn-sm primary" onclick="openCardPage('${p.id}')">Card</button>
       </div>`;
     listEl.appendChild(row);
   });
 }
 
-/* --- Team rail --- */
 function renderTeam(){
   rostCount.textContent = team.length;
   teamList.innerHTML = team.map(p=>`
     <div class="member">
+      <button class="kick" title="Remove" onclick="removePlayer('${p.id}')">✕</button>
       <div class="avatar">${p.initials}</div>
       <div>
         <div style="font-weight:700">${p.name}</div>
@@ -293,7 +178,9 @@ function renderTeam(){
       <span class="score-badge mono">+${p.score}</span>
     </div>
   `).join('');
+  applyFilters(); // refresh Draft/Remove buttons
 }
+
 function draftPlayer(id){
   if(team.length >= maxTeam) return alert('Roster full');
   const p = DATA.find(d=>d.id===id);
@@ -302,58 +189,23 @@ function draftPlayer(id){
   team.push(p);
   renderTeam();
 }
-function queuePlayer(id){
-  // placeholder for queue logic
-  alert('Queued: ' + id);
+function removePlayer(id){
+  team = team.filter(t=>t.id!==id);
+  renderTeam();
+}
+function queuePlayer(id){ alert('Queued: ' + id); }
+
+function openCardPage(id){
+  // opens Cards page focused on one card
+  window.location.href = `Cards.html?id=${encodeURIComponent(id)}#card`;
 }
 
-/* --- Card modal --- */
-const modal = document.getElementById('modal');
-const closeBtn = document.getElementById('closeBtn');
-const flipInner = document.getElementById('flipInner');
-
-function openCard(id){
-  const p = DATA.find(d=>d.id===id);
-  if(!p) return;
-
-  document.getElementById('cardTitle').textContent = `${p.name} — Card`;
-  document.getElementById('frontChamber').textContent = `UNITED STATES ${p.chamber.toUpperCase()}`;
-  document.getElementById('frontState').textContent = p.state;
-  document.getElementById('frontName').textContent = p.name;
-  document.getElementById('frontMeta').textContent = `${stateFull(p.state)} • Since ${p.since}`;
-  document.getElementById('frontScore').textContent = `+${p.score} pts`;
-
-  // simple initials portrait
-  const ph = document.getElementById('frontPhoto');
-  ph.innerHTML = `<div style="width:120px;height:120px;border-radius:50%;background:#98a8ff;display:grid;place-items:center;font-weight:900;color:#0b0e1a">${p.initials}</div>`;
-
-  document.getElementById('backName').textContent = p.name.toUpperCase();
-  document.getElementById('backId').textContent = `ID: ${p.id}`;
-  document.getElementById('tenure').textContent = `${p.since}–Present`;
-  document.getElementById('partyState').textContent = `${p.party} • ${p.state}`;
-  document.getElementById('seasonScore').textContent = `+${p.score}`;
-  document.getElementById('badges').textContent = p.badges.join(' • ');
-
-  flipInner.classList.remove('show-back');
-  modal.classList.add('open');
-}
-
-['#flip', '#flipInner'].forEach(sel=>{
-  document.querySelector(sel).addEventListener('click', ()=>flipInner.classList.toggle('show-back'));
-});
-closeBtn.addEventListener('click', ()=>modal.classList.remove('open'));
-modal.addEventListener('click', e=>{ if(e.target===modal) modal.classList.remove('open') });
-
-function stateFull(abbr){
-  const m={TX:'Texas',VT:'Vermont',MA:'Massachusetts'};
-  return m[abbr] || abbr;
-}
-
-/* --- Filters (client side demo) --- */
+/* filters */
 document.getElementById('search').addEventListener('input', applyFilters);
 document.getElementById('party').addEventListener('change', applyFilters);
 document.getElementById('state').addEventListener('change', applyFilters);
 document.getElementById('sort').addEventListener('change', applyFilters);
+
 function applyFilters(){
   const q = document.getElementById('search').value.toLowerCase();
   const party = document.getElementById('party').value;
@@ -374,7 +226,7 @@ function applyFilters(){
   renderList(rows);
 }
 
-/* --- Init --- */
+/* init */
 renderList();
 renderTeam();
 </script>
