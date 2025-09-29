@@ -86,11 +86,11 @@
 
     <main class="main">
       <div class="tabs" role="tablist" aria-label="View">
-        <a class="tab" href="Scoreboard.html">Scoreboard</a>
-        <a class="tab" href="Cards.html">Cards</a>
-        <a class="tab" href="Votes.html">Votes</a>
+        <a class="tab" href="scoreboard.html">Scoreboard</a>
+        <a class="tab" href="cards.html">Cards</a>
+        <a class="tab" href="votes.html">Votes</a>
         <span class="tab active">Draft</span>
-        <a class="tab" href="Rules.html">Rules</a>
+        <a class="tab" href="rules.html">Rules</a>
         <span style="margin-left:auto" class="tab active">All</span>
         <span class="tab">Senate</span>
         <span class="tab">House</span>
@@ -178,7 +178,7 @@ function renderTeam(){
       <span class="score-badge mono">+${p.score}</span>
     </div>
   `).join('');
-  applyFilters(); // refresh Draft/Remove buttons
+  applyFilters();
 }
 
 function draftPlayer(id){
@@ -196,8 +196,7 @@ function removePlayer(id){
 function queuePlayer(id){ alert('Queued: ' + id); }
 
 function openCardPage(id){
-  // opens Cards page focused on one card
-  window.location.href = `Cards.html?id=${encodeURIComponent(id)}#card`;
+  window.location.href = `cards.html?id=${encodeURIComponent(id)}#card`;
 }
 
 /* filters */
