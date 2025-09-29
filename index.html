@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Fantasy Politics — Scoreboard</title>
+<title>Capitol League — Scoreboard</title>
 
-<!-- Shared, consistent across all pages -->
+<!-- Shared assets (v2) -->
 <link rel="stylesheet" href="assets/shared.css">
 <script defer src="assets/shared.js"></script>
 
@@ -17,7 +17,7 @@
   body{margin:0;color:var(--text);background:linear-gradient(180deg,#0b0e1a,#0f1220);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial}
   a{color:inherit;text-decoration:none}
 
-  /* Page content area lives inside .cl-content from shared layout */
+  /* Page content lives inside .cl-content */
   .main{background:var(--panel);border:var(--border);border-radius:var(--radius);box-shadow:var(--shadow);min-width:0;display:grid;grid-template-rows:auto 1fr;min-height:calc(100vh - var(--nav-h) - 2*var(--gutter))}
   .main__toolbar{padding:14px;border-bottom:var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
   .toolbar-group{display:inline-flex;align-items:center;gap:8px;background:var(--panel-2);border:var(--border);border-radius:10px;padding:6px 8px}
@@ -66,12 +66,11 @@
 </style>
 </head>
 
-<!-- Mark active page for shared nav -->
 <body data-page="scoreboard">
-  <!-- Shared sticky nav will mount here -->
+  <!-- Shared sticky nav mounts here -->
   <div id="app-nav"></div>
 
-  <!-- Shared two-column shell. Left: My Team (auto-rendered). Right: page content -->
+  <!-- Shared shell: left My Team, right page content -->
   <div class="cl-shell">
     <aside id="my-team"></aside>
 
@@ -82,10 +81,10 @@
             <span class="label">View</span>
             <div class="segmented" role="tablist" aria-label="Primary views">
               <button class="active" aria-selected="true" role="tab">Scoreboard</button>
-              <button role="tab" title="Cards" onclick="location.href='cards.html'">cards</button>
-              <button role="tab" title="Votes" onclick="location.href='votes.html'">votes</button>
-              <button class="disabled" aria-disabled="true" role="tab" onclick="location.href='draft.html'">draft</button>
-              <button class="disabled" aria-disabled="true" role="tab" onclick="location.href='rules.html'">rules</button>
+              <button role="tab" title="Cards" onclick="location.href='cards.html'">Cards</button>
+              <button role="tab" title="Votes" onclick="location.href='votes.html'">Votes</button>
+              <button role="tab" onclick="location.href='draft.html'">draft</button>
+              <button role="tab" onclick="location.href='rules.html'">Rules</button>
             </div>
           </div>
           <div class="toolbar-group">
@@ -126,7 +125,7 @@
   </div>
 
 <script>
-/* Minimal mock; replace with real data files when ready */
+/* Minimal mock data; replace with real files later */
 const MOCK_SCORE = {
   team:[
     {id:"A1",name:"Alex Brewer",party:"D",state:"WI",initials:"AB",scores:{week:128,season:412,career:2011}},
@@ -171,7 +170,7 @@ function bindUI(){
 }
 
 function setScope(scope){
-  const total = SCORE.team.reduce((s,m)=>s+(m.scores?.[scope]??0),0);
+  const total = MOCK_SCORE.team.reduce((s,m)=>s+(m.scores?.[scope]??0),0);
   $('#scoreTotal').textContent = new Intl.NumberFormat().format(total);
   $('#scoreCaption').textContent = `Total points · ${scope[0].toUpperCase()+scope.slice(1)}`;
   $('#votesSection').style.display = scope==="career" ? "none" : "block";
@@ -180,7 +179,7 @@ function setScope(scope){
 
 function renderVotes(scope){
   const list = $('#votesList'); list.innerHTML='';
-  const rows = (VOTES?.[scope]||[]);
+  const rows = (MOCK_VOTES?.[scope]||[]);
   if(!rows.length){ list.innerHTML = '<div class="muted">No votes available.</div>'; return; }
   rows.forEach(v=> list.appendChild(voteCard(v)));
 }
