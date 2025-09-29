@@ -47,14 +47,13 @@
   input::placeholder{color:#6271a8}
 
   .table{margin-top:8px; border-radius:12px; overflow:hidden; border:var(--border)}
-  .rowi{display:grid; grid-template-columns:48px 1fr 220px 230px; gap:0; align-items:center; background:var(--panel-3); border-bottom:var(--border); padding:10px 12px}
+  .rowi{display:grid; grid-template-columns:48px 1fr 220px 150px; gap:0; align-items:center; background:var(--panel-3); border-bottom:var(--border); padding:10px 12px}
   @media (max-width:980px){ .rowi{grid-template-columns:48px 1fr 200px} .meta{display:none} }
   .rowi:hover{background:#202651}
   .mono{font-variant-numeric:tabular-nums}
   .chip{display:inline-flex; align-items:center; gap:6px; padding:3px 8px; border-radius:999px; background:#0e1534; border:1px solid #273067; color:#aeb8ff; font-size:12px}
   .actionsRow{display:flex; gap:8px; justify-content:flex-end}
   .btn-sm{height:30px; padding:0 10px; border-radius:10px; border:var(--border); background:#0f1330; color:#eaefff; cursor:pointer}
-  .btn-sm.primary{background:#1a255b}
   .btn-sm.good{background:#0f2a1c; border-color:#1f5236; color:#b7ffd0}
   .btn-sm.warn{background:#2a1010; border-color:#5b3030; color:#ffd2d2}
   .btn-sm[disabled]{opacity:.5; cursor:default}
@@ -86,11 +85,11 @@
 
     <main class="main">
       <div class="tabs" role="tablist" aria-label="View">
-        <a class="tab" href="scoreboard.html">Scoreboard</a>
-        <a class="tab" href="cards.html">Cards</a>
-        <a class="tab" href="votes.html">Votes</a>
+        <a class="tab" href="./scoreboard.html">Scoreboard</a>
+        <a class="tab" href="./cards.html">Cards</a>
+        <a class="tab" href="./votes.html">Votes</a>
         <span class="tab active">Draft</span>
-        <a class="tab" href="rules.html">Rules</a>
+        <a class="tab" href="./rules.html">Rules</a>
         <span style="margin-left:auto" class="tab active">All</span>
         <span class="tab">Senate</span>
         <span class="tab">House</span>
@@ -159,7 +158,6 @@ function renderList(rows = DATA){
         ${drafted
           ? `<button class="btn-sm warn" onclick="removePlayer('${p.id}')">Remove</button>`
           : `<button class="btn-sm good" onclick="draftPlayer('${p.id}')">Draft</button>`}
-        <button class="btn-sm primary" onclick="openCardPage('${p.id}')">Card</button>
       </div>`;
     listEl.appendChild(row);
   });
@@ -195,11 +193,6 @@ function removePlayer(id){
 }
 function queuePlayer(id){ alert('Queued: ' + id); }
 
-function openCardPage(id){
-  window.location.href = `cards.html?id=${encodeURIComponent(id)}#card`;
-}
-
-/* filters */
 document.getElementById('search').addEventListener('input', applyFilters);
 document.getElementById('party').addEventListener('change', applyFilters);
 document.getElementById('state').addEventListener('change', applyFilters);
@@ -225,7 +218,6 @@ function applyFilters(){
   renderList(rows);
 }
 
-/* init */
 renderList();
 renderTeam();
 </script>
