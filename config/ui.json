@@ -1,0 +1,6 @@
+<!-- FILE: /config/ui.json -->
+{
+"showTeamTab": true,
+"showCommissionerTab": false,
+"role": "player"
+}
