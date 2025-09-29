@@ -90,12 +90,6 @@
   <div id="list" class="votes"></div>
 </div>
 
-<!-- libs -->
-<script src="fp-shims.js"></script>
-<script src="fp-data.js"></script>
-<script src="fp-live.js"></script>
-
-<!-- page code -->
 <script>
 const $ = sel => document.querySelector(sel);
 const list = $('#list'), q = $('#q'), ch = $('#ch'), res = $('#res'), sortSel = $('#sort'), selected = $('#selected');
@@ -107,16 +101,16 @@ function renderVote(v){
   el.className = 'vote';
   el.id = 'vote-' + id;
 
-  const yeas = v.yeas ?? v.yes ?? v.ayes ?? v.yea ?? 0;
-  const nays = v.nays ?? v.no ?? v.nay ?? 0;
-  const chamber = (v.chamber || v.body || '').replace(/^[a-z]/, m=>m.toUpperCase());
+  const yeas = v.yes ?? v.yeas ?? 0;
+  const nays = v.no ?? v.nays ?? 0;
+  const chamber = (v.chamber || '').replace(/^[a-z]/, m=>m.toUpperCase());
   const date = v.date ? new Date(v.date) : null;
   const dateTxt = date ? date.toLocaleDateString(undefined, {month:'short', day:'numeric', year:'numeric'}) : '';
 
   el.innerHTML = `
     <header>
       <div>
-        <div class="bill">${v.bill_number || v.bill || v.title || 'Bill'}</div>
+        <div class="bill">${v.bill_number || v.title || 'Bill'}</div>
         <div class="meta">${chamber}${dateTxt ? ' · ' + dateTxt : ''}</div>
       </div>
       <div class="badges">
@@ -129,7 +123,7 @@ function renderVote(v){
         </div>
       </div>
     </header>
-    <div class="details hide">${v.summary || v.description || 'No summary available.'}</div>
+    <div class="details hide">${v.summary || 'No summary available.'}</div>
   `;
   el.addEventListener('click', e=>{
     if(e.target.matches('[data-toggle]')){
@@ -149,7 +143,7 @@ function applyFilters(all){
   const chamber = ch.value;
   const result = res.value;
   let rows = all.filter(v=>{
-    const t = (v.bill_number||v.bill||v.title||'').toLowerCase();
+    const t = (v.bill_number||v.title||'').toLowerCase();
     if(term && !t.includes(term)) return false;
     if(chamber && (v.chamber||'').toLowerCase() !== chamber.toLowerCase()) return false;
     if(result){
@@ -184,19 +178,30 @@ async function boot(){
   if(res.value) pills.push('Result: '+(res.value==='pass'?'Passed':'Failed'));
   selected.innerHTML = pills.map(x=>`<span class="badge">${x}</span>`).join('');
 
-  try{
-    const [sens, house, votes] = await Promise.all([
-      fpData.senators(), fpData.house(), fpData.votesLast30d()
-    ]);
-    hydrate(votes || []);
-  }catch(err){
-    const stub = [
-      {id:'hr-1234', bill_number:'H.R. 1234 — Infrastructure Investment and Resilience Act', chamber:'House', date:'2025-09-19', result:'Passed', yes:287, no:143, summary:'Funds bridges, rail, upgrades.'},
-      {id:'s-987', bill_number:'S. 987 — Fiscal Responsibility and Budget Reform', chamber:'Senate', date:'2025-09-14', result:'Failed', yes:49, no:51, summary:'Caps discretionary spending growth.'},
-      {id:'hr-2222', bill_number:'H.R. 2222 — Rural Healthcare Expansion Act', chamber:'House', date:'2025-08-05', result:'Passed', yes:298, no:128, summary:'Incentivizes clinic staffing.'}
-    ];
-    hydrate(stub);
-  }
+  const mock = [
+    {id:'hr-1001', bill_number:'H.R. 1001', title:'Infrastructure Investment and Jobs', chamber:'House',  date:'2025-09-24', result:'Passed', yes:321, no:109, summary:'Highways, bridges, broadband.'},
+    {id:'s-204',   bill_number:'S. 204',   title:'Climate Resilience Act',           chamber:'Senate', date:'2025-09-22', result:'Failed', yes:48,  no:52,  summary:'Renewables and coastal protection.'},
+    {id:'hr-1002', bill_number:'H.R. 1002', title:'Small Business Relief',           chamber:'House',  date:'2025-09-20', result:'Passed', yes:298, no:127, summary:'Tax credits and loans.'},
+    {id:'s-310',   bill_number:'S. 310',   title:'Supply Chain Security',            chamber:'Senate', date:'2025-09-18', result:'Passed', yes:74,  no:24,  summary:'Domestic manufacturing incentives.'},
+    {id:'hr-1003', bill_number:'H.R. 1003', title:'Rural Healthcare Expansion',      chamber:'House',  date:'2025-09-17', result:'Passed', yes:305, no:119, summary:'Clinics and telemedicine grants.'},
+    {id:'s-402',   bill_number:'S. 402',   title:'Fiscal Responsibility Reform',     chamber:'Senate', date:'2025-09-16', result:'Failed', yes:49,  no:51,  summary:'Spending caps and PAYGO.'},
+    {id:'hr-1004', bill_number:'H.R. 1004', title:'Veterans Housing Support',        chamber:'House',  date:'2025-09-15', result:'Passed', yes:330, no:94,  summary:'VA vouchers and rehab funds.'},
+    {id:'s-255',   bill_number:'S. 255',   title:'Data Privacy Standards',           chamber:'Senate', date:'2025-09-13', result:'Passed', yes:68,  no:30,  summary:'Uniform national privacy rules.'},
+    {id:'hr-1005', bill_number:'H.R. 1005', title:'Cybersecurity Modernization',     chamber:'House',  date:'2025-09-12', result:'Passed', yes:289, no:136, summary:'State and local cyber grants.'},
+    {id:'s-512',   bill_number:'S. 512',   title:'Public Lands Conservation',        chamber:'Senate', date:'2025-09-10', result:'Failed', yes:47,  no:53,  summary:'Trail and habitat funding.'},
+    {id:'hr-1006', bill_number:'H.R. 1006', title:'STEM Education Boost',            chamber:'House',  date:'2025-09-08', result:'Passed', yes:314, no:110, summary:'Scholarships and lab upgrades.'},
+    {id:'s-520',   bill_number:'S. 520',   title:'Transportation Safety Rules',      chamber:'Senate', date:'2025-09-06', result:'Passed', yes:72,  no:26,  summary:'Rail inspections and standards.'},
+    {id:'hr-1007', bill_number:'H.R. 1007', title:'Affordable Housing Tax Credit',   chamber:'House',  date:'2025-09-05', result:'Failed', yes:218, no:212, summary:'LIHTC expansion.'},
+    {id:'s-531',   bill_number:'S. 531',   title:'Semiconductor R&D Grants',         chamber:'Senate', date:'2025-09-03', result:'Passed', yes:76,  no:22,  summary:'Chip research funding.'},
+    {id:'hr-1008', bill_number:'H.R. 1008', title:'Opioid Response Enhancement',     chamber:'House',  date:'2025-09-02', result:'Passed', yes:338, no:86,  summary:'Treatment access and naloxone.'},
+    {id:'s-545',   bill_number:'S. 545',   title:'Farm Drought Assistance',          chamber:'Senate', date:'2025-08-30', result:'Failed', yes:50,  no:50,  summary:'Emergency water programs.'},
+    {id:'hr-1009', bill_number:'H.R. 1009', title:'AI Safety and Transparency',      chamber:'House',  date:'2025-08-28', result:'Passed', yes:284, no:141, summary:'Model reporting and audits.'},
+    {id:'s-560',   bill_number:'S. 560',   title:'Student Loan Refinancing',         chamber:'Senate', date:'2025-08-26', result:'Failed', yes:46,  no:54,  summary:'Rate caps and refinance window.'},
+    {id:'hr-1010', bill_number:'H.R. 1010', title:'Border Infrastructure Upgrade',   chamber:'House',  date:'2025-08-24', result:'Passed', yes:299, no:126, summary:'Ports of entry modernization.'},
+    {id:'s-575',   bill_number:'S. 575',   title:'Disaster Relief Supplemental',     chamber:'Senate', date:'2025-08-22', result:'Passed', yes:70,  no:28,  summary:'Hurricane and wildfire aid.'}
+  ];
+
+  hydrate(mock);
   deepLink();
 }
 
