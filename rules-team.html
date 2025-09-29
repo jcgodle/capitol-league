@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Fantasy Politics — Team</title>
+  <style>
+    :root{--nav-h:68px;--content-max:1320px;--gutter:20px;--gap:16px;--radius:14px;--panel:#171a2b;--panel-2:#1d2140;--text:#e7e9f4;--muted:#9aa1bd;--accent:#6ea8fe;--border:1px solid #2a315b;--chip:#0f1427;--chip-br:#2a315b;--bg:#0d1020;--shadow:0 8px 30px rgba(0,0,0,.35)}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    a{color:inherit;text-decoration:none}
+    .nav{position:sticky;top:0;z-index:50;height:var(--nav-h);display:flex;align-items:center;justify-content:center;background:rgba(10,12,24,.72);backdrop-filter:saturate(140%) blur(10px);border-bottom:var(--border)}
+    .nav-inner{width:100%;max-width:var(--content-max);display:flex;align-items:center;gap:12px;padding:0 var(--gutter)}
+    .brand{flex:0 0 auto;font-weight:700}
+    .brand span{color:var(--muted)}
+    .nav-tabs{margin:0 auto;display:flex;gap:8px}
+    .tab{padding:10px 14px;border:var(--border);border-radius:999px;background:var(--chip)}
+    .tab.active{border-color:#4b83ff;background:linear-gradient(180deg,#1c2446,#151a33)}
+    .right{display:flex;gap:8px}
+    .btn{padding:8px 12px;border-radius:10px;border:var(--border);background:var(--panel-2)}
+    .page{display:grid;grid-template-columns:280px 1fr;gap:var(--gap);width:100%;max-width:var(--content-max);margin:24px auto;padding:0 var(--gutter)}
+    .rail{position:sticky;top:calc(var(--nav-h)+16px);align-self:start;display:flex;flex-direction:column;gap:12px}
+    .rail .card{background:var(--panel);border:var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .rail .card h4{margin:10px 12px;color:var(--muted);font-weight:600}
+    .roster{padding:10px}
+    .leg{display:flex;align-items:center;justify-content:space-between;padding:10px;border-radius:12px;background:var(--chip);border:1px solid var(--chip-br);margin-bottom:8px}
+    .avatar{width:28px;height:28px;border-radius:50%;background:#334}
+    .badge{font-weight:700;font-size:12px;padding:4px 8px;border-radius:999px;background:#0c1226;border:1px solid #2d3563}
+    .content{display:flex;flex-direction:column;gap:16px}
+    .panel{background:var(--panel);border:var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .panel .hd{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:var(--border)}
+    .panel .bd{padding:16px 18px}
+    .subnav{display:flex;gap:6px;padding:8px;border:var(--border);background:var(--panel);border-radius:12px}
+    .subtab{padding:8px 12px;border-radius:999px;border:1px solid #2a315b;background:#0f1427}
+    .subtab.active{border-color:#4b83ff;background:linear-gradient(180deg,#1c2446,#151a33)}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    @media(max-width:900px){.grid{grid-template-columns:1fr}}
+    .row{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:12px;background:#0f1427;border:1px solid #2a315b}
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="brand">Fantasy <span>Politics</span></div>
+      <div class="nav-tabs">
+        <a class="tab" href="index.html">Scoreboard</a>
+        <a class="tab" href="cards.html">Cards</a>
+        <a class="tab" href="votes.html">Votes</a>
+        <a class="tab" href="draft.html">draft</a>
+        <a class="tab active" href="rules.html">Rules</a>
+      </div>
+      <div class="right"><a class="btn" href="#">Search</a><a class="btn" href="#">Login</a></div>
+    </div>
+  </nav>
+
+  <main class="page">
+    <aside class="rail">
+      <div class="card">
+        <h4>My Team</h4>
+        <div class="roster">
+          <div class="leg"><div style="display:flex;gap:10px;align-items:center"><div class="avatar"></div><div><div>Alex Brewer</div><div style="color:#9aa1bd">D • WI</div></div></div><div class="badge">+128</div></div>
+          <div class="leg"><div style="display:flex;gap:10px;align-items:center"><div class="avatar"></div><div><div>Casey Stone</div><div style="color:#9aa1bd">R • TX</div></div></div><div class="badge">+96</div></div>
+        </div>
+      </div>
+    </aside>
+
+    <section class="content">
+      <div class="subnav">
+        <a class="subtab" href="rules.html">Rules</a>
+        <a class="subtab active" href="rules-team.html">Team</a>
+        <a class="subtab" href="rules-admin.html">Commissioner</a>
+      </div>
+
+      <div class="panel">
+        <div class="hd"><div>League Players</div></div>
+        <div class="bd">
+          <div class="grid">
+            <div class="row"><div>Player: James</div><div class="badge">1st</div></div>
+            <div class="row"><div>Player: Sam</div><div class="badge">2nd</div></div>
+            <div class="row"><div>Player: Riley</div><div class="badge">3rd</div></div>
+            <div class="row"><div>Player: Casey</div><div class="badge">4th</div></div>
+          </div>
+          <div style="color:#9aa1bd;margin-top:10px">Replace with dynamic league roster when backend is ready.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
