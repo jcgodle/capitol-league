@@ -1,0 +1,50 @@
+:root{
+  --nav-h:68px;--content-max:1320px;--gap:16px;--radius:14px;
+  --panel:#171a2b;--panel-2:#1d2140;--text:#e7e9f4;--muted:#9aa1bd;
+  --accent:#6ea8fe;--border:1px solid #2a2f55;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#0f1220;color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+a{color:inherit;text-decoration:none}
+
+/* ====== NAV (Rules-page style) ====== */
+.cl-nav-wrap{position:sticky;top:0;z-index:1000;background:rgba(10,12,24,.92);backdrop-filter:saturate(140%) blur(6px);border-bottom:var(--border)}
+.cl-nav{height:var(--nav-h);max-width:var(--content-max);margin:0 auto;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;padding:0 16px}
+.cl-brand{font-weight:800;letter-spacing:.3px}
+.cl-brand i{color:#cfd6ff;font-style:normal}
+.cl-links{display:flex;justify-content:center;gap:12px}
+.cl-link{padding:10px 14px;border-radius:999px;border:1px solid #2b2f55;line-height:1;background:transparent}
+.cl-link:hover{background:rgba(255,255,255,.06)}
+.cl-link[aria-current="page"]{box-shadow:inset 0 0 0 1px #4f67c9, 0 0 0 1px #4f67c9}
+.cl-actions{justify-self:end;display:flex;gap:10px}
+.cl-cta{padding:10px 14px;border-radius:12px;background:#1b223f;border:1px solid #2b376b}
+.cl-cta:hover{background:#232c56}
+
+/* small screens */
+@media (max-width:840px){
+  .cl-nav{grid-template-columns:1fr auto 1fr}
+  .cl-brand{justify-self:start;font-size:14px}
+  .cl-link{padding:8px 10px;font-size:14px}
+  .cl-actions .cl-cta{padding:8px 10px;font-size:14px}
+}
+
+/* ====== MY TEAM PANEL ====== */
+.cl-shell{max-width:var(--content-max);margin:0 auto;padding:16px;display:grid;grid-template-columns:280px 1fr;gap:16px}
+@media (max-width:1080px){ .cl-shell{grid-template-columns:1fr} }
+.cl-team{position:sticky;top:calc(var(--nav-h) + 12px);align-self:start;background:var(--panel);border:var(--border);border-radius:16px;padding:12px}
+.cl-team h3{margin:4px 4px 8px;font-size:15px;color:#dfe5ff;font-weight:600;letter-spacing:.2px}
+.cl-team-actions{display:flex;gap:8px;flex-wrap:wrap;margin:8px 4px}
+.cl-btn{padding:8px 10px;border-radius:10px;border:1px solid #2b2f55;background:#1a1f3a;color:#eaeefe;cursor:pointer}
+.cl-btn:hover{background:#23294b}
+.cl-list{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.cl-card{display:flex;align-items:center;gap:10px;background:var(--panel-2);border:var(--border);border-radius:12px;padding:8px 10px}
+.cl-card img{width:36px;height:36px;border-radius:8px;object-fit:cover;border:1px solid #2a2f55}
+.cl-meta{display:flex;flex-direction:column;gap:2px}
+.cl-name{font-size:14px;font-weight:600}
+.cl-sub{font-size:12px;color:var(--muted)}
+.cl-spacer{flex:1}
+.cl-x{border:1px solid #3a4374;background:#252b51;border-radius:10px;padding:6px 8px;cursor:pointer}
+.cl-empty{color:var(--muted);font-size:13px;padding:8px 4px}
+
+/* optional content area */
+.cl-content{min-height:40vh;background:transparent}
