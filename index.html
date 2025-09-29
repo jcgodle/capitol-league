@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Capitol League — Scoreboard</title>
 
-<!-- Shared assets (v2) -->
-<link rel="stylesheet" href="assets/shared.css">
-<script defer src="assets/shared.js"></script>
+<!-- Shared assets in repo root -->
+<link rel="stylesheet" href="shared.css?v=2">
+<script defer src="shared.js?v=2"></script>
 
 <style>
   :root{--nav-h:68px;--content-max:1320px;--gutter:20px;--gap:20px;--radius:14px;
@@ -125,7 +125,7 @@
   </div>
 
 <script>
-/* Minimal mock data; replace with real files later */
+/* Mock data; replace later */
 const MOCK_SCORE = {
   team:[
     {id:"A1",name:"Alex Brewer",party:"D",state:"WI",initials:"AB",scores:{week:128,season:412,career:2011}},
@@ -144,15 +144,11 @@ const MOCK_VOTES = {
   season:[]
 };
 
-let SCORE = null, VOTES = null, SCOPE = "week";
-
+let SCOPE = "week";
 const $ = s=>document.querySelector(s);
-function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
 
 init();
-async function init(){
-  SCORE = MOCK_SCORE;
-  VOTES = MOCK_VOTES;
+function init(){
   setScope(SCOPE);
   bindUI();
 }
@@ -212,7 +208,7 @@ function voteCard(v){
           <div class="kv"><b>Bill Number</b><span>${esc(v.bill_number||'-')}</span></div>
           <div class="kv"><b>Result</b><span>${passed?'Passed':'Failed'} (${yeas}–${nays})</span></div>
           <div class="kv"><b>Chamber</b><span>${esc(chamber||'-')}</span></div>
-          <div class="kv"><b>Date</b><span>${dateTxt||'-'}</span></div>
+          <div class="kv"><b>Date</b><span>${dateTxt||'-')}</span></div>
         </div>
         <div class="party-legend">
           <span><i style="background:#b24a4a"></i>R</span>
@@ -251,6 +247,8 @@ function voteCard(v){
   });
   return el;
 }
+
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
 </script>
 </body>
 </html>
