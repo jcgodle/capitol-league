@@ -85,14 +85,15 @@
 
     <main class="main">
       <div class="tabs" role="tablist" aria-label="View">
-        <a class="tab" href="./index.html">Scoreboard</a>
+        <a class="tab" href="./">Scoreboard</a>
         <a class="tab" href="./cards.html">Cards</a>
         <a class="tab" href="./votes.html">Votes</a>
         <span class="tab active">Draft</span>
         <a class="tab" href="./rules.html">Rules</a>
-        <span style="margin-left:auto" class="tab active">All</span>
-        <span class="tab">Senate</span>
-        <span class="tab">House</span>
+
+        <span style="margin-left:auto" class="tab chamber active" data-chamber="All">All</span>
+        <span class="tab chamber" data-chamber="Senate">Senate</span>
+        <span class="tab chamber" data-chamber="House">House</span>
       </div>
 
       <div class="filters">
@@ -124,10 +125,12 @@
   </div>
 
 <script>
+/* Demo data */
 const DATA = [
   {id:'SEN-TX-CRUZ', slug:'cruz', name:'Ted Cruz', initials:'TC', chamber:'Senate', party:'R', state:'TX', since:2013, adp:12, score:128},
   {id:'SEN-VT-SANDERS', slug:'sanders', name:'Bernie Sanders', initials:'BS', chamber:'Senate', party:'I', state:'VT', since:2007, adp:8, score:117},
   {id:'SEN-MA-WARREN', slug:'warren', name:'Elizabeth Warren', initials:'EW', chamber:'Senate', party:'D', state:'MA', since:2013, adp:16, score:112},
+  {id:'HOU-TX-SAMPLED', slug:'sampled', name:'Dana Sample', initials:'DS', chamber:'House', party:'R', state:'TX', since:2021, adp:44, score:76}
 ];
 
 let team = [];
@@ -137,6 +140,18 @@ const listEl = document.getElementById('list');
 const teamList = document.getElementById('teamList');
 const rostCount = document.getElementById('rostCount');
 
+/* Chamber tab state */
+let chamber = 'All';
+document.querySelectorAll('.tab.chamber').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab.chamber').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    chamber = btn.dataset.chamber;
+    applyFilters();
+  });
+});
+
+/* Render rows */
 function renderList(rows = DATA){
   listEl.innerHTML = '';
   rows.forEach(p=>{
@@ -163,6 +178,7 @@ function renderList(rows = DATA){
   });
 }
 
+/* Team rail */
 function renderTeam(){
   rostCount.textContent = team.length;
   teamList.innerHTML = team.map(p=>`
@@ -176,7 +192,7 @@ function renderTeam(){
       <span class="score-badge mono">+${p.score}</span>
     </div>
   `).join('');
-  applyFilters();
+  applyFilters(); // refresh buttons
 }
 
 function draftPlayer(id){
@@ -193,11 +209,13 @@ function removePlayer(id){
 }
 function queuePlayer(id){ alert('Queued: ' + id); }
 
+/* Filter bindings */
 document.getElementById('search').addEventListener('input', applyFilters);
 document.getElementById('party').addEventListener('change', applyFilters);
 document.getElementById('state').addEventListener('change', applyFilters);
 document.getElementById('sort').addEventListener('change', applyFilters);
 
+/* Filter logic */
 function applyFilters(){
   const q = document.getElementById('search').value.toLowerCase();
   const party = document.getElementById('party').value;
@@ -208,7 +226,8 @@ function applyFilters(){
     const hit = p.name.toLowerCase().includes(q) || p.state.toLowerCase().includes(q) || p.party.toLowerCase().includes(q);
     const partyOk = !party || p.party===party;
     const stateOk = !st || p.state===st;
-    return hit && partyOk && stateOk;
+    const chamberOk = chamber==='All' || p.chamber===chamber;
+    return hit && partyOk && stateOk && chamberOk;
   });
 
   if(sort==='adp') rows.sort((a,b)=>a.adp-b.adp);
@@ -218,6 +237,7 @@ function applyFilters(){
   renderList(rows);
 }
 
+/* Init */
 renderList();
 renderTeam();
 </script>
