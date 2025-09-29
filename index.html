@@ -16,7 +16,6 @@
   body{margin:0;color:var(--text);background:linear-gradient(180deg,#0b0e1a,#0f1220);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial}
   a{color:inherit;text-decoration:none}
 
-  /* Page content lives inside .cl-content */
   .main{background:var(--panel);border:var(--border);border-radius:var(--radius);box-shadow:var(--shadow);min-width:0;display:grid;grid-template-rows:auto 1fr;min-height:calc(100vh - var(--nav-h) - 2*var(--gutter))}
   .main__toolbar{padding:14px;border-bottom:var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
   .toolbar-group{display:inline-flex;align-items:center;gap:8px;background:var(--panel-2);border:var(--border);border-radius:10px;padding:6px 8px}
@@ -29,12 +28,8 @@
   .section{background:#151934;border:var(--border);border-radius:12px;padding:16px;margin-bottom:16px}
   .h1{font-size:22px;font-weight:800;margin:0 0 8px}
   .muted{color:var(--muted)}
-
-  /* Score total */
   .scorebox{height:220px;background:#10152c;border:var(--border);border-radius:12px;display:grid;place-items:center;text-align:center}
   .scorebox .big{font-size:56px;font-weight:900;letter-spacing:.5px}
-
-  /* Votes accordion */
   .votes{display:flex;flex-direction:column;gap:10px}
   .vote{background:#111634;border:var(--border);border-radius:12px;overflow:hidden}
   .vote header{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 14px;cursor:pointer}
@@ -65,16 +60,12 @@
 </head>
 
 <body data-page="scoreboard">
-  <!-- shared nav mounts here -->
   <div id="app-nav"></div>
-
-  <!-- shared shell -->
   <div class="cl-shell">
     <aside id="my-team"></aside>
     <main class="cl-content">
       <div class="main" id="main">
         <div class="main__toolbar">
-          <!-- remove duplicate page navigation to avoid two navs -->
           <div class="toolbar-group">
             <span class="label">Scope</span>
             <div class="segmented" id="scopeTabs" role="tablist" aria-label="Scope">
@@ -113,25 +104,26 @@
   </div>
 
 <script>
-/* Sample data */
-const SAMPLE_TEAM = [
+/* ===== Sample Data ===== */
+const TEAM = [
   {id:"A1",name:"Alex Brewer",party:"D",state:"WI",initials:"AB",scores:{week:128,season:412,career:2011}},
   {id:"B2",name:"Casey Stone",party:"R",state:"TX",initials:"CS",scores:{week:96,season:305,career:1540}},
   {id:"C3",name:"Jordan Moss",party:"I",state:"VT",initials:"JM",scores:{week:77,season:221,career:1204}},
   {id:"D4",name:"Lena Kay",party:"D",state:"CA",initials:"LK",scores:{week:71,season:190,career:1002}},
   {id:"E5",name:"Ray Boone",party:"R",state:"OH",initials:"RB",scores:{week:64,season:178,career:954}}
 ];
-const SAMPLE_VOTES = {
+const VOTES = {
   week:[
-    {id:'s-575', roll:'575', bill_number:'S. 575', title:'Disaster Relief Supplemental', chamber:'Senate', date:'2025-08-22', result:'Passed', yes:70, no:28, summary:'Hurricane and wildfire aid.'},
+    {id:'s-575', bill_number:'S. 575', title:'Disaster Relief Supplemental', chamber:'Senate', date:'2025-08-22', result:'Passed', yes:70, no:28, summary:'Hurricane and wildfire aid.'},
     {id:'hr-1010', bill_number:'H.R. 1010', title:'Border Infrastructure Upgrade', chamber:'House', date:'2025-08-24', result:'Passed', yes:299, no:126, summary:'Ports of entry modernization.'},
     {id:'s-560', bill_number:'S. 560', title:'Student Loan Refinancing', chamber:'Senate', date:'2025-08-26', result:'Failed', yes:46, no:54, summary:'Rate caps and refinance window.'}
   ],
   season:[]
 };
 
+/* ===== Page Logic ===== */
 let SCOPE = "week";
-const $ = s=>document.querySelector(s);
+const $ = s => document.querySelector(s);
 
 document.addEventListener("DOMContentLoaded", () => {
   bindUI();
@@ -140,22 +132,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function bindUI(){
   const tabs = $('#scopeTabs');
-  if(tabs){
-    tabs.addEventListener('click', e=>{
-      const btn = e.target.closest('button[data-scope]'); if(!btn) return;
-      SCOPE = btn.dataset.scope;
-      Array.from(tabs.querySelectorAll('button')).forEach(b=>b.classList.toggle('active', b===btn));
-      btn.setAttribute('aria-selected','true');
-      setScope(SCOPE);
-    });
-  }
-  $('#partyBtn')?.addEventListener('click', ()=>alert('Party filter coming soon'));
-  $('#stateBtn')?.addEventListener('click', ()=>alert('State filter coming soon'));
-  $('#badgesBtn')?.addEventListener('click', ()=>alert('Badges filter coming soon'));
+  tabs.addEventListener('click', e=>{
+    const btn = e.target.closest('button[data-scope]'); if(!btn) return;
+    SCOPE = btn.dataset.scope;
+    [...tabs.querySelectorAll('button')].forEach(b=>b.classList.toggle('active', b===btn));
+    setScope(SCOPE);
+  });
+  $('#partyBtn').onclick = () => alert('Party filter coming soon');
+  $('#stateBtn').onclick  = () => alert('State filter coming soon');
+  $('#badgesBtn').onclick = () => alert('Badges filter coming soon');
 }
 
 function setScope(scope){
-  const total = SAMPLE_TEAM.reduce((s,m)=>s+(m.scores?.[scope]??0),0);
+  const total = TEAM.reduce((s,m)=> s + (m.scores?.[scope] ?? 0), 0);
   $('#scoreTotal').textContent = new Intl.NumberFormat().format(total);
   $('#scoreCaption').textContent = `Total points · ${cap(scope)}`;
   $('#votesSection').style.display = scope==="career" ? "none" : "block";
@@ -164,9 +153,9 @@ function setScope(scope){
 
 function renderVotes(scope){
   const list = $('#votesList'); list.innerHTML='';
-  const rows = (SAMPLE_VOTES?.[scope]||[]);
+  const rows = VOTES[scope] || [];
   if(!rows.length){ list.innerHTML = '<div class="muted">No votes available.</div>'; return; }
-  rows.forEach(v=> list.appendChild(voteCard(v)));
+  rows.forEach(v => list.appendChild(voteCard(v)));
 }
 
 function voteCard(v){
