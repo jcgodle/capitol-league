@@ -5,28 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Fantasy Politics — Commissioner</title>
   <style>
-    :root{--nav-h:68px;--content-max:1320px;--gutter:20px;--gap:16px;--radius:14px;--panel:#171a2b;--panel-2:#1d2140;--text:#e7e9f4;--muted:#9aa1bd;--accent:#6ea8fe;--border:1px solid #2a315b;--chip:#0f1427;--bg:#0d1020}
+    :root{
+      --nav-h:68px;--content-max:1320px;--gutter:20px;--gap:16px;--radius:14px;
+      --panel:#171a2b;--panel-2:#1d2140;--text:#e7e9f4;--muted:#9aa1bd;
+      --accent:#6ea8fe;--border:1px solid #2a315b;--chip:#0f1427;--chip-br:#2a315b;
+      --bg:#0d1020;--shadow:0 8px 30px rgba(0,0,0,.35)
+    }
     html,body{height:100%}
     body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
     a{color:inherit;text-decoration:none}
+
+    /* Global nav */
     .nav{position:sticky;top:0;z-index:50;height:var(--nav-h);display:flex;align-items:center;justify-content:center;background:rgba(10,12,24,.72);backdrop-filter:saturate(140%) blur(10px);border-bottom:var(--border)}
     .nav-inner{width:100%;max-width:var(--content-max);display:flex;align-items:center;gap:12px;padding:0 var(--gutter)}
-    .brand{flex:0 0 auto;font-weight:700}
+    .brand{font-weight:700}
     .brand span{color:var(--muted)}
     .nav-tabs{margin:0 auto;display:flex;gap:8px}
     .tab{padding:10px 14px;border:var(--border);border-radius:999px;background:#0f1427}
     .tab.active{border-color:#4b83ff;background:linear-gradient(180deg,#1c2446,#151a33)}
     .right{display:flex;gap:8px}
-    .btn{padding:8px 12px;border-radius:10px;border:var(--border);background:var(--panel-2)}
-    .page{display:grid;grid-template-columns:280px 1fr;gap:16px;max-width:1320px;margin:24px auto;padding:0 20px}
+    .btn{padding:8px 12px;border-radius:10px;border:var(--border);background:var(--panel-2);cursor:pointer}
+
+    /* Page layout */
+    .page{display:grid;grid-template-columns:280px 1fr;gap:var(--gap);max-width:var(--content-max);margin:24px auto;padding:0 var(--gutter)}
     .rail{position:sticky;top:calc(var(--nav-h)+16px)}
     .content{display:flex;flex-direction:column;gap:16px}
-    .panel{background:var(--panel);border:var(--border);border-radius:14px}
+    .panel{background:var(--panel);border:var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
     .panel .hd{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:var(--border)}
     .panel .bd{padding:16px 18px}
+
+    /* Sub-nav */
     .subnav{display:flex;gap:6px;padding:8px;border:var(--border);background:var(--panel);border-radius:12px}
     .subtab{padding:8px 12px;border-radius:999px;border:1px solid #2a315b;background:#0f1427}
     .subtab.active{border-color:#4b83ff;background:linear-gradient(180deg,#1c2446,#151a33)}
+
+    /* Form controls */
+    .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    @media(max-width:1100px){.page{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}}
+    .row{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:12px;background:#0f1427;border:1px solid #2a315b}
+    label{color:var(--muted)}
+    input[type="number"],input[type="text"],select{background:#0c1226;border:1px solid #2a315b;border-radius:10px;color:var(--text);padding:8px 10px;min-width:110px}
+    input[type="checkbox"]{transform:scale(1.1)}
+    .hint{color:var(--muted);font-size:12px}
+
+    /* Calculator */
+    .calc{display:grid;grid-template-columns:1fr 320px;gap:16px}
+    @media(max-width:980px){.calc{grid-template-columns:1fr}}
+    .summary .row{background:#10162a}
+
+    /* Save bar */
+    .savebar{position:sticky;bottom:0;display:flex;justify-content:flex-end;gap:10px;padding:12px;background:rgba(13,16,32,.85);backdrop-filter:blur(8px);border-top:var(--border)}
+    .primary{background:#2a4bff;border:1px solid #3c5aff;color:#fff}
   </style>
 </head>
 <body>
@@ -40,12 +69,13 @@
         <a class="tab" href="draft.html">draft</a>
         <a class="tab active" href="rules.html">Rules</a>
       </div>
-      <div class="right"><a class="btn" href="#">Search</a><a class="btn" href="#">Login</a></div>
+      <div class="right"><a class="btn" href="#">Search</a><a class="btn" href="#">Logout</a></div>
     </div>
   </nav>
 
   <main class="page">
     <aside class="rail"></aside>
+
     <section class="content">
       <div class="subnav">
         <a class="subtab" href="rules.html">Rules</a>
@@ -53,17 +83,149 @@
         <a class="subtab active" href="rules-admin.html">Commissioner</a>
       </div>
 
+      <!-- Commissioner header -->
       <div class="panel">
-        <div class="hd"><div>Commissioner Dashboard</div></div>
-        <div class="bd">
-          <p>This page is a placeholder. Link to your locked admin dashboard or keep this as a login gate.</p>
-          <ul>
-            <li><a href="rules-admin-view.html">Open Admin Settings (legacy prototype)</a></li>
-            <li><a href="rules.html">Back to Rules</a></li>
-          </ul>
+        <div class="hd"><div>Commissioner Dashboard</div><div class="hint">Edit scoring and safeguards. Save writes to your backend later.</div></div>
+        <div class="bd">These controls mirror what the player page displays. No player editing here.</div>
+      </div>
+
+      <!-- Baseline Scoring -->
+      <div class="panel">
+        <div class="hd"><div>Baseline Scoring</div></div>
+        <div class="bd grid2">
+          <div class="row"><label>Core vote points</label><input type="number" id="p_core" value="10"></div>
+          <div class="row"><label>Missed vote penalty</label><input type="number" id="p_missed" value="-5"></div>
+          <div class="row"><label>Streak per 10 votes</label><input type="number" id="p_streak" value="20"></div>
+          <div class="row"><label>Perfect week bonus</label><input type="number" id="p_perfect" value="50"></div>
+          <div class="row"><label>Bipartisan bonus</label><input type="number" id="p_bipartisan" value="25"></div>
+          <div class="row"><label>Missed key vote penalty</label><input type="number" id="p_keymiss" value="-25"></div>
         </div>
+      </div>
+
+      <!-- Options & Safeguards -->
+      <div class="panel">
+        <div class="hd"><div>Options & Safeguards</div></div>
+        <div class="bd grid2">
+          <div class="row"><label><input type="checkbox" id="opt_keymult"> Key-vote multiplier ×2</label></div>
+          <div class="row"><label><input type="checkbox" id="opt_dimreturns" checked> Streak diminishing returns</label><span class="hint">Second 10-vote streak = +15</span></div>
+          <div class="row"><label><input type="checkbox" id="opt_partyline"> Party-line penalty</label><span class="hint">−10 if 100% with ≥6 eligible</span></div>
+          <div class="row"><label>Bipartisan weekly cap</label><input type="number" id="cap_bip_week" value="50"></div>
+          <div class="row"><label>Per-week core cap</label><input type="number" id="cap_core_week" value="200"></div>
+          <div class="row"><label>Bipartisan majority threshold %</label><input type="number" id="thr_bip" value="55"></div>
+        </div>
+      </div>
+
+      <!-- Weekly Score Calculator -->
+      <div class="panel" id="calc">
+        <div class="hd">
+          <div>Weekly Score Calculator</div>
+          <div>
+            <button class="btn" onclick="recalc()">Recalculate</button>
+          </div>
+        </div>
+        <div class="bd calc">
+          <div>
+            <div class="row"><label>Yes votes</label><input type="number" id="in_yes" value="8"></div>
+            <div class="row"><label>No votes</label><input type="number" id="in_no" value="2"></div>
+            <div class="row"><label>Missed votes</label><input type="number" id="in_missed" value="1"></div>
+            <div class="row"><label>Key votes cast</label><input type="number" id="in_keycast" value="0"></div>
+            <div class="row"><label>Bipartisan votes</label><input type="number" id="in_bipvotes" value="0"></div>
+            <div class="row"><label>10-vote streak bundles</label><input type="number" id="in_streaks" value="1"></div>
+            <div class="row"><label>Perfect attendance?</label>
+              <select id="in_perf"><option value="yes" selected>Yes</option><option>No</option></select></div>
+            <div class="row"><label>Party-line 100%?</label>
+              <select id="in_party"><option>No</option><option>Yes</option></select></div>
+            <div class="row"><label>Eligible votes</label><input type="number" id="in_eligible" value="11"></div>
+          </div>
+          <div id="out" class="summary"></div>
+        </div>
+      </div>
+
+      <!-- Season Badges -->
+      <div class="panel">
+        <div class="hd"><div>Season Badges</div></div>
+        <div class="bd grid2">
+          <div class="row"><label>Ironman badge</label><input type="number" id="p_iron" value="100"></div>
+          <div class="row"><label>Ghost badge</label><input type="number" id="p_ghost" value="-100"></div>
+          <div class="row"><label>Wild Card badge</label><input type="number" id="p_wild" value="50"></div>
+        </div>
+      </div>
+
+      <!-- Save bar -->
+      <div class="savebar">
+        <button class="btn" onclick="location.href='rules.html'">View Public Rules</button>
+        <button class="btn primary" id="save">Save Settings</button>
       </div>
     </section>
   </main>
+
+  <script>
+    function val(id){ return Number(document.getElementById(id).value||0); }
+
+    function recalc(){
+      const yes=val('in_yes'), no=val('in_no'), missed=val('in_missed');
+      const keycast=val('in_keycast'), bip=val('in_bipvotes'), streaks=val('in_streaks');
+      const perf=document.getElementById('in_perf').value==='yes';
+      const party100=document.getElementById('in_party').value==='Yes';
+
+      const core=val('p_core'), penMiss=val('p_missed'), pStreak=val('p_streak');
+      const pPerfect=val('p_perfect'), pBip=val('p_bipartisan');
+
+      const keyMult=document.getElementById('opt_keymult').checked;
+      const dimRet=document.getElementById('opt_dimreturns').checked;
+      const partyPen=document.getElementById('opt_partyline').checked;
+
+      const capBip=val('cap_bip_week');
+      const capCore=val('cap_core_week');
+
+      const coreVotesRaw=(yes+no)*core;
+      const missedPts=missed*penMiss;
+      const keyPts=keyMult? keycast*core : 0;
+
+      let streakPts=0;
+      if(streaks>0){
+        streakPts += pStreak;                // first 10-vote bundle
+        if(dimRet && streaks>1){             // extra bundles at +15 each
+          streakPts += (streaks-1)*15;
+        } else if(!dimRet){                  // all bundles same value
+          streakPts += (streaks-1)*pStreak;
+        }
+      }
+
+      const perfectPts=perf ? pPerfect : 0;
+      let bipPts=Math.min(bip*pBip, capBip);
+      let partyLine = party100 && partyPen ? -10 : 0;
+
+      // weekly core cap: cap at capCore, excess votes worth +1 each
+      const coreCapped = Math.min(coreVotesRaw, capCore) + Math.max(0, coreVotesRaw - capCore)*1;
+      const capAdj = coreCapped - coreVotesRaw;
+
+      const total = coreVotesRaw + missedPts + keyPts + streakPts + perfectPts + bipPts + partyLine + capAdj;
+
+      const rows = [
+        ['Core votes (+'+core+' each)', coreVotesRaw],
+        ['Missed votes ('+penMiss+' each)', missedPts],
+        ['Key-vote multiplier', keyPts],
+        ['Streaks', streakPts],
+        ['Perfect attendance', perfectPts],
+        ['Bipartisan bonus', bipPts],
+        ['Party-line penalty', partyLine],
+        ['Weekly cap adjustment', capAdj],
+        ['Total', total, true]
+      ];
+
+      const fmt = (n)=> (n>=0? '+'+n : ''+n);
+      const html = rows.map(([k,v,bold]) =>
+        `<div class="row" style="${bold?'font-weight:700':''}"><div>${k}</div><div>${fmt(v)}</div></div>`
+      ).join('');
+      document.getElementById('out').innerHTML = html;
+    }
+    recalc();
+
+    document.getElementById('save').addEventListener('click',()=>{
+      // Placeholder: replace with PUT/POST to your API or commit to GitHub JSON
+      alert('Settings saved (placeholder). Wire this button to your backend.');
+    });
+  </script>
 </body>
 </html>
