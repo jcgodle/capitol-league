@@ -1,4 +1,4 @@
-// Sample data
+// ----- sample data -----
 const TEAM = [
   {id:"A1",name:"Alex Brewer",party:"D",state:"WI",initials:"AB",scores:{week:128,season:412,career:2011}},
   {id:"B2",name:"Casey Stone",party:"R",state:"TX",initials:"CS",scores:{week:96,season:305,career:1540}},
@@ -15,6 +15,7 @@ const VOTES = {
   season:[]
 };
 
+// ----- page logic -----
 let SCOPE = "week";
 const $ = s => document.querySelector(s);
 const esc = s => String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -59,7 +60,6 @@ function voteCard(v){
   const yeas = v.yes ?? v.yeas ?? 0, nays = v.no ?? v.nays ?? 0;
   const dateTxt = v.date ? new Date(v.date).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}) : '';
   const chamber = (v.chamber||'').replace(/^[a-z]/,m=>m.toUpperCase());
-
   const el = document.createElement('article');
   el.className='vote'; el.id='vote-'+id;
   el.innerHTML = `
@@ -105,8 +105,7 @@ function voteCard(v){
           <button class="tool" onclick="location.href='votes.html'">Open in Votes</button>
         </div>
       </aside>
-    </div>
-  `;
+    </div>`;
   el.querySelector('header').addEventListener('click', ()=>{
     document.querySelectorAll('.vote.open').forEach(n=>{ if(n!==el) n.classList.remove('open'); });
     el.classList.toggle('open');
