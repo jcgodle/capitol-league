@@ -45,6 +45,7 @@
     .subnav{display:flex;gap:6px;padding:8px;border:var(--border);background:var(--panel);border-radius:12px}
     .subtab{padding:8px 12px;border-radius:999px;border:1px solid #2a315b;background:#0f1427}
     .subtab.active{border-color:#4b83ff;background:linear-gradient(180deg,#1c2446,#151a33)}
+    .hide{display:none}
   </style>
 </head>
 <body>
@@ -82,9 +83,9 @@
     <section class="content">
       <!-- Local sub-nav within Rules section -->
       <div class="subnav">
-        <a class="subtab active" href="rules.html">Rules</a>
-        <a class="subtab" href="rules-team.html">Team</a>
-        <a class="subtab" href="rules-admin.html">Commissioner</a>
+        <a id="tab-rules" class="subtab active" href="rules.html">Rules</a>
+        <a id="tab-team" class="subtab" href="rules-team.html">Team</a>
+        <a id="tab-commish" class="subtab hide" href="rules-admin.html">Commissioner</a>
       </div>
 
       <!-- Rules panels -->
@@ -128,6 +129,25 @@
       </div>
     </section>
   </main>
+
+  <!-- Config-driven tab visibility -->
+  <script>
+  (async function(){
+    const elTeam = document.getElementById('tab-team');
+    const elComm = document.getElementById('tab-commish');
+    try {
+      const res = await fetch('./config/ui.json', {cache:'no-store'});
+      if(!res.ok) throw new Error('cfg');
+      const cfg = await res.json();
+      if(cfg && cfg.showTeamTab === false) elTeam?.classList.add('hide');
+      if(cfg && cfg.showCommissionerTab === true && cfg.role === 'commissioner'){
+        elComm?.classList.remove('hide');
+      }
+    } catch(e){
+      // Default public: team visible, commissioner hidden (already hidden via .hide)
+    }
+  })();
+  </script>
 </body>
 </html>
 
@@ -294,3 +314,11 @@
   </main>
 </body>
 </html>
+
+
+<!-- FILE: /config/ui.json -->
+{
+  "showTeamTab": true,
+  "showCommissionerTab": false,
+  "role": "player"
+}
