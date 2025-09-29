@@ -21,23 +21,24 @@ const $ = s => document.querySelector(s);
 const esc = s => String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const cap = s => s.charAt(0).toUpperCase()+s.slice(1);
 
-document.addEventListener("DOMContentLoaded", () => {
-  bindUI();
-  setScope(SCOPE);
-});
-
-function bindUI(){
+function boot(){
   const tabs = $('#scopeTabs');
+  if(!tabs) return; // page not ready yet
   tabs.addEventListener('click', e=>{
     const btn = e.target.closest('button[data-scope]'); if(!btn) return;
     SCOPE = btn.dataset.scope;
     [...tabs.querySelectorAll('button')].forEach(b=>b.classList.toggle('active', b===btn));
     setScope(SCOPE);
   });
-  $('#partyBtn').onclick = () => alert('Party filter coming soon');
-  $('#stateBtn').onclick  = () => alert('State filter coming soon');
-  $('#badgesBtn').onclick = () => alert('Badges filter coming soon');
+  $('#partyBtn')?.addEventListener('click', ()=>alert('Party filter coming soon'));
+  $('#stateBtn')?.addEventListener('click', ()=>alert('State filter coming soon'));
+  $('#badgesBtn')?.addEventListener('click', ()=>alert('Badges filter coming soon'));
+  setScope(SCOPE);
 }
+
+// run whether DOM is already parsed or not
+if (document.readyState !== 'loading') boot();
+else document.addEventListener('DOMContentLoaded', boot);
 
 function setScope(scope){
   const total = TEAM.reduce((s,m)=> s + (m.scores?.[scope] ?? 0), 0);
@@ -60,6 +61,7 @@ function voteCard(v){
   const yeas = v.yes ?? v.yeas ?? 0, nays = v.no ?? v.nays ?? 0;
   const dateTxt = v.date ? new Date(v.date).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}) : '';
   const chamber = (v.chamber||'').replace(/^[a-z]/,m=>m.toUpperCase());
+
   const el = document.createElement('article');
   el.className='vote'; el.id='vote-'+id;
   el.innerHTML = `
@@ -105,7 +107,8 @@ function voteCard(v){
           <button class="tool" onclick="location.href='votes.html'">Open in Votes</button>
         </div>
       </aside>
-    </div>`;
+    </div>
+  `;
   el.querySelector('header').addEventListener('click', ()=>{
     document.querySelectorAll('.vote.open').forEach(n=>{ if(n!==el) n.classList.remove('open'); });
     el.classList.toggle('open');
