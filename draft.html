@@ -1,245 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Fantasy Politics — Draft</title>
-<style>
-  :root{
-    --nav-h:68px; --content-max:1320px; --gutter:20px; --gap:16px; --radius:14px;
-    --panel:#111425; --panel-2:#171a2b; --panel-3:#1d2140;
-    --text:#e7e9f4; --muted:#9aa1bd; --accent:#6ea8fe; --good:#62d487;
-    --chip:#0f1330; --border:1px solid #222746; --shadow:0 8px 28px rgba(0,0,0,.35);
-  }
-  *{box-sizing:border-box} html,body{height:100%}
-  body{margin:0; background:#0c0f1e; color:var(--text); font:14px/1.45 system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
-
-  .top{height:var(--nav-h); display:flex; align-items:center; justify-content:center; border-bottom:var(--border); background:#0b0e1a; position:sticky; top:0; z-index:50}
-  .brand{display:flex; align-items:center; gap:8px; color:#cbd5ff; font-weight:700}
-  .brand b{color:#fff}
-  .top .actions{position:absolute; right:16px; display:flex; gap:10px}
-  .btn{height:34px; padding:0 12px; border-radius:10px; border:var(--border); background:var(--panel-2); color:var(--text); cursor:pointer}
-  .btn:hover{filter:brightness(1.08)}
-
-  .shell{display:grid; grid-template-columns:290px 1fr; gap:18px; max-width:var(--content-max); margin:20px auto; padding:0 16px 24px}
-  @media (max-width:1100px){ .shell{grid-template-columns:260px 1fr} }
-  @media (max-width:880px){ .shell{grid-template-columns:1fr} .side{order:2} }
-
-  .side{background:var(--panel-2); border:var(--border); border-radius:var(--radius); padding:14px}
-  .row{display:flex; justify-content:space-between; align-items:center}
-  .side h3{margin:2px 0 8px; font-size:15px; color:#cdd2f7}
-  .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; background:var(--chip); border:var(--border); color:#cbd1ff; font-size:12px}
-  .list{margin-top:12px; display:flex; flex-direction:column; gap:12px}
-  .member{background:var(--panel-3); border:var(--border); border-radius:12px; padding:12px; display:flex; align-items:center; gap:12px; position:relative}
-  .avatar{width:36px; height:36px; border-radius:50%; display:grid; place-items:center; font-weight:700; color:#111425; background:#c7d2fe}
-  .score-badge{margin-left:auto; background:#0d1b14; color:#9af1bb; border:1px solid #193d2b; padding:4px 8px; border-radius:10px; font-size:12px}
-  .kick{position:absolute; top:8px; right:8px; width:24px; height:24px; border-radius:8px; border:var(--border); background:#0f1330; color:#cfd4ff; cursor:pointer}
-
-  .main{background:var(--panel-2); border:var(--border); border-radius:var(--radius); padding:14px}
-  .tabs{display:flex; gap:8px; flex-wrap:wrap}
-  .tab{padding:8px 12px; border-radius:10px; background:var(--panel-3); border:var(--border); color:#cbd1ff; cursor:pointer; user-select:none; text-decoration:none}
-  .tab.active, .tab:hover{outline:2px solid #2b335f}
-
-  .filters{display:grid; grid-template-columns:1fr 180px 180px 180px 180px; gap:10px; margin:12px 0}
-  @media (max-width:1100px){ .filters{grid-template-columns:1fr 1fr 1fr} }
-  @media (max-width:680px){ .filters{grid-template-columns:1fr 1fr} }
-  .field, .select{height:36px; border-radius:10px; background:#0e1228; border:var(--border); color:#dfe2ff; padding:0 12px; width:100%}
-  input::placeholder{color:#6271a8}
-
-  .table{margin-top:8px; border-radius:12px; overflow:hidden; border:var(--border)}
-  .rowi{display:grid; grid-template-columns:48px 1fr 220px 150px; gap:0; align-items:center; background:var(--panel-3); border-bottom:var(--border); padding:10px 12px}
-  @media (max-width:980px){ .rowi{grid-template-columns:48px 1fr 200px} .meta{display:none} }
-  .rowi:hover{background:#202651}
-  .mono{font-variant-numeric:tabular-nums}
-  .chip{display:inline-flex; align-items:center; gap:6px; padding:3px 8px; border-radius:999px; background:#0e1534; border:1px solid #273067; color:#aeb8ff; font-size:12px}
-  .actionsRow{display:flex; gap:8px; justify-content:flex-end}
-  .btn-sm{height:30px; padding:0 10px; border-radius:10px; border:var(--border); background:#0f1330; color:#eaefff; cursor:pointer}
-  .btn-sm.good{background:#0f2a1c; border-color:#1f5236; color:#b7ffd0}
-  .btn-sm.warn{background:#2a1010; border-color:#5b3030; color:#ffd2d2}
-  .btn-sm[disabled]{opacity:.5; cursor:default}
-
-  .initial{width:36px; height:36px; border-radius:50%; display:grid; place-items:center; color:#0b0e1a; font-weight:800; background:#9fb4ff}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Capitol League — Draft</title>
+  <link rel="icon" href="favicon.ico" />
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    :root { --gap: 20px; --radius: 14px; --panel:#171a2b; --muted:#8ea0c2; --shadow: 0 6px 20px rgba(0,0,0,.25); --h:72px!important }
+    body{background:#0d101b;color:#e7e9f4;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;padding-top:72px!important}
+    .wrap{max-width:1280px;margin:0 auto;padding:16px}
+    .panel { background: var(--panel); border: 1px solid rgba(255,255,255,.06); border-radius: var(--radius); box-shadow: var(--shadow); }
+    .panel .hd { padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,.06); font-weight: 800; }
+    .panel .bd { padding: 16px; }
+    .muted{color:var(--muted)}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:10px 8px;text-align:left}
+    th{color:var(--muted);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.4px}
+    tr + tr td{border-top:1px solid rgba(255,255,255,.06)}
+    .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+    .toolbar input,.toolbar select{background:#0f1424;border:1px solid rgba(118,136,214,.25);color:#e7e9f4;padding:10px 12px;border-radius:999px}
+    .chips{display:flex;gap:8px}
+    .chip{display:inline-flex;align-items:center;border:1px solid rgba(118,136,214,.25);padding:8px 12px;border-radius:999px;background:#0f1424;color:#e7e9f4;text-decoration:none;cursor:pointer}
+    .chip.is-active{outline:2px solid rgba(126,165,255,.25)}
+    .grid{display:grid;grid-template-columns:1.6fr 1fr;gap:16px}
+    @media (max-width: 980px){.grid{grid-template-columns:1fr}}
+  </style>
+  <script src="shared.js" defer></script>
+  <script src="js/draft.js" defer></script>
 </head>
 <body>
-  <div class="top">
-    <div class="brand">Fantasy <b>Politics</b></div>
-    <div class="actions">
-      <button class="btn">Search</button>
-      <button class="btn">Login</button>
-    </div>
-  </div>
-
-  <div class="shell">
-    <aside class="side">
-      <div class="row">
-        <h3>My Team</h3>
-        <span class="pill">Draft Mode</span>
+  <div id="site-header"></div>
+  <main class="wrap">
+    <section class="shell">
+      <div class="grid">
+        <section class="panel">
+          <div class="hd">Draft Center</div>
+          <div class="bd">
+            <p class="muted" style="margin-top:0">Build your roster from sitting members of Congress. Data loads from the <em>same feed Cards uses</em>: legislators-current.json (+ optional kpis.json).</p>
+            <div class="toolbar">
+              <input id="q" type="search" placeholder="Search name or state (e.g., Baldwin or WI)" />
+              <select id="party"><option value="">All parties</option><option value="D">Democratic</option><option value="R">Republican</option><option value="I">Independent</option></select>
+              <select id="state"><option value="">All states</option></select>
+              <select id="sort"><option value="-score">Sort: Score ↓</option><option value="score">Sort: Score ↑</option><option value="name">Sort: Name A→Z</option><option value="-name">Sort: Name Z→A</option><option value="cost">Sort: Cost ↑</option><option value="-cost">Sort: Cost ↓</option></select>
+              <div class="chips" id="tabs">
+                <button class="chip is-active" data-chamber="">All</button>
+                <button class="chip" data-chamber="Senate">Senate</button>
+                <button class="chip" data-chamber="House">House</button>
+              </div>
+              <button id="reset" class="chip">Reset</button>
+            </div>
+            <table id="players" aria-label="Available players">
+              <thead><tr><th>Name</th><th>Chamber</th><th>State</th><th>Party</th><th>Score</th><th>Cost</th><th></th></tr></thead>
+              <tbody id="player-rows"><tr><td colspan="7" class="muted">Loading feed…</td></tr></tbody>
+            </table>
+          </div>
+        </section>
+        <aside class="panel">
+          <div class="hd">My Team <span class="muted" id="cap" style="float:right">0 / 12</span></div>
+          <div class="bd" id="team">
+            <p class="muted" id="empty-team">No players drafted yet.</p>
+            <div id="team-list"></div>
+            <div style="height:8px"></div>
+            <div class="muted" style="display:flex;justify-content:space-between"><span>Total cost</span><strong id="total-cost">0</strong></div>
+            <div class="muted" style="display:flex;justify-content:space-between;margin-top:6px"><span>Avg. score</span><strong id="avg-score">0.0</strong></div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:10px">
+              <button id="export" class="chip">Export JSON</button>
+              <button id="clear" class="chip" title="Clear my roster">Clear</button>
+            </div>
+          </div>
+        </aside>
       </div>
-      <div class="row" style="gap:8px; margin-top:8px">
-        <span class="pill">Roster • <span id="rostCount">0</span>/10</span>
-        <span class="pill">Cap • <span id="capOk">OK</span></span>
-      </div>
-      <div id="teamList" class="list"></div>
-    </aside>
-
-    <main class="main">
-      <div class="tabs" role="tablist" aria-label="View">
-        <a class="tab" href="./">Scoreboard</a>
-        <a class="tab" href="./cards.html">Cards</a>
-        <a class="tab" href="./votes.html">Votes</a>
-        <span class="tab active">Draft</span>
-        <a class="tab" href="./rules.html">Rules</a>
-
-        <span style="margin-left:auto" class="tab chamber active" data-chamber="All">All</span>
-        <span class="tab chamber" data-chamber="Senate">Senate</span>
-        <span class="tab chamber" data-chamber="House">House</span>
-      </div>
-
-      <div class="filters">
-        <input id="search" class="field" placeholder="Search name, state, party…"/>
-        <select id="party" class="select">
-          <option value="">All Parties</option>
-          <option value="R">Republican</option>
-          <option value="D">Democrat</option>
-          <option value="I">Independent</option>
-        </select>
-        <select id="state" class="select">
-          <option value="">All States</option>
-          <option>TX</option><option>VT</option><option>MA</option>
-        </select>
-        <select id="avail" class="select">
-          <option value="">Availability: All</option>
-          <option value="fa">Free Agents</option>
-          <option value="drafted">Drafted</option>
-        </select>
-        <select id="sort" class="select">
-          <option value="adp">Sort: ADP</option>
-          <option value="score">Sort: Score</option>
-          <option value="name">Sort: Name</option>
-        </select>
-      </div>
-
-      <div id="list" class="table"></div>
-    </main>
-  </div>
-
-<script>
-/* Demo data */
-const DATA = [
-  {id:'SEN-TX-CRUZ', slug:'cruz', name:'Ted Cruz', initials:'TC', chamber:'Senate', party:'R', state:'TX', since:2013, adp:12, score:128},
-  {id:'SEN-VT-SANDERS', slug:'sanders', name:'Bernie Sanders', initials:'BS', chamber:'Senate', party:'I', state:'VT', since:2007, adp:8, score:117},
-  {id:'SEN-MA-WARREN', slug:'warren', name:'Elizabeth Warren', initials:'EW', chamber:'Senate', party:'D', state:'MA', since:2013, adp:16, score:112},
-  {id:'HOU-TX-SAMPLED', slug:'sampled', name:'Dana Sample', initials:'DS', chamber:'House', party:'R', state:'TX', since:2021, adp:44, score:76}
-];
-
-let team = [];
-const maxTeam = 10;
-
-const listEl = document.getElementById('list');
-const teamList = document.getElementById('teamList');
-const rostCount = document.getElementById('rostCount');
-
-/* Chamber tab state */
-let chamber = 'All';
-document.querySelectorAll('.tab.chamber').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    document.querySelectorAll('.tab.chamber').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    chamber = btn.dataset.chamber;
-    applyFilters();
-  });
-});
-
-/* Render rows */
-function renderList(rows = DATA){
-  listEl.innerHTML = '';
-  rows.forEach(p=>{
-    const drafted = team.some(t=>t.id===p.id);
-    const row = document.createElement('div');
-    row.className = 'rowi';
-    row.innerHTML = `
-      <div><div class="initial">${p.initials}</div></div>
-      <div>
-        <div style="font-weight:700">${p.name}</div>
-        <div style="font-size:12px; color:#a9b5e8">${p.chamber==='Senate'?'Senator':'Rep.'} • ${p.party} • ${p.state} • Since ${p.since}</div>
-      </div>
-      <div class="meta">
-        <span class="chip mono">ADP ${p.adp}</span>
-        <span class="chip mono">Score +${p.score}</span>
-      </div>
-      <div class="actionsRow">
-        <button class="btn-sm" onclick="queuePlayer('${p.id}')">Queue</button>
-        ${drafted
-          ? `<button class="btn-sm warn" onclick="removePlayer('${p.id}')">Remove</button>`
-          : `<button class="btn-sm good" onclick="draftPlayer('${p.id}')">Draft</button>`}
-      </div>`;
-    listEl.appendChild(row);
-  });
-}
-
-/* Team rail */
-function renderTeam(){
-  rostCount.textContent = team.length;
-  teamList.innerHTML = team.map(p=>`
-    <div class="member">
-      <button class="kick" title="Remove" onclick="removePlayer('${p.id}')">✕</button>
-      <div class="avatar">${p.initials}</div>
-      <div>
-        <div style="font-weight:700">${p.name}</div>
-        <div style="font-size:12px; color:#8aa0db">${p.party} • ${p.state}</div>
-      </div>
-      <span class="score-badge mono">+${p.score}</span>
-    </div>
-  `).join('');
-  applyFilters(); // refresh buttons
-}
-
-function draftPlayer(id){
-  if(team.length >= maxTeam) return alert('Roster full');
-  const p = DATA.find(d=>d.id===id);
-  if(!p) return;
-  if(team.some(t=>t.id===id)) return;
-  team.push(p);
-  renderTeam();
-}
-function removePlayer(id){
-  team = team.filter(t=>t.id!==id);
-  renderTeam();
-}
-function queuePlayer(id){ alert('Queued: ' + id); }
-
-/* Filter bindings */
-document.getElementById('search').addEventListener('input', applyFilters);
-document.getElementById('party').addEventListener('change', applyFilters);
-document.getElementById('state').addEventListener('change', applyFilters);
-document.getElementById('sort').addEventListener('change', applyFilters);
-
-/* Filter logic */
-function applyFilters(){
-  const q = document.getElementById('search').value.toLowerCase();
-  const party = document.getElementById('party').value;
-  const st = document.getElementById('state').value;
-  const sort = document.getElementById('sort').value;
-
-  let rows = DATA.filter(p=>{
-    const hit = p.name.toLowerCase().includes(q) || p.state.toLowerCase().includes(q) || p.party.toLowerCase().includes(q);
-    const partyOk = !party || p.party===party;
-    const stateOk = !st || p.state===st;
-    const chamberOk = chamber==='All' || p.chamber===chamber;
-    return hit && partyOk && stateOk && chamberOk;
-  });
-
-  if(sort==='adp') rows.sort((a,b)=>a.adp-b.adp);
-  if(sort==='score') rows.sort((a,b)=>b.score-a.score);
-  if(sort==='name') rows.sort((a,b)=>a.name.localeCompare(b.name));
-
-  renderList(rows);
-}
-
-/* Init */
-renderList();
-renderTeam();
-</script>
+    </section>
+  </main>
 </body>
 </html>

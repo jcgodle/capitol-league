@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Capitol League — Trading Card (Front with State & Badges)</title>
+<style>
+:root {
+  --card-w: 320px;
+  --card-h: 448px;
+  --radius: 16px;
+  --border: 6px;
+  --accent: #1f4aa8;
+  --accent-2: #c71f2d;
+  --shadow: 0 12px 30px rgba(0,0,0,.35);
+}
+body { background:#0c1026; color:#111; font-family:system-ui,sans-serif; display:grid; place-items:center; min-height:100vh; margin:0; }
+.stage { display:flex; gap:24px; flex-wrap:wrap; justify-content:center; padding:24px; }
+
+.card-wrap{ perspective:1200px; }
+.card{ width:var(--card-w); height:var(--card-h); position:relative; transform-style:preserve-3d; transition: transform .6s ease; }
+.card-wrap:hover .card, .card-wrap:focus-within .card{ transform: rotateY(180deg); }
+
+.face{ position:absolute; inset:0; border-radius:var(--radius); background:#fff; box-shadow:var(--shadow); border:var(--border) solid #fff; backface-visibility:hidden; overflow:hidden; }
+.front{ display:grid; grid-template-rows:72px 1fr 88px; background:#fff; }
+/* BACK side re-enabled */
+.back{ transform:rotateY(180deg); background:#fff8ea; display:grid; grid-template-rows:56px 1fr; }
+
+.header{ display:flex; justify-content:space-between; align-items:flex-start; padding:10px 14px; border-bottom:1px solid #e7e8f2; background:#fff; border-top-left-radius:var(--radius); border-top-right-radius:var(--radius); position:relative; overflow:hidden; }
+.header::after{ content:""; position:absolute; right:0; top:0; height:100%; width:120px; background:linear-gradient(90deg,var(--accent),var(--accent-2)); clip-path:polygon(0 0,100% 0,100% 100%,18% 100%); }
+.header h2{ margin:0; font-size:13px; font-weight:800; letter-spacing:.3px; color:#0f1220; }
+.header .state-tag{ position:absolute; right:16px; top:16px; font-weight:900; font-size:18px; color:#fff; z-index:2; }
+.header .badge-icons{ display:flex; gap:8px; margin-top:4px; }
+.badge-icon{ font-size:18px; cursor:help; transition:transform .2s; }
+.badge-icon:hover{ transform:scale(1.2); }
+/* Back header color */
+.back .header{ background:#fff2d1; border-bottom:1px solid #f1d59a; }
+
+.photo{ margin:10px; border-radius:12px; overflow:hidden; height:calc(var(--card-h) - 72px - 88px - 20px); background:#0c1026; display:grid; place-items:center; }
+.photo img{ width:100%; height:100%; object-fit:cover; }
+
+.footer{ display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:#fff; border-top:1px solid #e7e8f2; border-bottom-left-radius:var(--radius); border-bottom-right-radius:var(--radius); }
+.name{ font-weight:900; font-size:18px; color:#0f1220; letter-spacing:.3px; }
+.meta{ font-size:12px; color:#6b7390; font-weight:600; }
+.stat-bubble{ background:#0f6f3d; color:#dcffe7; border-radius:10px; padding:6px 10px; font-weight:800; font-size:12px; }
+
+/* Back stats & badges (Option 1 grid) */
+.stats{ padding:12px; display:grid; gap:8px; }
+.stat-item{ background:#fff; border:1px solid #f1d59a; border-radius:10px; padding:8px 10px; display:flex; justify-content:space-between; align-items:center; font-weight:700; font-size:13px; }
+.badge-area{ margin-top:6px; }
+.badge-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:8px; }
+.badge-pill{ display:flex; align-items:center; gap:8px; background:#fff8ea; border:1px solid #f1d59a; border-radius:14px; padding:8px 10px; font-size:14px; font-weight:700; color:#3c2b00; cursor:help; transition:background .2s, transform .2s; }
+.badge-pill:hover{ background:#fff3d2; transform:scale(1.03); }
+.badge-pill .icon{ font-size:16px; }
+</style>
+</head>
+<body>
+<div class="stage" id="stage"></div>
+<script>
+function pct(n){ return (n*100).toFixed(1)+'%'; }
+function computeBadges(m){
+  const y=parseInt((m.first_sworn||'').slice(0,4),10)||0;
+  const out=[];
+  if(/^Ind/i.test(m.party)) out.push({icon:'🌀', label:'Wild Card', title:'Independent or non-party member'});
+  if(y && y<=2015) out.push({icon:'🛡️', label:'Ironman', title:'Serving 10+ years in office'});
+  if(y>=2023) out.push({icon:'⭐', label:'Rookie', title:'Newly elected to Congress'});
+  return out;
+}
+
+const data=[
+  { name:'Ted Cruz', party:'REPUBLICAN', state:'TX', chamber:'UNITED STATES SENATE', first_sworn:'2013-01-03', photo:'https://www.govtrack.us/static/legislator-photos/412573-200px.jpeg', stats:{ total:1000, missed:55 } }
+];
+
+function makeCard(m){
+  const wrap=document.createElement('div');
+  wrap.className='card-wrap';
+  wrap.tabIndex=0;
+  wrap.dataset.party=m.party;
+  const attendance=m.stats&&m.stats.total?(1-(m.stats.missed||0)/m.stats.total):0;
+  const badges=computeBadges(m);
+
+  wrap.innerHTML=`
+  <div class="card">
+    <section class="face front">
+      <header class="header">
+        <div>
+          <h2>${m.chamber}</h2>
+          <div class="badge-icons">
+            ${badges.map(b=>`<span class="badge-icon" title="${b.label}: ${b.title}">${b.icon}</span>`).join('')}
+          </div>
+        </div>
+        <div class="state-tag">${m.state}</div>
+      </header>
+      <div class="photo"><img src="${m.photo}" alt="${m.name}"/></div>
+      <footer class="footer">
+        <div>
+          <div class="name">${m.name.toUpperCase()}</div>
+          <div class="meta">${m.state} • Since ${m.first_sworn.slice(0,4)}</div>
+        </div>
+        <div class="stat-bubble">Voted ${pct(attendance)}</div>
+      </footer>
+    </section>
+
+    <!-- BACK -->
+    <section class="face back">
+      <header class="header">
+        <div>
+          <h2>CAREER</h2>
+        </div>
+        <div class="state-tag">${m.state}</div>
+      </header>
+      <div class="stats">
+        <div class="stat-item"><span>Career Tenure</span><span>${(new Date().getFullYear()-parseInt(m.first_sworn.slice(0,4),10))}.0 yrs</span></div>
+        <div class="stat-item"><span>Total Votes</span><span>${(m.stats.total||0).toLocaleString()}</span></div>
+        <div class="stat-item"><span>Missed Votes</span><span>${(m.stats.missed||0).toLocaleString()}</span></div>
+        <div class="stat-item"><span>Attendance</span><span>${pct(m.stats.total?1-m.stats.missed/m.stats.total:0)}</span></div>
+        <div class="badge-area">
+          <div class="badge-grid">
+            ${badges.length ? badges.map(b=>`<span class=\"badge-pill\" title=\"${b.label}: ${b.title}\"><span class=\"icon\">${b.icon}</span>${b.label}</span>`).join('') : '<span style=\"color:#7e6a3e;font-size:12px\">No badges</span>'}
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>`;
+  return wrap;
+}
+
+const stage=document.getElementById('stage');
+stage.appendChild(makeCard(data[0]));
+</script>
+</body>
+</html>

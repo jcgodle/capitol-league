@@ -1,50 +1,35 @@
 :root{
-  --nav-h:68px;--content-max:1320px;--gap:16px;--radius:14px;
-  --panel:#171a2b;--panel-2:#1d2140;--text:#e7e9f4;--muted:#9aa1bd;
-  --accent:#6ea8fe;--border:1px solid #2a2f55;
+  --h:72px;            /* header height (updated by JS) */
+  --max:1280px; --g:16px;
+  --txt:#e7e9f4; --acc:#7ea5ff;
+  --nav-bg:linear-gradient(180deg,rgba(10,12,22,.96),rgba(10,12,22,.86));
+  --pill-bg:#0f1424; --pill-bdr:rgba(118,136,214,.25);
 }
-*{box-sizing:border-box}
-html,body{margin:0;padding:0;background:#0f1220;color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
-a{color:inherit;text-decoration:none}
-
-/* ====== NAV (Rules-page style) ====== */
-.cl-nav-wrap{position:sticky;top:0;z-index:1000;background:rgba(10,12,24,.92);backdrop-filter:saturate(140%) blur(6px);border-bottom:var(--border)}
-.cl-nav{height:var(--nav-h);max-width:var(--content-max);margin:0 auto;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;padding:0 16px}
-.cl-brand{font-weight:800;letter-spacing:.3px}
-.cl-brand i{color:#cfd6ff;font-style:normal}
-.cl-links{display:flex;justify-content:center;gap:12px}
-.cl-link{padding:10px 14px;border-radius:999px;border:1px solid #2b2f55;line-height:1;background:transparent}
-.cl-link:hover{background:rgba(255,255,255,.06)}
-.cl-link[aria-current="page"]{box-shadow:inset 0 0 0 1px #4f67c9, 0 0 0 1px #4f67c9}
-.cl-actions{justify-self:end;display:flex;gap:10px}
-.cl-cta{padding:10px 14px;border-radius:12px;background:#1b223f;border:1px solid #2b376b}
-.cl-cta:hover{background:#232c56}
-
-/* small screens */
-@media (max-width:840px){
-  .cl-nav{grid-template-columns:1fr auto 1fr}
-  .cl-brand{justify-self:start;font-size:14px}
-  .cl-link{padding:8px 10px;font-size:14px}
-  .cl-actions .cl-cta{padding:8px 10px;font-size:14px}
+/* Header now FIXED so it travels with scroll */
+header.cl-topbar{
+  position:fixed; top:0; left:0; right:0; z-index:1000; height:var(--h);
+  background:var(--nav-bg);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  backdrop-filter:saturate(120%) blur(8px);
 }
-
-/* ====== MY TEAM PANEL ====== */
-.cl-shell{max-width:var(--content-max);margin:0 auto;padding:16px;display:grid;grid-template-columns:280px 1fr;gap:16px}
-@media (max-width:1080px){ .cl-shell{grid-template-columns:1fr} }
-.cl-team{position:sticky;top:calc(var(--nav-h) + 12px);align-self:start;background:var(--panel);border:var(--border);border-radius:16px;padding:12px}
-.cl-team h3{margin:4px 4px 8px;font-size:15px;color:#dfe5ff;font-weight:600;letter-spacing:.2px}
-.cl-team-actions{display:flex;gap:8px;flex-wrap:wrap;margin:8px 4px}
-.cl-btn{padding:8px 10px;border-radius:10px;border:1px solid #2b2f55;background:#1a1f3a;color:#eaeefe;cursor:pointer}
-.cl-btn:hover{background:#23294b}
-.cl-list{display:flex;flex-direction:column;gap:8px;margin-top:8px}
-.cl-card{display:flex;align-items:center;gap:10px;background:var(--panel-2);border:var(--border);border-radius:12px;padding:8px 10px}
-.cl-card img{width:36px;height:36px;border-radius:8px;object-fit:cover;border:1px solid #2a2f55}
-.cl-meta{display:flex;flex-direction:column;gap:2px}
-.cl-name{font-size:14px;font-weight:600}
-.cl-sub{font-size:12px;color:var(--muted)}
-.cl-spacer{flex:1}
-.cl-x{border:1px solid #3a4374;background:#252b51;border-radius:10px;padding:6px 8px;cursor:pointer}
-.cl-empty{color:var(--muted);font-size:13px;padding:8px 4px}
-
-/* optional content area */
-.cl-content{min-height:40vh;background:transparent}
+.cl-wrap{max-width:var(--max);margin:0 auto;height:100%;padding:0 var(--g);
+  display:flex;align-items:center;justify-content:space-between}
+.cl-brand{font-weight:900;letter-spacing:.25px;color:var(--txt);text-decoration:none}
+.cl-brand span{color:var(--acc)}
+.cl-nav{display:flex;gap:14px}
+.cl-actions{display:flex;gap:12px}
+.cl-pill{
+  display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 16px;border-radius:999px;
+  background:var(--pill-bg);color:var(--txt);text-decoration:none;font-weight:800;font-size:14px;
+  border:1px solid var(--pill-bdr);opacity:.95;transition:box-shadow .15s,opacity .15s,transform .06s
+}
+.cl-pill:hover{opacity:1;transform:translateY(-.5px)}
+.cl-pill.is-active{
+  outline:2px solid rgba(126,165,255,.25);
+  box-shadow:0 0 0 2px rgba(126,165,255,.15), inset 0 0 0 1px rgba(126,165,255,.45);
+  background:linear-gradient(180deg,rgba(20,26,46,.9),rgba(20,26,46,.75));
+}
+/* Default spacer not used with fixed header, but keep compatibility */
+.spacer{height:var(--h)}
+/* If a page has its own sticky toolbar, don't inject spacer (handled in JS) */
+body.has-sticky-toolbar #site-header + .spacer{display:none!important}

@@ -1,260 +1,383 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Capitol League — Votes</title>
+<link rel="stylesheet" href="shared.css"/>
 <style>
-  :root{
-    --bg:#0e1020;--panel:#171a2b;--panel2:#1d2140;--text:#e7e9f4;--muted:#9aa1bd;
-    --accent:#6ea8fe;--border:1px solid rgba(255,255,255,.08);--radius:14px;--gap:14px;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,Segoe UI,Inter,Roboto,Arial}
-  a{color:inherit;text-decoration:none}
-  .wrap{max-width:1200px;margin:0 auto;padding:0 16px}
-  /* Shared header */
-  header{position:sticky;top:0;z-index:20;background:linear-gradient(180deg,#0e1020 70%,#0e102000)}
-  .topbar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;padding:12px 0;border-bottom:var(--border)}
-  .navL,.navR{display:flex;gap:10px;flex-wrap:wrap}
-  .brand{display:flex;align-items:center;justify-self:center;gap:10px}
-  .logo{width:36px;height:36px;border-radius:10px;background:var(--accent)}
-  .brand h1{margin:0;font:600 16px/1.1 system-ui}
-  .tab{padding:8px 12px;border:var(--border);border-radius:999px;background:transparent}
-  .tab.active{background:var(--panel2);border-color:#2a2e52}
-  .pill{font-size:12px;color:var(--muted);padding:4px 8px;border:var(--border);border-radius:999px;background:var(--panel2)}
-  /* Page controls */
-  .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:12px 0}
-  select,.input,.btn{background:var(--panel);border:var(--border);color:var(--text);padding:8px 10px;border-radius:10px}
-  .btn{background:var(--accent);border:none;color:#0d1020;cursor:pointer}
-  /* Cards */
-  main{padding:16px 0 28px}
-  .grid{display:grid;grid-template-columns:1fr;gap:var(--gap)}
-  @media(min-width:960px){.grid{grid-template-columns:1fr 1fr}}
-  .card{background:var(--panel);border:var(--border);border-radius:var(--radius);padding:14px}
-  .head{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center}
-  .title{font-weight:600}
-  .sub{color:var(--muted);font-size:13px}
-  details{background:var(--panel2);border:var(--border);border-radius:12px;margin-top:12px}
-  summary{cursor:pointer;list-style:none;padding:12px 14px}
-  summary::-webkit-details-marker{display:none}
-  .rows{display:grid;border-top:var(--border)}
-  .row{display:grid;grid-template-columns:1.2fr .6fr .6fr .6fr .6fr;gap:8px;padding:10px 14px;border-bottom:var(--border);font-size:14px}
-  .row.head{color:var(--muted);background:#151935;font-weight:600}
-  .kpi{display:flex;gap:8px}
-  .kpi span{padding:4px 8px;border-radius:8px;background:#14183a;border:var(--border);font-size:12px}
-  .tag-win{background:rgba(47,191,113,.12);border:1px solid rgba(47,191,113,.3);color:#8de0b4}
-  .tag-lose{background:rgba(255,107,107,.12);border:1px solid rgba(255,107,107,.3);color:#ffb3b3}
-  .empty{padding:30px;text-align:center;color:var(--muted);border:var(--border);border-radius:12px;background:#12142a}
-  .footer{margin-top:18px;color:var(--muted);font-size:12px}
+  :root{--max:1280px;--g:16px;--bg:#0f1220;--txt:#e7e9f4;--muted:#a7afd3;
+    --panel:#11162c;--panel-2:#0c1226;--line:rgba(255,255,255,.1);--h:72px;--shadow:0 16px 36px rgba(0,0,0,.35);
+    --red:#e06161;--red-2:#a53c3c;--green:#5bd39b;--green-2:#218c62;--blue:#6ea8fe;--blue-2:#254a9c;}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--txt);font:14px/1.45 system-ui,Segoe UI,Roboto,Helvetica,Arial}
+  main.shell{max-width:var(--max);margin:0 auto;padding:12px var(--g) 56px}
+  .toolbar{position:sticky;top:var(--h);z-index:9;background:linear-gradient(180deg,rgba(13,17,33,.98),rgba(13,17,33,.96));
+    border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.07)}
+  .toolbar-inner{max-width:var(--max);margin:0 auto;padding:10px var(--g);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .input{height:38px;border-radius:12px;padding:0 12px;font-weight:700;color:#cfe3ff;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.04));
+    border:1px solid rgba(255,255,255,.1)} .input::placeholder{color:#8fa1d6} .input:focus{outline:none;box-shadow:0 0 0 2px rgba(110,168,254,.28)}
+  .grow{flex:1;min-width:260px} select.input option{background:#0f142b;color:#e7e9f4}
+  .btn{appearance:none;border:1px solid rgba(255,255,255,.14);color:var(--txt);background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.06));
+    height:38px;border-radius:12px;padding:0 14px;font:800 13px/38px system-ui;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+  .btn:hover{filter:brightness(1.07)} .btn:active{transform:translateY(1px)} .btn[disabled]{opacity:.5;cursor:default}
+  .pill{display:inline-block;padding:8px 12px;border-radius:999px;font:900 12px/1 system-ui;border:1px solid rgba(0,0,0,.25)}
+  .pill.pass{background:linear-gradient(180deg,var(--green),var(--green-2));color:#081a11}
+  .pill.fail{background:linear-gradient(180deg,var(--red),var(--red-2));color:#1c0909}
+  .chip{display:inline-block;padding:6px 10px;border-radius:999px;font:800 12px/1 system-ui;color:#d7e2ff;background:linear-gradient(180deg,#1b2344,#131a34);border:1px solid rgba(110,168,254,.30)}
+  details.year{margin-top:18px;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.06);background:linear-gradient(180deg,#0e1328,#0d1225)}
+  details.year>summary{list-style:none;cursor:pointer;user-select:none;padding:10px 12px;font:900 13px system-ui;display:flex;align-items:center;justify-content:space-between;color:#cbd3ff}
+  details.year>summary::-webkit-details-marker{display:none} .year-count{color:#8fa1d6;font-weight:800}
+  details.month{margin:4px 8px 10px;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.06);background:linear-gradient(180deg,#0f142b,#0e1326)}
+  details.month>summary{list-style:none;cursor:pointer;user-select:none;padding:10px 12px;font:900 12px system-ui;color:#c7cff7}
+  details.month>summary::-webkit-details-marker{display:none}
+  .list{display:flex;flex-direction:column;gap:14px;margin:8px}
+  details.acc{background:linear-gradient(180deg,#0f142b,#0e1326);border-radius:18px;position:relative;box-shadow:var(--shadow);overflow:hidden}
+  summary.acc-hd{list-style:none;display:flex;gap:12px;align-items:flex-start;justify-content:space-between;padding:14px 16px;cursor:pointer;user-select:none;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02))}
+  summary.acc-hd::-webkit-details-marker{display:none}
+  .acc-main{display:flex;gap:10px;align-items:flex-start;min-width:0;flex:1}
+  .caret{display:grid;place-items:center;width:22px;height:22px;border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.06));border:1px solid rgba(255,255,255,.18);font-size:12px;margin-top:2px;transform:rotate(0);transition:transform .15s ease}
+  details[open] .caret{transform:rotate(90deg)}
+  .acc-title{font:900 15px/1.35 system-ui;margin:0}.acc-sub{color:#a7afd3;font:700 12px/1.2 system-ui;margin-top:6px}
+  .acc-badges{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-left:12px}
+  .acc-wrap{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.2,.6,.2,1)} .acc-body{border-top:1px solid var(--line)}
+  .acc-sec{padding:14px 16px;border-top:1px solid var(--line)}
+  .summary{background:linear-gradient(180deg,#0f1a3a,#0e1733);border-radius:14px;padding:12px;border:1px solid rgba(160,190,255,.20)}
+  .meta-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+  .meta{background:linear-gradient(180deg,var(--panel),var(--panel-2));border-radius:12px;padding:10px;border:1px solid rgba(255,255,255,.09)}
+  .meta-label{color:#a7afd3;font:800 11px/1 system-ui;letter-spacing:.25px;margin-bottom:6px;text-transform:uppercase}
+  .ynbar{display:grid;gap:8px}.ynbar .stack{display:flex;height:14px;border-radius:999px;overflow:hidden;border:1px solid rgba(255,255,255,.10);background:#0b1022}
+  .ynbar .seg{height:100%}.ynbar .seg.Y{background:linear-gradient(180deg,var(--blue),var(--blue-2))}.ynbar .seg.N{background:linear-gradient(180deg,var(--red),var(--red-2))}
+  .ynbar .labels{display:flex;justify-content:space-between;font:800 11px/1 system-ui;color:#a7afd3}
+  @media (max-width:900px){summary.acc-hd{flex-direction:column}.acc-badges{margin:8px 0 0 26px}.meta-grid{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:560px){.meta-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<header>
-  <div class="wrap topbar">
-    <nav class="navL">
-      <a class="tab" href="index.html">Scoreboard</a>
-      <a class="tab" href="draft.html">draft</a>
-      <a class="tab active" href="votes.html">Votes</a>
-    </nav>
-    <div class="brand">
-      <span class="logo" aria-hidden="true"></span>
-      <h1>Capitol League</h1>
-    </div>
-    <nav class="navR">
-      <a class="tab" href="cards.html">Cards</a>
-      <a class="tab" href="rules.html">Rules</a>
-    </nav>
-  </div>
-  <div class="wrap">
-    <div class="controls">
-      <span class="pill">House</span>
-      <select id="congressSel">
-        <option value="119">119th (2025–2026)</option>
-        <option value="118">118th (2023–2024)</option>
-      </select>
-      <select id="sessionSel">
-        <option value="1">1st session</option>
-        <option value="2">2nd session</option>
-      </select>
-      <input id="q" class="input" placeholder="Filter text… (bill, question)"/>
-      <button id="refreshBtn" class="btn">Refresh</button>
-    </div>
-  </div>
-</header>
+<div id="site-header"></div>
 
-<main class="wrap">
-  <div id="list" class="grid"></div>
-  <div id="empty" class="empty" style="display:none;">No votes found.</div>
-  <div class="footer" id="foot"></div>
+<main class="shell">
+  <h1 style="font:900 20px/1.2 system-ui;margin:6px 0 8px">Recent Votes</h1>
+  <div style="color:#a7afd3;font:600 13px/1.4 system-ui;margin-bottom:12px">
+    Live House & Senate votes — expandable bill details with official .gov sources.
+  </div>
+
+  <div class="toolbar">
+    <div class="toolbar-inner">
+      <input id="q" class="input grow" placeholder="Search bill title, number, or question…"/>
+      <select id="chamber" class="input">
+        <option value="">All Chambers</option>
+        <option value="house">House</option>
+        <option value="senate">Senate</option>
+      </select>
+      <select id="resultFilter" class="input">
+        <option value="">All results</option>
+        <option value="pass">Passed / Agreed</option>
+        <option value="fail">Failed / Rejected / Tabled</option>
+      </select>
+      <select id="sortSel" class="input">
+        <option value="-created" selected>Sort: Newest</option>
+        <option value="created">Sort: Oldest</option>
+      </select>
+      <button id="clearBtn" class="btn">Clear all</button>
+      <span id="rangeNote" style="color:#8fa1d6;font-weight:800;margin-left:auto"></span>
+      <span id="debugNote" style="color:#8fa1d6;font-weight:700"></span>
+    </div>
+  </div>
+
+  <div id="years"></div>
+
+  <div class="toolbar" style="margin-top:12px">
+    <div class="toolbar-inner">
+      <button id="prevBtn" class="btn" disabled>◀ Newer</button>
+      <button id="nextBtn" class="btn">Older ▶</button>
+      <span id="pageNote" style="color:#8fa1d6;font-weight:800"></span>
+    </div>
+  </div>
 </main>
 
+<script defer src="shared.js"></script>
 <script>
-const API_KEY = "KOURntCmZiIclaOlArU3lZJrkSasn58VS3vZpuam";
-const BASE = "https://api.congress.gov/v3";
-// add once near the top of your script
-async function fetchJSON(url){
-  const res = await fetch(url);
-  if(!res.ok) throw new Error(`HTTP ${res.status}`);
-  return res.json();
-}
-// LIST: /v3/house-roll-call-votes/{congress}/{session}
-function listHouseVotes({ congress, session, limit=40, offset=0 }) {
-  const url = `${BASE}/house-roll-call-votes/${congress}/${session}?limit=${limit}&offset=${offset}&api_key=${API_KEY}&format=json`;
-  return fetchJSON(url);
-}
+(function(){
+  if (window.__votesInit) return; window.__votesInit = true;
 
-// ITEM: /v3/house-roll-call-votes/{congress}/{session}/{roll}
-function getHouseVote({ congress, session, roll }) {
-  const url = `${BASE}/house-roll-call-votes/${congress}/${session}/${roll}?api_key=${API_KEY}&format=json`;
-  return fetchJSON(url);
-}
+  const yearsEl = document.getElementById('years');
+  const q = document.getElementById('q');
+  const chamberSel = document.getElementById('chamber');
+  const resultSel = document.getElementById('resultFilter');
+  const sortSel = document.getElementById('sortSel');
+  const clearBtn = document.getElementById('clearBtn');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const rangeNote = document.getElementById('rangeNote');
+  const debugNote = document.getElementById('debugNote');
+  const pageNote = document.getElementById('pageNote');
 
-// MEMBERS: /v3/house-roll-call-votes/{congress}/{session}/{roll}/member-votes
-function getHouseVoteMembers({ congress, session, roll, limit=500, offset=0 }) {
-  const url = `${BASE}/house-roll-call-votes/${congress}/${session}/${roll}/member-votes?limit=${limit}&offset=${offset}&api_key=${API_KEY}&format=json`;
-  return fetchJSON(url);
-}
+  const LIMIT = 50;
+  let offset = 0;
+  let reachedEnd = false;
+  let emptyStreak = 0;
 
+  const now = new Date();
+  const nowYear = now.getFullYear();
+  const nowMonthKey = `${nowYear}-${String(now.getMonth()+1).padStart(2,'0')}`;
 
-const $list=document.getElementById("list");
-const $empty=document.getElementById("empty");
-const $foot=document.getElementById("foot");
-const $q=document.getElementById("q");
-const $congress=document.getElementById("congressSel");
-const $session=document.getElementById("sessionSel");
-const $refresh=document.getElementById("refreshBtn");
+  const esc = s => (s || "").toString().replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  const D = t => t ? new Date(t) : null;
+  const fmt = t => { const x = D(t); return x ? x.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}) : ""; };
+  const fmtDT = t => { const x = D(t); return x ? x.toLocaleString(undefined,{year:'numeric',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}) : ""; };
 
-let state={ congress:$congress.value, session:$session.value, votes:[], lastFetched:null };
+  const PASS = ['pass','passed','agreed','confirmed','cloture invoked','cloture motion agreed','motion agreed','resolution agreed','conference report agreed','veto overridden','on passage passed'];
+  const FAIL = ['fail','failed','rejected','not agreed','tabled','veto sustained','cloture rejected','motion to proceed rejected'];
+  const isPass = r => { const s=(r||'').toLowerCase(); if (FAIL.some(x=>s.includes(x))) return false; if (PASS.some(x=>s.includes(x))) return true; return false; };
+  const pill = r => `<span class="pill ${isPass(r)?'pass':'fail'}">${esc(r||'—')}</span>`;
 
-$congress.onchange=()=>{ state.congress=$congress.value; loadVotes(); };
-$session.onchange=()=>{ state.session=$session.value; loadVotes(); };
-$refresh.onclick=()=> loadVotes();
-$q.oninput=()=> render();
-
-async function loadVotes(){
-  $list.innerHTML=""; $empty.style.display="none"; $foot.textContent="Loading…";
-  try{
-    const data=await listHouseVotes({ congress:state.congress, session:state.session, limit:40, offset:0 });
-    const coll=data?.houseRollCallVotes?.items || data?.items || [];
-    state.votes=coll.map(normalizeListItem);
-    state.lastFetched=new Date();
-    render();
-    const total=data?.pagination?.count ?? state.votes.length;
-    $foot.textContent=`Showing ${state.votes.length} of ${total} — Congress ${state.congress}, Session ${state.session}.`;
-  }catch(err){
-    $list.innerHTML="";
-    $empty.style.display="block";
-    $empty.textContent="Failed to load votes. Verify API key and endpoint path.";
-    $foot.textContent=String(err.message||err);
+  function normalizeGovtrack(objs){
+    return objs.map(o=>{
+      const roll = o.number || o.roll || o.roll_call || o.rollnumber || null;
+      const billNum = (o.bill && (o.bill.display_number || o.bill.number)) || o.related_bill?.display_number || o.nomination?.number || o.roll?.display_number || o.number || "";
+      const title = (o.bill && o.bill.title) || "";
+      const question = o.question || o.question_text || "";
+      const voteType = o.vote_type || o.category || o.category_label || '';
+      const required = o.required || o.required_threshold || o.threshold || '';
+      const p = (o.total?.present)||0, nv=(o.total?.not_voting||o.total?.Other)||0;
+      const yeas = (o.total_plus ?? o.total_yes ?? o.yea ?? o.total?.yes ?? o.total?.Yea) || 0;
+      const nays = (o.total_minus ?? o.total_no ?? o.nay ?? o.total?.no ?? o.total?.Nay) || 0;
+      return {
+        id: o.id,
+        roll,
+        created: o.created || o.updated,
+        chamber: (o.chamber || "").toLowerCase()==='senate' ? 'Senate' : 'House',
+        billNum, billTitle: title,
+        summary: o.bill?.summary || o.bill?.summary_short || o.nomination?.description || question,
+        question, voteType, required, present:+p||0, notvoting:+nv||0,
+        result: o.result || o.result_label || '—',
+        link: o.link || o.source_url || '',
+        yeas:+yeas||0, nays:+nays||0
+      };
+    });
   }
-}
 
-function normalizeListItem(it){
-  return {
-    roll: it.rollNumber ?? it.roll ?? "?",
-    date: it.voteDate ?? it.date ?? "",
-    question: it.voteQuestionText ?? it.voteQuestion ?? "",
-    result: it.resultText ?? it.result ?? "",
-    bill: it.billNumber ?? it.bill ?? it.measureNumber ?? "",
-    description: it.description ?? it.voteDescription ?? "",
-    link: it.url ?? it.link ?? "",
-    totals:{
-      yea: it.yeaTotal ?? it.yeas ?? 0,
-      nay: it.nayTotal ?? it.nays ?? 0,
-      present: it.presentTotal ?? it.present ?? 0,
-      notvoting: it.notVotingTotal ?? it.notVoting ?? 0
+  // Congress.gov (via our proxy) already normalized on the server.
+  function renderYN(v){
+    const t = v.yeas + v.nays; if (!t) return "";
+    const yp = Math.round((v.yeas/t)*100), np = 100-yp, m = v.yeas-v.nays, s = m>0?'+':'';
+    return `<div class="ynbar">
+      <div class="stack"><div class="seg Y" style="width:${yp}%"></div><div class="seg N" style="width:${np}%"></div></div>
+      <div class="labels"><span>Yeas ${v.yeas} (${yp}%)</span><span>Margin ${s}${m}</span><span>Nays ${v.nays} (${np}%)</span></div>
+    </div>`;
+  }
+  function govPrimaryLink(v){
+    if (v.link) return v.link; // proxy already gave Congress.gov link
+    // Senate primary (.gov) if needed:
+    if (v.chamber === 'Senate' && v.roll && v.created){
+      const d = new Date(v.created), yr = d.getUTCFullYear();
+      const congress = Math.floor((yr - 1789)/2)+1, session = (yr % 2 === 1) ? 1 : 2;
+      const roll5 = String(parseInt(v.roll,10)).padStart(5,'0');
+      return `https://www.senate.gov/legislative/LIS/roll_call_votes/vote${congress}${session}/vote_${congress}_${session}_${roll5}.htm`;
     }
-  };
-}
+    return "";
+  }
 
-function render(){
-  const n=$q.value.trim().toLowerCase();
-  const items=state.votes.filter(v=>{
-    if(!n) return true;
-    return [v.bill,v.question,v.description,v.result].some(s=>String(s||"").toLowerCase().includes(n));
-  });
-  if(items.length===0){ $list.innerHTML=""; $empty.style.display="block"; $empty.textContent="No votes match your filter."; return; }
-  $empty.style.display="none";
-  $list.innerHTML=items.map(cardHTML).join("");
-  attachMemberHandlers();
-}
-
-function cardHTML(v){
-  const ok=/agree|passed|agreed/i.test(v.result);
-  return `
-  <article class="card">
-    <div class="head">
-      <span class="pill">Roll ${v.roll}</span>
-      <div>
-        <div class="title">${escapeHTML(v.question||"Vote")}</div>
-        <div class="sub">${escapeHTML(v.bill||"—")} • ${escapeHTML(v.date||"")}</div>
-      </div>
-      <div class="kpi">
-        <span class="${ok?'tag-win':'tag-lose'}">${escapeHTML(v.result||"Result")}</span>
-      </div>
-    </div>
-    <details>
-      <summary>Details</summary>
-      <div class="rows">
-        <div class="row head"><div>Description</div><div>Yea</div><div>Nay</div><div>Present</div><div>Not voting</div></div>
-        <div class="row">
-          <div>${escapeHTML(v.description||"—")}</div>
-          <div>${v.totals.yea??"—"}</div>
-          <div>${v.totals.nay??"—"}</div>
-          <div>${v.totals.present??"—"}</div>
-          <div>${v.totals.notvoting??"—"}</div>
+  function card(v){
+    const title = v.billTitle || v.question || "Untitled vote";
+    const primary = govPrimaryLink(v);
+    return `
+    <details class="acc" data-id="${v.id}">
+      <summary class="acc-hd">
+        <div class="acc-main">
+          <div class="caret">▶</div>
+          <div style="min-width:0">
+            <h2 class="acc-title">${esc(title)}</h2>
+            <div class="acc-sub">${esc(fmt(v.created))} · ${esc(v.chamber)} ${v.billNum ? "· "+esc(v.billNum):""}</div>
+          </div>
         </div>
-      </div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;padding:12px 14px;">
-        <button class="btn btn-members" data-roll="${v.roll}">Member votes</button>
-        ${v.link?`<a class="tab" href="${v.link}" target="_blank" rel="noopener">Open on Congress.gov</a>`:""}
-      </div>
-      <div class="memberMount" id="m-${v.roll}" style="padding:0 14px 14px;"></div>
-    </details>
-  </article>`;
-}
+        <div class="acc-badges">
+          ${pill(v.result)}
+          <span class="chip">Yeas ${v.yeas}</span>
+          <span class="chip">Nays ${v.nays}</span>
+          ${v.present ? `<span class="chip">Present ${v.present}</span>` : ``}
+          ${v.notvoting ? `<span class="chip">Not Voting ${v.notvoting}</span>` : ``}
+        </div>
+      </summary>
+      <div class="acc-wrap"><div class="acc-body">
+        <section class="acc-sec"><div class="summary"><h3>Bill Summary</h3><p>${esc(v.summary || "—")}</p></div></section>
+        <section class="acc-sec"><div class="meta-grid">
+          <div class="meta"><div class="meta-label">Bill / Nomination</div><div>${v.billNum ? `<span class="chip">${esc(v.billNum)}</span>` : "—"}</div></div>
+          <div class="meta"><div class="meta-label">Vote Type</div><div>${esc(v.voteType || "—")}</div></div>
+          <div class="meta"><div class="meta-label">Required Threshold</div><div>${esc(v.required || "—")}</div></div>
+          <div class="meta"><div class="meta-label">Roll #</div><div>${v.roll ? `<span class="chip">${esc(v.roll)}</span>` : "—"}</div></div>
+        </div></section>
+        <section class="acc-sec"><div class="meta"><div class="meta-label">Question / Motion</div><div>${esc(v.question || "—")}</div></div></section>
+        <section class="acc-sec">${renderYN(v)}</section>
+        <section class="acc-sec"><div class="meta-grid">
+          <div class="meta"><div class="meta-label">Result</div><div>${pill(v.result)}</div></div>
+          <div class="meta"><div class="meta-label">Chamber</div><div>${esc(v.chamber)}</div></div>
+          <div class="meta"><div class="meta-label">Date & Time</div><div>${esc(fmtDT(v.created))}</div></div>
+          <div class="meta"><div class="meta-label">Official Source</div><div>
+            ${primary ? `<a class="btn" href="${esc(primary)}" target="_blank" rel="noopener">Source — .gov${v.billNum ? ` • ${esc(v.billNum)}` : ''}</a>` : '—'}
+            ${v.link && !primary ? `<a class="btn" href="${esc(v.link)}" target="_blank" rel="noopener">Backup — GovTrack</a>` : ''}
+            <button class="btn copy" data-url="${esc(primary || v.link || location.href)}">Copy link</button>
+          </div></div>
+        </div></section>
+      </div></div>
+    </details>`;
+  }
 
-function attachMemberHandlers(){
-  document.querySelectorAll(".btn-members").forEach(btn=>{
-    btn.onclick=async()=>{
-      const roll=btn.dataset.roll;
-      const mount=document.getElementById(`m-${roll}`);
-      if(!mount) return;
-      btn.disabled=true; btn.textContent="Loading…";
-      try{
-        const data=await getHouseVoteMembers({ congress:state.congress, session:state.session, roll });
-        const rows=(data?.memberVotes?.items || data?.items || []).map(n=>({
-          name:n?.member?.name ?? n?.name ?? "Member",
-          party:n?.member?.party ?? n?.party ?? "—",
-          state:n?.member?.state ?? n?.state ?? "—",
-          vote:n?.position ?? n?.vote ?? "—"
-        }));
-        mount.innerHTML=memberTableHTML(rows);
-      }catch(e){
-        mount.innerHTML=`<div class="sub" style="color:#ffb3b3">Failed to load member votes.</div>`;
-      }finally{
-        btn.disabled=false; btn.textContent="Member votes";
-      }
-    };
-  });
-}
+  function ensureYear(y){
+    let d = yearsEl.querySelector(`details.year[data-year="${y}"]`);
+    if (!d){
+      d = document.createElement('details');
+      d.className = 'year'; d.dataset.year = y; if (y === now.getFullYear()) d.open = true;
+      d.innerHTML = `<summary>${y}<span class="year-count" data-count="${y}"></span></summary><div class="year-body"></div>`;
+      yearsEl.appendChild(d);
+    }
+    return d;
+  }
+  function ensureMonth(y, key, label){
+    const year = ensureYear(y);
+    const body = year.querySelector('.year-body');
+    let m = body.querySelector(`details.month[data-month="${key}"]`);
+    if (!m){
+      m = document.createElement('details');
+      m.className = 'month'; m.dataset.month = key;
+      if (key === nowMonthKey && y === nowYear) m.open = true; // current month open
+      m.innerHTML = `<summary>${label}</summary><div class="list" data-list="${key}"></div>`;
+      body.appendChild(m);
+    }
+    return m.querySelector(`[data-list="${key}"]`);
+  }
+  function bumpYearCount(year, delta){
+    const c = yearsEl.querySelector(`[data-count="${year}"]`);
+    if (!c) return;
+    const prev = parseInt(c.textContent || '0', 10) || 0;
+    c.textContent = ` • ${prev + delta}`;
+  }
+  function monthKeyOf(d){
+    const dt = D(d)||new Date();
+    const y = dt.getFullYear();
+    const m = dt.toLocaleDateString(undefined,{month:'long'});
+    return {year:y, key:`${y}-${String(dt.getMonth()+1).padStart(2,'0')}`, label:m};
+  }
+  function renderItems(items){
+    if (!items.length) return;
+    const asc = (sortSel.value === 'created');
+    items.sort((a,b)=> (asc ? (D(a.created)-D(b.created)) : (D(b.created)-D(a.created)) ));
+    items.forEach(v=>{
+      const mk = monthKeyOf(v.created);
+      const list = ensureMonth(mk.year, mk.key, mk.label);
+      list.insertAdjacentHTML('beforeend', card(v));
+      bumpYearCount(mk.year, 1);
+    });
+    yearsEl.querySelectorAll('.copy').forEach(btn=>{
+      if (btn.__wired) return; btn.__wired = true;
+      btn.addEventListener('click', async e=>{
+        e.stopPropagation();
+        try{ await navigator.clipboard.writeText(btn.getAttribute('data-url') || location.href);
+             btn.textContent='Copied!'; setTimeout(()=>btn.textContent='Copy link',1200);}catch{}
+      });
+    });
+    yearsEl.querySelectorAll('details.acc').forEach(d=>{
+      if (d.__wired) return; d.__wired = true;
+      const wrap = d.querySelector('.acc-wrap');
+      const setH = ()=>{
+        wrap.style.maxHeight = 'none';
+        wrap.style.maxHeight = d.open ? wrap.scrollHeight+'px' : '0px';
+      };
+      setH(); d.addEventListener('toggle', setH);
+      window.addEventListener('resize', ()=>{ if(d.open) setH(); });
+    });
+  }
 
-function memberTableHTML(rows){
-  if(rows.length===0) return `<div class="sub">No member data.</div>`;
-  const head=`<div class="row head"><div>Member</div><div>Party</div><div>State</div><div style="grid-column:span 2;">Position</div></div>`;
-  const body=rows.map(r=>`
-    <div class="row">
-      <div>${escapeHTML(r.name)}</div>
-      <div>${escapeHTML(r.party)}</div>
-      <div>${escapeHTML(r.state)}</div>
-      <div style="grid-column:span 2;">${escapeHTML(r.vote)}</div>
-    </div>`).join("");
-  return `<div class="rows" style="margin-top:8px">${head}${body}</div>`;
-}
+  // ---------- fetching ----------
+  function buildGovtrackQS(includeChamberParam=true){
+    const p = new URLSearchParams();
+    p.set('limit', String(LIMIT));
+    p.set('offset', String(offset));
+    p.set('order_by', sortSel.value);
+    const ch = (chamberSel.value||'').toLowerCase();
+    if (includeChamberParam && (ch==='house'||ch==='senate')) p.set('chamber', ch);
+    const term = (q.value||"").trim(); if (term) p.set('q', term);
+    return p.toString();
+  }
 
-function escapeHTML(s){return String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
-loadVotes();
+  async function fetchGovTrack(){
+    const qs = buildGovtrackQS(true);
+    const url = `https://www.govtrack.us/api/v2/vote?${qs}`;
+    debugNote.textContent = `govtrack: ${url}`;
+    const r = await fetch(url, {cache:'no-store'});
+    if (!r.ok) return [];
+    const j = await r.json();
+    return normalizeGovtrack(j?.objects||[]);
+  }
+
+  async function fetchHouseViaCongressGov(){
+    // Prefer our proxy for House (returns already-normalized items).
+    const params = new URLSearchParams();
+    params.set('offset', String(offset));
+    params.set('limit', String(LIMIT));
+    const ch = (chamberSel.value||'').toLowerCase();
+    // you can also pass congress/session explicitly via dropdowns later if desired
+    const url = `/api/house/rollcalls?${params.toString()}`;
+    debugNote.textContent = `congress.gov proxy: ${url}`;
+    const r = await fetch(url, {cache:'no-store'});
+    if (!r.ok) return [];
+    const j = await r.json();
+    return Array.isArray(j?.objects) ? j.objects : [];
+  }
+
+  async function loadPage({reset=false}={}){
+    if (reset){
+      yearsEl.innerHTML=''; offset=0; reachedEnd=false; emptyStreak=0;
+      prevBtn.disabled = true; nextBtn.disabled=false; debugNote.textContent='';
+    }
+    if (reachedEnd){ nextBtn.disabled = true; return; }
+
+    let items = [];
+    const ch = (chamberSel.value||'').toLowerCase();
+
+    if (ch === 'house'){
+      // Try .gov first, then fallback to GovTrack silently
+      items = await fetchHouseViaCongressGov();
+      if (!items.length) items = await fetchGovTrack();
+    } else {
+      // Senate or All – GovTrack is fine; Senate still gets .gov links on open.
+      items = await fetchGovTrack();
+    }
+
+    renderItems(items);
+
+    const first = items[0]?.created, last = items[items.length-1]?.created;
+    rangeNote.textContent = items.length
+      ? `Loaded ${items.length}${first&&last ? ` (${fmt(first)} → ${fmt(last)})` : ''}`
+      : `No votes on this slice — digging back…`;
+
+    if (items.length>0){
+      emptyStreak = 0; offset += LIMIT; nextBtn.disabled=false;
+    } else {
+      emptyStreak += 1; offset += LIMIT; nextBtn.disabled=false;
+      if (emptyStreak >= 30){ reachedEnd=true; nextBtn.disabled=true; rangeNote.textContent=`No more results for these filters.`; }
+    }
+    pageNote.textContent = `Pages loaded: ${Math.floor(offset / LIMIT)}`;
+
+    // Chamber deep-seek when empty
+    const chPicked = (ch==='house' || ch==='senate');
+    if (chPicked && items.length===0 && !reachedEnd){
+      setTimeout(()=>loadPage({reset:false}), 0);
+    }
+  }
+
+  q.addEventListener('input', ()=> loadPage({reset:true}));
+  chamberSel.addEventListener('change', ()=> loadPage({reset:true}));
+  resultSel.addEventListener('change', ()=> loadPage({reset:true}));
+  sortSel.addEventListener('change', ()=> loadPage({reset:true}));
+  clearBtn.addEventListener('click', ()=>{ q.value=""; chamberSel.value=""; resultSel.value=""; sortSel.value="-created"; loadPage({reset:true}); });
+  prevBtn.addEventListener('click', ()=>{ /* optional newer */ });
+  nextBtn.addEventListener('click', ()=> loadPage({reset:false}));
+
+  (document.readyState==='loading')
+    ? document.addEventListener('DOMContentLoaded', ()=>loadPage({reset:true}))
+    : loadPage({reset:true});
+})();
 </script>
 </body>
 </html>

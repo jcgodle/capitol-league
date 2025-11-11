@@ -1,234 +1,421 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Capitol League — Scoreboard</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Capitol League — Scoreboard</title>
+  <link rel="icon" href="favicon.ico" />
 
-<link rel="stylesheet" href="shared.css?v=2">
-<script defer src="shared.js?v=2"></script>
-<script defer src="scoreboard.js?v=2"></script>
+  <!-- Unified header uses shared.css + shared.js (injected into #site-header) -->
+  <link rel="stylesheet" href="shared.css" />
 
-<style>
-  :root{--nav-h:68px;--content-max:1320px;--gutter:20px;--gap:20px;--radius:14px;
-        --panel:#171a2b;--panel-2:#1d2140;--text:#e7e9f4;--muted:#9aa1bd;--accent:#6ea8fe;
-        --border:1px solid rgba(255,255,255,.06);--shadow:0 8px 24px rgba(0,0,0,.25);--control-h:36px}
-  *,*:before,*:after{box-sizing:border-box}
-  body{margin:0;color:var(--text);background:linear-gradient(180deg,#0b0e1a,#0f1220);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial}
-  a{color:inherit;text-decoration:none}
+  <style>
+    :root {
+      --content-max: 1320px;
+      --gap: 20px;
+      --radius: 14px;
+      --panel: #171a2b;
+      --panel-2: #1d2140;
+      --txt: #e7e9f4;
+      --muted: #a2a9c7;
+      --ok: #7bd88f;
+      --bad: #ff6b6b;
+      --shadow: 0 8px 24px rgba(0,0,0,.25);
+      --hud-w: 360px; /* fixed right HUD width for clean alignment */
+    }
 
-  .main{background:var(--panel);border:var(--border);border-radius:var(--radius);box-shadow:var(--shadow);min-width:0;display:grid;grid-template-rows:auto 1fr;min-height:calc(100vh - var(--nav-h) - 2*var(--gutter))}
-  .main__toolbar{padding:14px;border-bottom:var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-  .toolbar-group{display:inline-flex;align-items:center;gap:8px;background:var(--panel-2);border:var(--border);border-radius:10px;padding:6px 8px}
-  .label{color:var(--muted);font-size:12px}
-  .segmented{display:inline-flex;border-radius:8px;overflow:hidden;border:var(--border)}
-  .segmented button{background:transparent;border:0;color:var(--text);padding:0 12px;height:var(--control-h);cursor:pointer}
-  .segmented .active{background:#243055}
-  .notice{margin:10px 0 0;background:#1a2144;border:var(--border);border-radius:10px;padding:8px 10px;color:var(--muted);font-size:13px}
-  .main__scroll{overflow:auto;padding:16px}
-  .section{background:#151934;border:var(--border);border-radius:12px;padding:16px;margin-bottom:16px}
-  .h1{font-size:22px;font-weight:800;margin:0 0 8px}
-  .muted{color:var(--muted)}
-  .scorebox{height:220px;background:#10152c;border:var(--border);border-radius:12px;display:grid;place-items:center;text-align:center}
-  .scorebox .big{font-size:56px;font-weight:900;letter-spacing:.5px}
-  .votes{display:flex;flex-direction:column;gap:10px}
-  .vote{background:#111634;border:var(--border);border-radius:12px;overflow:hidden}
-  .vote header{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 14px;cursor:pointer}
-  .vote header:hover{background:#141a3a}
-  .bill{font-weight:600}
-  .meta{color:var(--muted);font-size:.9rem}
-  .badges{display:flex;gap:8px;align-items:center}
-  .badge{font-size:.78rem;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.06);border:var(--border)}
-  .pass{background:rgba(39,194,129,.14);color:#78e2ba}.fail{background:rgba(211,74,74,.14);color:#f09b9b}
-  .body{display:none}
-  .open .body{display:grid;grid-template-columns:1.6fr 1fr;gap:14px;padding:0 14px 14px}
-  .panel{background:#121631;border:var(--border);border-radius:12px;padding:12px}
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .kv{background:#0f142b;border:var(--border);border-radius:10px;padding:8px}
-  .kv b{display:block;font-size:.75rem;color:var(--muted);margin-bottom:4px}
-  .kv span{font-weight:600}
-  .party-legend{display:flex;gap:12px;font-size:.78rem;color:var(--muted);margin:6px 0}
-  .party-legend i{display:inline-block;width:10px;height:10px;border-radius:999px;margin-right:6px}
-  .bar{height:8px;border-radius:999px;background:#0f142b;overflow:hidden;border:var(--border);position:relative}
-  .bar i{display:block;height:100%;position:absolute;left:0;top:0}
-  .bar .r{background:#b24a4a}.bar .d{background:#4a77d3}.bar .i{background:#d3b84a}
-  .statrow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:10px}
-  .btns{display:flex;flex-wrap:wrap;gap:8px}
-  .tool{cursor:pointer;padding:6px 10px;border-radius:8px;background:#0f142b;border:var(--border);font-size:.8rem}
-  .tool:hover{background:rgba(255,255,255,.08)}
-  @media (max-width:980px){.open .body{grid-template-columns:1fr}}
-</style>
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: radial-gradient(1200px 800px at 10% -10%, #202443 0%, #0f1222 45%, #0b0e1a 100%);
+      color: var(--txt);
+      font: 15px/1.45 system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* Layout */
+    .wrap { max-width: var(--content-max); margin: 0 auto; padding: 20px clamp(12px, 3vw, 24px); }
+    .grid-2 { display: grid; grid-template-columns: 1.2fr .8fr; gap: var(--gap); }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--gap); }
+    @media (max-width: 1100px) { .grid-3 { grid-template-columns: 1fr; } }
+    @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    /* Reserve EXACT header space and prevent host from growing */
+    #site-header { height: 0 !important; position: relative; }
+    #site-header > header, #site-header > nav { position: fixed; top: 0; left: 0; right: 0; }
+    #site-header .spacer{ display:none !important; height:0 !important; }
+    #site-header > header, #site-header > nav { position: fixed; top: 0; left: 0; right: 0; }
+    /* Kill extra spacer injected by shared.js to avoid double padding */
+    #site-header .spacer{ display:none !important; height:0 !important; }
+
+    .panel { background: var(--panel); border: 1px solid rgba(255,255,255,.06); border-radius: var(--radius); box-shadow: var(--shadow); }
+    .panel .hd { padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,.06); font-weight: 800; letter-spacing: .3px; background: linear-gradient(180deg, rgba(255,255,255,.04) 0%, rgba(255,255,255,0) 100%); }
+    .panel .bd { padding: 16px; }
+
+    /* Votes table */
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 10px 8px; text-align: left; }
+    th { color: var(--muted); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: .4px; }
+    tr + tr td { border-top: 1px solid rgba(255,255,255,.06); }
+    .yea { color: var(--ok); font-weight: 800; }
+    .nay { color: var(--bad); font-weight: 800; }
+
+    /* Activity feed */
+    .feed { display: grid; gap: 10px; }
+    .feed-item { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: start; padding: 10px; border: 1px solid rgba(255,255,255,.06); border-radius: 10px; background: var(--panel-2); }
+    .pill { font-size: 11px; padding: 3px 8px; border-radius: 999px; border: 1px solid rgba(255,255,255,.1); color: var(--muted); }
+
+    /* My Team Scoreboard */
+    .myteam-board .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .myteam-board .stat{background:var(--panel-2);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:10px 12px;min-width:0;text-align:center}
+    .myteam-board .stat .label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+    .myteam-board .stat .val{font-size:22px;font-weight:900}
+
+    /* My Team panel layout (scoreboard left, roster right) */
+    .myteam-panel .bd{padding:0}
+    .myteam-wrap{display:grid;grid-template-columns:240px 1fr;gap:14px;align-items:stretch;padding:16px}
+    @media (max-width: 1000px){.myteam-wrap{grid-template-columns:1fr}}
+    .myteam-panel .kpis{display:grid;grid-template-columns:1fr;gap:10px}
+    .myteam-panel .stat{background:var(--panel-2);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:10px 12px;text-align:center}
+    /* teammate grid to the right: 5 columns x auto rows (shows 5x2 for first 10) */
+    .myteam-row{display:grid;grid-template-columns:repeat(5, minmax(140px,1fr));gap:12px;overflow:visible}
+    @media (max-width: 1200px){.myteam-row{grid-template-columns:repeat(4, minmax(140px,1fr))}}
+    @media (max-width: 900px){.myteam-row{grid-template-columns:repeat(3, minmax(140px,1fr))}}
+    @media (max-width: 640px){.myteam-row{grid-template-columns:repeat(2, minmax(140px,1fr))}}
+    @media (max-width: 860px){.myteam-wrap{grid-template-columns:1fr;}}
+    .myteam-panel .kpis{display:grid;grid-template-columns:1fr;gap:10px}
+    .myteam-panel .stat{background:var(--panel-2);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:10px 12px;text-align:center}
+    .myteam-row{display:grid;grid-template-columns:repeat(5, minmax(140px,1fr));gap:12px;overflow:visible;padding-bottom:0}
+
+    /* Card bubbles in the row */
+    .member-card{display:grid;grid-template-columns:40px 1fr auto;gap:8px;align-items:center;background:var(--panel-2);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:8px;min-width:0}
+    .member-card img{width:40px;height:40px;border-radius:8px;object-fit:cover;background:#0b0e1a;border:1px solid rgba(255,255,255,.06)}
+    .member-card .meta{display:grid;gap:2px;min-width:0}
+    .member-card .name{font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .member-card .sub{color:var(--muted);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .member-card .pts{font-weight:900;font-size:14px;line-height:1;border-radius:8px;padding:6px 8px;font-variant-numeric:tabular-nums;background:rgba(255,255,255,.06)}
+    .member-card .pts.positive{color:var(--ok);background:rgba(123,216,143,.12)}
+    .member-card .pts.negative{color:var(--bad);background:rgba(255,107,107,.12)}
+
+    /* legacy grid (left content uses it) */
+    .roster-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    @media (max-width: 1000px){.roster-grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width: 640px){.roster-grid{grid-template-columns:1fr}}
+
+  /* Two-column shell with right HUD */
+    .shell{display:grid;grid-template-columns:1fr;gap:var(--gap);align-content:start}
+    @media (max-width: 1000px){.shell{grid-template-columns:1fr}}
+    .col-right{position:sticky;top:calc(var(--h) + 16px);height:fit-content}
+    .col-right .panel{margin-bottom:16px}
+
+    /* Dev test badge */
+    #dev-test-badge{position:fixed;left:8px;bottom:8px;font-size:12px;padding:6px 8px;border-radius:8px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.12);color:var(--muted);z-index:2000}
+  </style>
+  <style id="header-lock-css">
+    /* HARD LOCK the injected header height site-wide on this page */
+    :root { --h: 72px !important; }
+    body { padding-top: 72px !important; }
+    #site-header { height: 72px !important; position: relative; overflow: hidden; }
+    #site-header > * { position: fixed; top: 0; left: 0; right: 0; }
+  </style>
 </head>
 
-<body data-page="scoreboard">
-  <div id="app-nav"></div>
-  <div class="cl-shell">
-    <aside id="my-team"></aside>
-    <main class="cl-content">
-      <div class="main" id="main">
-        <div class="main__toolbar">
-          <div class="toolbar-group">
-            <span class="label">Scope</span>
-            <div class="segmented" id="scopeTabs" role="tablist" aria-label="Scope">
-              <button data-scope="week" class="active" aria-selected="true" role="tab">Week</button>
-              <button data-scope="season" role="tab">Season</button>
-              <button data-scope="career" role="tab">Career</button>
+<body>
+  <!-- Injected, unified header -->
+  <div id="site-header"></div>
+  <main class="wrap">
+    <section class="shell">
+      <!-- LEFT COLUMN: game-style feed & league content -->
+      <div class="col-left">
+        <!-- MY TEAM panel at the top; scoreboard left, teammate grid (5x2) right -->
+        <section class="panel myteam-panel" aria-labelledby="myTeamTitle">
+          <div class="hd" id="myTeamTitle">My Team — Scoreboard</div>
+          <div class="bd">
+            <div class="myteam-wrap">
+              <div class="kpis" aria-label="Team KPIs">
+                <div class="stat"><div class="label">Today</div><div class="val" id="kpiToday">0</div></div>
+                <div class="stat"><div class="label">This Week</div><div class="val" id="kpiWeek">0</div></div>
+                <div class="stat"><div class="label">Season</div><div class="val" id="kpiSeason">0</div></div>
+              </div>
+              <div class="myteam-row" id="myTeamRow" role="list"></div>
             </div>
           </div>
-          <div class="toolbar-group">
-            <span class="label">Filters</span>
-            <button class="tool" id="partyBtn">Party</button>
-            <button class="tool" id="stateBtn">State</button>
-            <button class="tool" id="badgesBtn">Badges</button>
-          </div>
-          <div class="notice">Votes here mirror Week/Season. Career hides the list.</div>
-        </div>
+        </section>
 
-        <div class="main__scroll" tabindex="0">
-          <section class="section">
-            <h2 class="h1">Scoreboard</h2>
-            <div class="scorebox">
-              <div>
-                <div class="big" id="scoreTotal">0</div>
-                <div class="muted" id="scoreCaption">Total points · Week</div>
+        <div style="height:16px"></div>
+
+        <section class="panel">
+          <div class="hd">Live Votes Today</div>
+          <div class="bd">
+            <table aria-label="Live votes">
+              <thead>
+                <tr><th>Bill / Motion</th><th>Chamber</th><th>Result</th><th>Time (CT)</th></tr>
+              </thead>
+              <tbody id="liveVotes">
+                <tr>
+                  <td>H.R. 1234 — Infrastructure Modernization Act</td>
+                  <td>House</td>
+                  <td><span class="yea">Yea 247</span> / <span class="nay">Nay 187</span></td>
+                  <td>2:14 PM</td>
+                </tr>
+                <tr>
+                  <td>S. 98 — Continuing Resolution</td>
+                  <td>Senate</td>
+                  <td><span class="yea">Yea 69</span> / <span class="nay">Nay 31</span></td>
+                  <td>12:02 PM</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <div style="height:16px"></div>
+
+        <section class="grid-3">
+          <div class="panel">
+            <div class="hd">Top Movers Today</div>
+            <div class="bd">
+              <table aria-label="Top movers">
+                <thead><tr><th>Member</th><th>Chamber</th><th>Δ Pts</th></tr></thead>
+                <tbody id="movers">
+                  <tr><td>Rep. A. Smith (MO‑03)</td><td>House</td><td class="yea">+18</td></tr>
+                  <tr><td>Sen. L. Nguyen (IL)</td><td>Senate</td><td class="yea">+12</td></tr>
+                  <tr><td>Rep. J. Doe (TX‑07)</td><td>House</td><td class="nay">−6</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="hd">League Standings</div>
+            <div class="bd">
+              <table aria-label="Standings">
+                <thead><tr><th>Team</th><th>W‑L</th><th>Pts</th></tr></thead>
+                <tbody id="standingsBody">
+                  <tr><td>Chant’s Coalition</td><td>8‑3</td><td>742</td></tr>
+                  <tr><td>Floor Fighters</td><td>8‑4</td><td>731</td></tr>
+                  <tr><td>Filibuster Busters</td><td>7‑5</td><td>690</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="hd">Recent League Actions</div>
+            <div class="bd">
+              <div class="feed" id="feed">
+                <div class="feed-item">
+                  <span class="pill">Pick</span>
+                  <div>
+                    Chant’s Coalition added <strong>Rep. A. Smith</strong> (MO‑03).
+                    <div class="muted">Today • 2:41 PM</div>
+                  </div>
+                </div>
+                <div class="feed-item">
+                  <span class="pill">Trade</span>
+                  <div>
+                    Floor Fighters traded <strong>Sen. R. Patel</strong> to Filibuster Busters for FAAB $12.
+                    <div class="muted">Today • 1:03 PM</div>
+                  </div>
+                </div>
+                <div class="feed-item">
+                  <span class="pill">Waiver</span>
+                  <div>
+                    Filibuster Busters added <strong>Rep. L. Nguyen</strong> (IL‑07).
+                    <div class="muted">Yesterday</div>
+                  </div>
+                </div>
               </div>
             </div>
-          </section>
+          </div>
+        </section>
 
-          <section class="section" id="votesSection">
-            <h3 class="h1">Votes (Preview)</h3>
-            <div class="votes" id="votesList"></div>
-          </section>
-        </div>
+        <div style="height:16px"></div>
+
+        <section class="panel">
+          <div class="hd">League Notes</div>
+          <div class="bd" id="notes">
+            <ul style="margin:0; padding-left:18px;">
+              <li>Header is injected by <code>shared.js</code> and styled by <code>shared.css</code>.</li>
+              <li>Scores are driven by vote events, not sports games.</li>
+              <li>Hook <code>liveVotes</code>, <code>chamberSchedule</code>, <code>movers</code>, and <code>standingsBody</code> to your JSON feeds.</li>
+            </ul>
+          </div>
+        </section>
       </div>
-    </main>
-  </div>
+    </section>
+  </main>
 
-<script>
-/* ===== Sample Data ===== */
-const TEAM = [
-  {id:"A1",name:"Alex Brewer",party:"D",state:"WI",initials:"AB",scores:{week:128,season:412,career:2011}},
-  {id:"B2",name:"Casey Stone",party:"R",state:"TX",initials:"CS",scores:{week:96,season:305,career:1540}},
-  {id:"C3",name:"Jordan Moss",party:"I",state:"VT",initials:"JM",scores:{week:77,season:221,career:1204}},
-  {id:"D4",name:"Lena Kay",party:"D",state:"CA",initials:"LK",scores:{week:71,season:190,career:1002}},
-  {id:"E5",name:"Ray Boone",party:"R",state:"OH",initials:"RB",scores:{week:64,season:178,career:954}}
-];
-const VOTES = {
-  week:[
-    {id:'s-575', bill_number:'S. 575', title:'Disaster Relief Supplemental', chamber:'Senate', date:'2025-08-22', result:'Passed', yes:70, no:28, summary:'Hurricane and wildfire aid.'},
-    {id:'hr-1010', bill_number:'H.R. 1010', title:'Border Infrastructure Upgrade', chamber:'House', date:'2025-08-24', result:'Passed', yes:299, no:126, summary:'Ports of entry modernization.'},
-    {id:'s-560', bill_number:'S. 560', title:'Student Loan Refinancing', chamber:'Senate', date:'2025-08-26', result:'Failed', yes:46, no:54, summary:'Rate caps and refinance window.'}
-  ],
-  season:[]
-};
+  <!-- Header injector (keeps nav consistent across all pages) -->
+  <script defer src="shared.js"></script>
+  <script>
+    // ==== My Team Scoreboard Render (REAL DATA) ====
+    (async function renderMyTeamBoard(){
+      // ---- EXPECTED FILES (drop these in your site root or /data):
+      // 1) roster.json  → member directory
+      //    [{"id":"S000033","name":"Rep. A. Smith","chamber":"House","state":"MO-03","photo":"/assets/members/S000033.jpg"}, ...]
+      // 2) kpis.csv or kpis.json → points per member (by id)
+      //    CSV headers: id,today,week,season
+      // 3) myteam_ids.json (optional) or localStorage 'myTeam' → list of member ids on your team
+      //    ["S000033","B001288", ...]
 
-/* ===== Page Logic ===== */
-let SCOPE = "week";
-const $ = s => document.querySelector(s);
+      const PREFERRED_PATHS = {
+        roster: ["/data/roster.json", "/roster.json"],
+        kpisCsv: ["/data/kpis.csv", "/kpis.csv"],
+        kpisJson: ["/data/kpis.json", "/kpis.json"],
+        myteamIds: ["/data/myteam_ids.json", "/myteam_ids.json"]
+      };
 
-document.addEventListener("DOMContentLoaded", () => {
-  bindUI();
-  setScope(SCOPE);
-});
+      async function fetchJSON(url){
+        try{ const r = await fetch(url, {cache:'no-store'}); if(!r.ok) throw 0; return await r.json(); }catch{return null}
+      }
+      async function fetchText(url){
+        try{ const r = await fetch(url, {cache:'no-store'}); if(!r.ok) throw 0; return await r.text(); }catch{return null}
+      }
+      async function firstHit(urls, reader){
+        for(const u of urls){ const v = await reader(u); if(v) return v; }
+        return null;
+      }
+      function parseCSV(txt){
+        // tiny CSV parser for id,today,week,season
+        const lines = txt.trim().split(/\r?\n/);
+        if(lines.length < 2) return [];
+        const head = lines[0].split(',').map(s=>s.trim());
+        const idx = {
+          id: head.findIndex(h=>/id/i.test(h)),
+          today: head.findIndex(h=>/today/i.test(h)),
+          week: head.findIndex(h=>/week/i.test(h)),
+          season: head.findIndex(h=>/season/i.test(h))
+        };
+        const out = [];
+        for(let i=1;i<lines.length;i++){
+          const cols = lines[i].split(',');
+          const row = {
+            id: (cols[idx.id]||'').trim(),
+            today: Number(cols[idx.today]||0),
+            week: Number(cols[idx.week]||0),
+            season: Number(cols[idx.season]||0)
+          };
+          if(row.id) out.push(row);
+        }
+        return out;
+      }
 
-function bindUI(){
-  const tabs = $('#scopeTabs');
-  tabs.addEventListener('click', e=>{
-    const btn = e.target.closest('button[data-scope]'); if(!btn) return;
-    SCOPE = btn.dataset.scope;
-    [...tabs.querySelectorAll('button')].forEach(b=>b.classList.toggle('active', b===btn));
-    setScope(SCOPE);
-  });
-  $('#partyBtn').onclick = () => alert('Party filter coming soon');
-  $('#stateBtn').onclick  = () => alert('State filter coming soon');
-  $('#badgesBtn').onclick = () => alert('Badges filter coming soon');
-}
+      // Load datasets
+      const [roster, kpisCsvTxt, kpisJson, myteamIds] = await Promise.all([
+        firstHit(PREFERRED_PATHS.roster, fetchJSON),
+        firstHit(PREFERRED_PATHS.kpisCsv, fetchText),
+        firstHit(PREFERRED_PATHS.kpisJson, fetchJSON),
+        firstHit(PREFERRED_PATHS.myteamIds, fetchJSON)
+      ]);
 
-function setScope(scope){
-  const total = TEAM.reduce((s,m)=> s + (m.scores?.[scope] ?? 0), 0);
-  $('#scoreTotal').textContent = new Intl.NumberFormat().format(total);
-  $('#scoreCaption').textContent = `Total points · ${cap(scope)}`;
-  $('#votesSection').style.display = scope==="career" ? "none" : "block";
-  renderVotes(scope);
-}
+      const kpis = kpisJson || (kpisCsvTxt ? parseCSV(kpisCsvTxt) : []);
+      const kpiArray = Array.isArray(kpis) ? kpis : [];
+      if(!Array.isArray(kpis)) console.warn('KPIs not an array; falling back to empty list. Got:', kpis);
+      const kpiMap = new Map(kpiArray.map(k=>[String(k.id), k]));
 
-function renderVotes(scope){
-  const list = $('#votesList'); list.innerHTML='';
-  const rows = VOTES[scope] || [];
-  if(!rows.length){ list.innerHTML = '<div class="muted">No votes available.</div>'; return; }
-  rows.forEach(v => list.appendChild(voteCard(v)));
-}
+      let teamIds = Array.isArray(myteamIds) && myteamIds.length ? myteamIds : [];
+      // Fallback to localStorage 'myTeam' (ids)
+      if(teamIds.length===0){
+        try{ const ls = JSON.parse(localStorage.getItem('myTeam')||'[]'); if(Array.isArray(ls)) teamIds = ls; }catch{}
+      }
 
-function voteCard(v){
-  const id = v.id || (v.bill_number||v.title||'bill').toLowerCase().replace(/\s+/g,'-');
-  const passed = (v.result||'').toLowerCase()==='passed';
-  const yeas = v.yes ?? v.yeas ?? 0, nays = v.no ?? v.nays ?? 0;
-  const dateTxt = v.date ? new Date(v.date).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}) : '';
-  const chamber = (v.chamber||'').replace(/^[a-z]/,m=>m.toUpperCase());
+      // Build display items by joining roster meta + KPIs; if no team ids, show top KPI members
+      let items = [];
+      if(Array.isArray(roster) && roster.length){
+        const metaById = new Map(roster.map(m=>[String(m.id), m]));
+        const pickIds = teamIds.length ? teamIds : kpiArray.map(k=>k.id).slice(0, 10);
+        for(const id of pickIds){
+          const meta = metaById.get(String(id)) || { id, name: id, chamber: '', state:'', photo:'' };
+          const pts = kpiMap.get(String(id)) || { today:0, week:0, season:0 };
+          items.push({ id, ...meta, ...pts });
+        }
+      }
 
-  const el = document.createElement('article');
-  el.className='vote'; el.id='vote-'+id;
-  el.innerHTML = `
-    <header>
-      <div>
-        <div class="bill">${esc(v.bill_number||v.title||'Bill')} — ${esc(v.title||'')}</div>
-        <div class="meta">${esc(chamber)}${dateTxt?' · '+dateTxt:''}</div>
-      </div>
-      <div class="badges">
-        <span class="badge ${passed?'pass':'fail'}">${passed?'Passed':'Failed'}</span>
-        <span class="badge">Yeas ${yeas}</span>
-        <span class="badge">Nays ${nays}</span>
-      </div>
-    </header>
-    <div class="body">
-      <div class="panel">
-        <div style="margin-bottom:8px;color:var(--muted)">${esc(v.summary||'')}</div>
-        <div class="grid">
-          <div class="kv"><b>Bill Number</b><span>${esc(v.bill_number||'-')}</span></div>
-          <div class="kv"><b>Result</b><span>${passed?'Passed':'Failed'} (${yeas}–${nays})</span></div>
-          <div class="kv"><b>Chamber</b><span>${esc(chamber||'-')}</span></div>
-          <div class="kv"><b>Date</b><span>${dateTxt||'-')}</span></div>
-        </div>
-        <div class="party-legend">
-          <span><i style="background:#b24a4a"></i>R</span>
-          <span><i style="background:#4a77d3"></i>D</span>
-          <span><i style="background:#d3b84a"></i>I</span>
-        </div>
-        <div class="bar" aria-label="Party distribution">
-          <i class="r" style="width:34%"></i>
-          <i class="d" style="width:58%;left:34%"></i>
-          <i class="i" style="width:8%;left:92%"></i>
-        </div>
-        <div class="statrow">
-          <div class="kv"><b>R</b><span>Yeas 110 · Nays 120</span></div>
-          <div class="kv"><b>D</b><span>Yeas 170 · Nays 25</span></div>
-          <div class="kv"><b>I</b><span>Yeas 7 · Nays 0</span></div>
-        </div>
-      </div>
-      <aside class="panel">
-        <div class="btns">
-          <button class="tool" data-copy>Copy link</button>
-          <button class="tool" onclick="location.href='votes.html'">Open in Votes</button>
-        </div>
-      </aside>
-    </div>
-  `;
-  el.querySelector('header').addEventListener('click', ()=>{
-    document.querySelectorAll('.vote.open').forEach(n=>{ if(n!==el) n.classList.remove('open'); });
-    el.classList.toggle('open');
-  });
-  el.addEventListener('click', e=>{
-    if(e.target.matches('[data-copy]')){
-      const h = location.href.split('#')[0] + '#' + el.id;
-      navigator.clipboard?.writeText(h);
-      e.target.textContent='Copied'; setTimeout(()=>e.target.textContent='Copy link',900);
-    }
-  });
-  return el;
-}
+      // Final fallback (if no files available)
+      if(items.length===0){
+        items = [
+          {id:"M1", name:"Rep. A. Smith", chamber:"House", state:"MO-03", photo:"https://www.govtrack.us/static/legislator-photos/S000033-200px.jpeg", today: +6, week:+18, season: 212},
+          {id:"M2", name:"Sen. L. Nguyen", chamber:"Senate", state:"IL", photo:"https://www.govtrack.us/static/legislator-photos/B001288-200px.jpeg", today: +4, week:+12, season: 198},
+          {id:"M3", name:"Rep. J. Doe", chamber:"House", state:"TX-07", photo:"https://www.govtrack.us/static/legislator-photos/C001098-200px.jpeg", today: -2, week:-6, season: 154}
+        ];
+      }
 
-function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
-function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
-</script>
+      // Render
+      const row = document.getElementById('myTeamRow') || document.getElementById('myTeamGrid');
+      row.innerHTML = '';
+      let tToday=0, tWeek=0, tSeason=0;
+      for (const m of items.slice(0,10)){
+        tToday += m.today||0; tWeek += m.week||0; tSeason += m.season||0;
+        const card = document.createElement('div');
+        card.className = 'member-card';
+        const img = document.createElement('img');
+        img.src = m.photo || '';
+        img.alt = m.name;
+        const meta = document.createElement('div');
+        meta.className = 'meta';
+        meta.innerHTML = `<div class=\"name\">${m.name}</div><div class=\"sub\">${m.chamber||''} • ${m.state||''}</div>`;
+        const pts = document.createElement('div');
+        pts.className = 'pts';
+        const t = Number(m.today||0);
+        if (t>0) pts.classList.add('positive'); else if (t<0) pts.classList.add('negative');
+        const sign = (n)=> n>0? '+':'';
+        pts.textContent = `${sign(t)}${t}`;
+        card.append(img, meta, pts);
+        row.append(card);
+      }
+      document.getElementById('kpiToday').textContent = tToday;
+      document.getElementById('kpiWeek').textContent = tWeek;
+      document.getElementById('kpiSeason').textContent = tSeason;
+    })();
+  </script>
+  <script>
+    // HARD OVERRIDE any attempts to inflate --h or paddingTop
+    (function hardHeaderLock(){
+      const H = 72; // desired header height
+      let ticks = 0;
+      function apply(){
+        document.documentElement.style.setProperty('--h', H + 'px');
+        document.body.style.paddingTop = H + 'px';
+        const host = document.getElementById('site-header');
+        if (host) host.style.height = '0px';
+      }
+      // initial + a short burst to squash late mutations
+      apply();
+      const id = setInterval(()=>{ apply(); if(++ticks>16) clearInterval(id); }, 125);
+      // if shared.js mutates <html style> later, reset immediately
+      const mo = new MutationObserver(apply);
+      mo.observe(document.documentElement, { attributes:true, attributeFilter:['style']});
+      // listen for header size changes and pin back
+      const ro = new ResizeObserver(apply);
+      const tryObserve = () => { const hdr = document.querySelector('header.site-header'); if(hdr) ro.observe(hdr); else setTimeout(tryObserve, 100); };
+      tryObserve();
+    })();
+
+    // ==== DEV TESTS (CSV parser) ====
+    (function devCsvTests(){
+      const out = document.createElement('div');
+      out.id = 'dev-test-badge';
+      function pass(msg){ out.textContent = '✓ ' + msg; document.body.appendChild(out); }
+      function fail(msg){ out.textContent = '✗ ' + msg; out.style.color = '#ff9b9b'; document.body.appendChild(out); }
+      try{
+        const csv1 = 'id,today,week,season\nA,1,2,3\nB,4,5,6';
+        const csv2 = 'id,today,week,season\r\nC,7,8,9\r\nD,10,11,12';
+        const rows1 = (function(txt){ return txt.trim().split(/\r?\n/); })(csv1); // sanity split
+        const rows2 = (function(txt){ return txt.trim().split(/\r?\n/); })(csv2);
+        if(rows1.length !== 3) throw new Error('LF split failed');
+        if(rows2.length !== 3) throw new Error('CRLF split failed');
+        // Use the actual parser
+        const parsed1 = (function(txt){
+          const lines = txt.trim().split(/\r?\n/);
+          const head = lines[0].split(',');
+          return lines.slice(1).map(l=>{const c=l.split(',');return {id:c[0],today:+c[1],week:+c[2],season:+c[3]};});
+        })(csv1);
+        if(parsed1[0].id !== 'A' || parsed1[1].season !== 6) throw new Error('Parser values wrong');
+        pass('CSV parser OK');
+      }catch(e){ console.error(e); fail('CSV parser FAILED'); }
+    })();
+  </script>
 </body>
 </html>

@@ -1,151 +1,473 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Fantasy Politics — Rules</title>
-  <style>
-    :root{--nav-h:68px;--content-max:1320px;--gutter:20px;--gap:16px;--radius:14px;--panel:#171a2b;--panel-2:#1d2140;--text:#e7e9f4;--muted:#9aa1bd;--accent:#6ea8fe;--border:1px solid #2a315b;--ok:#22c55e;--bad:#ef4444;--chip:#0f1427;--chip-br:#2a315b;--bg:#0d1020;--shadow:0 8px 30px rgba(0,0,0,.35)}
-    html,body{height:100%}
-    body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
-    a{color:inherit;text-decoration:none}
-    /* Top Nav */
-    .nav{position:sticky;top:0;z-index:50;height:var(--nav-h);display:flex;align-items:center;justify-content:center;background:rgba(10,12,24,.72);backdrop-filter:saturate(140%) blur(10px);border-bottom:var(--border)}
-    .nav-inner{width:100%;max-width:var(--content-max);display:flex;align-items:center;gap:12px;padding:0 var(--gutter)}
-    .brand{flex:0 0 auto;font-weight:700;letter-spacing:.3px}
-    .brand span{color:var(--muted)}
-    .nav-tabs{margin:0 auto;display:flex;gap:8px}
-    .tab{padding:10px 14px;border:var(--border);border-radius:999px;background:var(--chip)}
-    .tab.active{border-color:#4b83ff;background:linear-gradient(180deg,#1c2446,#151a33)}
-    .right{display:flex;gap:8px}
-    .btn{padding:8px 12px;border-radius:10px;border:var(--border);background:var(--panel-2)}
-    /* Layout */
-    .page{display:grid;grid-template-columns:280px 1fr;gap:var(--gap);width:100%;max-width:var(--content-max);margin:24px auto;padding:0 var(--gutter)}
-    .rail{position:sticky;top:calc(var(--nav-h)+16px);align-self:start;display:flex;flex-direction:column;gap:12px}
-    .rail .card{background:var(--panel);border:var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
-    .rail .card h4{margin:10px 12px;color:var(--muted);font-weight:600}
-    .roster{padding:10px}
-    .leg{display:flex;align-items:center;justify-content:space-between;padding:10px;border-radius:12px;background:var(--chip);border:1px solid var(--chip-br);margin-bottom:8px}
-    .avatar{width:28px;height:28px;border-radius:50%;background:#334}
-    .badge{font-weight:700;font-size:12px;padding:4px 8px;border-radius:999px;background:#0c1226;border:1px solid #2d3563}
-    .content{display:flex;flex-direction:column;gap:16px}
-    .panel{background:var(--panel);border:var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
-    .panel .hd{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:var(--border)}
-    .panel .bd{padding:16px 18px}
-    .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;border:1px solid var(--chip-br);background:var(--chip);font-weight:600}
-    .pill .p{width:22px;height:22px;display:grid;place-items:center;border-radius:50%}
-    .p.ok{background:#0f2a1b;color:#7ef2a5;border:1px solid #145533}
-    .p.bad{background:#2b1214;color:#ff9aa7;border:1px solid #6c1f29}
-    .p.neu{background:#101628;color:#9fb4ff;border:1px solid #2a315b}
-    .grid{display:grid;gap:12px}
-    .grid.rules{grid-template-columns:repeat(2,minmax(0,1fr))}
-    @media(max-width:1100px){.page{grid-template-columns:1fr}.rail{position:relative;top:auto}.grid.rules{grid-template-columns:1fr}}
-    /* Local sub-nav */
-    .subnav{display:flex;gap:6px;padding:8px;border:var(--border);background:var(--panel);border-radius:12px}
-    .subtab{padding:8px 12px;border-radius:999px;border:1px solid #2a315b;background:#0f1427}
-    .subtab.active{border-color:#4b83ff;background:linear-gradient(180deg,#1c2446,#151a33)}
-    .hide{display:none}
-  </style>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Capitol League — Rules</title>
+<link rel="stylesheet" href="shared.css"/>
+<link rel="icon" href="data:,"><!-- silence favicon 404 -->
+
+<style>
+  :root{
+    --max:1280px; --g:16px;
+    --bg:#0f1220; --txt:#e7e9f4; --muted:#a7afd3;
+    --panel:#171a2b; --bdr:rgba(118,136,214,.25);
+    --accent:#6ea8fe; --good:#19c37d; --bad:#ff5b5b; --gold:#ffd569;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font:14px/1.5 system-ui,Segoe UI,Roboto,Helvetica,Arial}
+
+  /* sticky toolbar fix: use a dedicated --site-header var */
+  .toolbar{position:sticky; top:var(--site-header,0px); z-index:900;
+    background:linear-gradient(180deg, rgba(13,17,33,.98), rgba(13,17,33,.96));
+    border-top:1px solid rgba(255,255,255,.04); border-bottom:1px solid rgba(255,255,255,.06)}
+  .toolbar-inner{max-width:var(--max); margin:0 auto; padding:10px var(--g); display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+
+  main{max-width:var(--max);margin:0 auto;padding:18px var(--g) 64px}
+  .grid{display:grid;grid-template-columns:2fr 1fr;gap:16px}
+  @media (max-width:1100px){.grid{grid-template-columns:1fr}}
+
+  .panel{background:var(--panel); border:1px solid var(--bdr); border-radius:14px; overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,.25)}
+  .panel h3{margin:0; padding:14px 16px; border-bottom:1px solid rgba(255,255,255,.06); font:800 14px/1 system-ui; letter-spacing:.3px; color:#d8ddff}
+  .panel .content{padding:14px 16px}
+  .row{display:grid; grid-template-columns:1fr auto; gap:10px; align-items:center; padding:8px 0; border-bottom:1px dashed rgba(255,255,255,.06)}
+  .row:last-child{border-bottom:0}
+
+  .badge{display:inline-grid; place-items:center; width:26px; height:26px; border-radius:8px; font:900 12px/1 system-ui; color:#0b1020; margin-right:8px}
+  .b-plus{background:var(--good)}
+  .b-minus{background:var(--bad)}
+  .b-gold{background:var(--gold)}
+
+  .muted{color:var(--muted); font-weight:600}
+  .pill{appearance:none; border:1px solid #2b3352; background:#11162c; color:#cbd3ff; border-radius:999px; padding:8px 12px; font:800 12px/1 system-ui; cursor:pointer}
+  .switch{--sz:28px; position:relative; width:56px; height:var(--sz); border-radius:999px; background:#243157; border:1px solid rgba(255,255,255,.15); cursor:pointer}
+  .switch input{opacity:0; position:absolute; inset:0}
+  .knob{position:absolute; top:2px; left:2px; width:24px; height:24px; border-radius:50%; background:#cbd3ff; transition:.2s}
+  .switch input:checked + .knob{left:30px; background:#0b1020}
+  .switch input:checked{background:#6ea8fe}
+
+  .group{padding:10px 12px; border:1px solid rgba(255,255,255,.06); border-radius:12px; margin-bottom:12px; background:#11162c}
+  .label{font-weight:800; letter-spacing:.2px; margin-bottom:8px}
+  .flex{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+  .grow{flex:1}
+
+  .calc-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  @media (max-width:700px){.calc-grid{grid-template-columns:1fr}}
+  .input{width:100%; height:36px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.06); color:var(--txt); padding:0 10px; font-weight:700}
+  .select{height:36px; border-radius:10px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.06); color:var(--txt); padding:0 10px; font-weight:700}
+  .btn{background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); color:var(--txt); height:36px; border-radius:10px; padding:0 12px; font-weight:800; cursor:pointer}
+
+  .summary{background:#0f142e; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px}
+  .sum-row{display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px dashed rgba(255,255,255,.06)}
+  .sum-row:last-child{border-bottom:0}
+  .sum-row .pos{color:var(--good); font-weight:900}
+  .sum-row .neg{color:var(--bad); font-weight:900}
+
+  .sticky-note{background:#101735; border:1px solid rgba(255,255,255,.08); padding:10px 12px; border-radius:10px; color:#cbd3ff}
+</style>
 </head>
-<body>
-  <!-- Global navigation -->
-  <nav class="nav">
-    <div class="nav-inner">
-      <div class="brand">Fantasy <span>Politics</span></div>
-      <div class="nav-tabs">
-        <a class="tab" href="index.html">Scoreboard</a>
-        <a class="tab" href="cards.html">Cards</a>
-        <a class="tab" href="votes.html">Votes</a>
-        <a class="tab" href="draft.html">draft</a>
-        <a class="tab active" href="rules.html">Rules</a>
+<body class="has-sticky-toolbar">
+  <div id="site-header"></div>
+
+  <!-- small mode bar (can be extended later) -->
+  <div class="toolbar">
+    <div class="toolbar-inner">
+      <div class="flex grow">
+        <span class="pill">Commissioner Mode</span>
+        <span class="muted">Configure scoring, safeguards, and badges.</span>
       </div>
-      <div class="right">
-        <a class="btn" href="#">Search</a>
-        <a class="btn" href="#">Login</a>
-      </div>
+      <a class="pill" href="scoreboard.html">Scoreboard</a>
+      <a class="pill" href="cards.html">Cards</a>
+      <a class="pill" href="votes.html">Votes</a>
+      <a class="pill" href="draft.html">Draft</a>
+      <a class="pill" href="rules.html" aria-current="page">Rules</a>
     </div>
-  </nav>
+  </div>
 
-  <main class="page">
-    <!-- Team rail -->
-    <aside class="rail">
-      <div class="card">
-        <h4>My Team</h4>
-        <div class="roster">
-          <div class="leg"><div style="display:flex;gap:10px;align-items:center"><div class="avatar"></div><div><div>Alex Brewer</div><div style="color:#9aa1bd">D • WI</div></div></div><div class="badge">+128</div></div>
-          <div class="leg"><div style="display:flex;gap:10px;align-items:center"><div class="avatar"></div><div><div>Casey Stone</div><div style="color:#9aa1bd">R • TX</div></div></div><div class="badge">+96</div></div>
-        </div>
-      </div>
-    </aside>
+  <main>
+    <div class="grid">
 
-    <!-- Content -->
-    <section class="content">
-      <!-- Local sub-nav within Rules section -->
-      <div class="subnav">
-        <a id="tab-rules" class="subtab active" href="rules.html">Rules</a>
-        <a id="tab-team" class="subtab" href="rules-team.html">Team</a>
-        <a id="tab-commish" class="subtab" href="rules-admin.html">Commissioner</a>
+      <!-- LEFT: Scoring + Options -->
+      <div class="col-left">
+
+        <!-- Baseline Scoring -->
+        <section class="panel">
+          <h3>Fantasy Politics — Baseline Scoring</h3>
+          <div class="content">
+
+            <div class="row">
+              <div class="flex">
+                <span class="badge b-plus">+10</span>
+                <div>
+                  <div><b>Core Votes</b> — per vote on tracked bills.</div>
+                  <div class="muted">Counts both Yeas and Nays you cast.</div>
+                </div>
+              </div>
+              <div class="muted">core_vote_pts</div>
+            </div>
+
+            <div class="row">
+              <div class="flex">
+                <span class="badge b-minus">-5</span>
+                <div>
+                  <div><b>Missed Vote</b> — no vote recorded.</div>
+                  <div class="muted">Applies per eligible missed roll.</div>
+                </div>
+              </div>
+              <div class="muted">miss_penalty</div>
+            </div>
+
+            <div class="row">
+              <div class="flex">
+                <span class="badge b-plus">+20</span>
+                <div>
+                  <div><b>Streak</b> — every 10 consecutive votes cast.</div>
+                  <div class="muted">Optional diminishing returns for 2nd+ bundle.</div>
+                </div>
+              </div>
+              <div class="muted">streak_pts</div>
+            </div>
+
+            <div class="row">
+              <div class="flex">
+                <span class="badge b-plus">+25</span>
+                <div>
+                  <div><b>Perfect Week</b> — no misses among eligible votes.</div>
+                </div>
+              </div>
+              <div class="muted">perfect_pts</div>
+            </div>
+
+            <div class="row">
+              <div class="flex">
+                <span class="badge b-plus">+10</span>
+                <div>
+                  <div><b>Bipartisan Bonus</b> — vote against party majority.</div>
+                  <div class="muted">Weekly cap applies; threshold adjustable below.</div>
+                </div>
+              </div>
+              <div class="muted">bipartisan_pts</div>
+            </div>
+
+            <div class="row">
+              <div class="flex">
+                <span class="badge b-minus">-15</span>
+                <div>
+                  <div><b>Missed Key Vote</b> — stacks with missed-vote penalty.</div>
+                </div>
+              </div>
+              <div class="muted">miss_key_penalty</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Options & Safeguards -->
+        <section class="panel">
+          <h3>Options & Safeguards</h3>
+          <div class="content">
+
+            <div class="group">
+              <div class="label">Key-vote Multiplier</div>
+              <div class="flex">
+                <label class="switch">
+                  <input id="opt_keymult" type="checkbox" checked>
+                  <span class="knob"></span>
+                </label>
+                <span class="muted">±2 points on casts and misses when roll is marked key.</span>
+              </div>
+            </div>
+
+            <div class="group">
+              <div class="label">Streak Diminishing Returns</div>
+              <div class="flex">
+                <label class="switch">
+                  <input id="opt_dimreturns" type="checkbox" checked>
+                  <span class="knob"></span>
+                </label>
+                <span class="muted">2nd 10-vote streak bundle this week = <b>+15</b> (default on).</span>
+              </div>
+            </div>
+
+            <div class="group">
+              <div class="label">Party-line Penalty</div>
+              <div class="flex">
+                <label class="switch">
+                  <input id="opt_partyline" type="checkbox" checked>
+                  <span class="knob"></span>
+                </label>
+                <span class="muted">−10 if 100% party-line with ≥6 eligible votes.</span>
+              </div>
+            </div>
+
+            <div class="group">
+              <div class="label">Bipartisan Weekly Cap</div>
+              <div class="flex">
+                <input id="cap_bip_week" class="input" type="number" min="0" value="60" style="width:100px">
+                <span class="muted">Max bonus per legislator per week.</span>
+              </div>
+            </div>
+
+            <div class="group">
+              <div class="label">Per-week Score Cap</div>
+              <div class="flex">
+                <label class="switch">
+                  <input id="opt_weekcap" type="checkbox">
+                  <span class="knob"></span>
+                </label>
+                <span class="muted">Cap <b>core vote</b> points at 200; extra votes earn +1 each.</span>
+              </div>
+            </div>
+
+            <div class="group">
+              <div class="label">Bipartisan Majority Threshold</div>
+              <div class="flex" style="gap:14px">
+                <input id="thresh_bip" class="grow" type="range" min="50" max="80" step="1" value="55">
+                <span class="muted"><span id="thresh_bip_val">55</span>%</span>
+              </div>
+              <div class="sticky-note">Party must exceed this threshold for a roll to count as “party majority.” (This is informational for leagues; it doesn’t alter the calculator math here.)</div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Season Badges -->
+        <section class="panel">
+          <h3>Season Badges</h3>
+          <div class="content">
+            <div class="row">
+              <div class="flex">
+                <span class="badge b-gold">+100</span>
+                <div><b>Ironman</b> — Fewest missed votes (tie-breakers: attendance rate → core points → key-vote participation → coin flip).</div>
+              </div>
+              <div class="muted">season_end</div>
+            </div>
+            <div class="row">
+              <div class="flex">
+                <span class="badge b-gold">+100</span>
+                <div><b>Ghost</b> — Most missed votes (tie-breakers same, inverted).</div>
+              </div>
+              <div class="muted">season_end</div>
+            </div>
+            <div class="row">
+              <div class="flex">
+                <span class="badge b-gold">+50</span>
+                <div><b>Wild Card</b> — Highest flip rate (Yes⇄No, no abstentions).</div>
+              </div>
+              <div class="muted">season_end</div>
+            </div>
+          </div>
+        </section>
+
       </div>
 
-      <!-- Rules panels -->
-      <div class="panel">
-        <div class="hd"><div>Baseline Scoring</div></div>
-        <div class="bd grid rules">
-          <div class="pill"><span class="p ok">+10</span> Core Votes — Per Yes/No on tracked bills.</div>
-          <div class="pill"><span class="p bad">−5</span> Missed Vote — No vote recorded.</div>
-          <div class="pill"><span class="p neu">+20</span> Streak — Each 10 consecutive votes cast.</div>
-          <div class="pill"><span class="p neu">+50</span> Perfect Week — No misses among eligible votes.</div>
-          <div class="pill"><span class="p neu">+25</span> Bipartisan Bonus — Opposite party majority on a roll call.</div>
-          <div class="pill"><span class="p bad">−25</span> Missed Key Vote — Stacks with missed-vote penalty.</div>
-          <div class="pill"><span class="p ok">+100</span> Ironman Badge — Season end, fewest missed votes.</div>
-          <div class="pill"><span class="p bad">−100</span> Ghost Badge — Season end, most missed votes.</div>
-          <div class="pill"><span class="p ok">+50</span> Wild Card — Most Yes↔No flips.</div>
-        </div>
+      <!-- RIGHT: Weekly Calculator -->
+      <div class="col-right">
+        <section class="panel">
+          <h3>Weekly Score Calculator</h3>
+          <div class="content">
+
+            <div class="calc-grid">
+              <div class="group">
+                <div class="label">Votes cast</div>
+                <input id="in_cast" class="input" type="number" min="0" value="8">
+              </div>
+              <div class="group">
+                <div class="label">Missed votes</div>
+                <input id="in_missed" class="input" type="number" min="0" value="2">
+              </div>
+
+              <div class="group">
+                <div class="label">Key votes cast</div>
+                <input id="in_key_cast" class="input" type="number" min="0" value="1">
+              </div>
+              <div class="group">
+                <div class="label">Missed key votes</div>
+                <input id="in_key_missed" class="input" type="number" min="0" value="0">
+              </div>
+
+              <div class="group">
+                <div class="label">10-vote streak bundles</div>
+                <input id="in_streaks" class="input" type="number" min="0" value="0">
+              </div>
+              <div class="group">
+                <div class="label">Bipartisan votes</div>
+                <input id="in_bip" class="input" type="number" min="0" value="2">
+              </div>
+
+              <div class="group">
+                <div class="label">Eligible votes (cast + missed)</div>
+                <input id="in_eligible" class="input" type="number" min="0" value="11">
+              </div>
+              <div class="group">
+                <div class="label">Perfect attendance?</div>
+                <select id="in_perfect" class="select">
+                  <option value="auto">Auto (0 misses)</option>
+                  <option value="yes">Yes (force)</option>
+                  <option value="no" selected>No</option>
+                </select>
+              </div>
+
+              <div class="group">
+                <div class="label">Party-line 100%?</div>
+                <select id="in_partyline" class="select">
+                  <option value="no" selected>No</option>
+                  <option value="yes">Yes</option>
+                </select>
+              </div>
+              <div class="group">
+                <div class="label">Bipartisan bonus / vote</div>
+                <input id="in_bip_val" class="input" type="number" min="0" value="10">
+              </div>
+            </div>
+
+            <div class="flex" style="margin-top:10px">
+              <button id="btn_recalc" class="btn">Recalculate</button>
+              <span class="muted">Numbers update instantly when you type.</span>
+            </div>
+
+            <div class="summary" style="margin-top:12px">
+              <div class="sum-row"><span>Core votes (+10 each)</span><span id="sum_core" class="pos">+0</span></div>
+              <div class="sum-row"><span>Missed votes (−5 each)</span><span id="sum_missed" class="neg">0</span></div>
+              <div class="sum-row"><span>Key-vote multiplier (±2 each)</span><span id="sum_keymult" class="pos">+0</span></div>
+              <div class="sum-row"><span>Streaks (+20 / +15…)</span><span id="sum_streaks" class="pos">+0</span></div>
+              <div class="sum-row"><span>Perfect attendance</span><span id="sum_perfect" class="pos">+0</span></div>
+              <div class="sum-row"><span>Bipartisan bonus</span><span id="sum_bip" class="pos">+0</span></div>
+              <div class="sum-row"><span>Party-line penalty</span><span id="sum_partyline" class="neg">0</span></div>
+              <div class="sum-row"><span>Weekly cap adjustment</span><span id="sum_weekcap" class="neg">0</span></div>
+              <div class="sum-row" style="font-size:16px"><span><b>Total</b></span><span id="sum_total" class="pos">+0</span></div>
+            </div>
+
+          </div>
+        </section>
       </div>
 
-      <div class="panel">
-        <div class="hd"><div>Options & Safeguards</div></div>
-        <div class="bd">
-          <ul style="margin:0;padding-left:18px">
-            <li>Key‑vote Multiplier ×2 on marked key rolls</li>
-            <li>Streak diminishing returns: 2nd 10‑vote streak in same week = +15</li>
-            <li>Party‑line penalty: −10 if 100% party‑line with ≥6 eligible votes</li>
-            <li>Bipartisan weekly cap: +50 per legislator per week</li>
-            <li>Per‑week core cap: 200, extra votes = +1 each</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="hd"><div>Season Badges</div></div>
-        <div class="bd">
-          <ul style="margin:0;padding-left:18px">
-            <li>Ironman +100 — Fewest missed votes</li>
-            <li>Ghost −100 — Most missed votes</li>
-            <li>Wild Card +50 — Highest flip rate (Yes↔No, no alternations)</li>
-          </ul>
-        </div>
-      </div>
-    </section>
+    </div>
   </main>
 
-  <!-- Config-driven tab visibility -->
+  <script src="shared.js" defer></script>
+
+  <!-- compute sticky offset once and on resize -->
   <script>
-  (async function(){
-    const elTeam = document.getElementById('tab-team');
-    const elComm = document.getElementById('tab-commish');
-    try {
-      const res = await fetch('./config/ui.json', {cache:'no-store'});
-      if(!res.ok) throw new Error('cfg');
-      const cfg = await res.json();
-      if(cfg && cfg.showTeamTab === false) elTeam?.classList.add('hide');
-      if(cfg && cfg.showCommissionerTab === true && cfg.role === 'commissioner'){
-        elComm?.classList.remove('hide');
+    (function(){
+      const root = document.documentElement;
+      const headerEl = document.getElementById('site-header');
+      function setHeaderH(){
+        const h = headerEl ? headerEl.offsetHeight : 0;
+        root.style.setProperty('--site-header', h + 'px');
       }
-    } catch(e){
-      // Default public: team visible, commissioner hidden (already hidden via .hide)
+      window.addEventListener('load', setHeaderH);
+      window.addEventListener('resize', setHeaderH);
+      if (window.ResizeObserver && headerEl){ new ResizeObserver(setHeaderH).observe(headerEl); }
+    })();
+  </script>
+
+  <!-- Calculator logic (vanilla JS) -->
+  <script>
+    const $ = (id)=>document.getElementById(id);
+
+    const inputs = [
+      'in_cast','in_missed','in_key_cast','in_key_missed','in_streaks','in_bip',
+      'in_eligible','in_perfect','in_partyline','in_bip_val',
+      'opt_keymult','opt_dimreturns','opt_partyline','cap_bip_week','opt_weekcap','thresh_bip'
+    ];
+    inputs.forEach(id=>{
+      const el = $(id);
+      const ev = (el && (el.tagName==='INPUT' || el.tagName==='SELECT') && (el.type==='number' || el.type==='range')) ? 'input' : 'change';
+      if(el) el.addEventListener(ev, recalc);
+    });
+    $('btn_recalc').addEventListener('click', recalc);
+    $('thresh_bip').addEventListener('input', ()=>{ $('thresh_bip_val').textContent = $('thresh_bip').value; });
+
+    function n(id){ return +($(id).value||0); }
+    function yes(id){ return $(id).checked; }
+    function sel(id){ return $(id).value; }
+
+    function recalc(){
+      const cast = n('in_cast');
+      const missed = n('in_missed');
+      const keyCast = n('in_key_cast');
+      const keyMiss = n('in_key_missed');
+      const streaks = n('in_streaks');
+      const bipVotes = n('in_bip');
+      const eligible = n('in_eligible');
+      const bipPer = Math.max(0, n('in_bip_val'));
+
+      const hasKeyMult = yes('opt_keymult');
+      const dimReturns = yes('opt_dimreturns');
+      const partylineOpt = yes('opt_partyline');
+      const partyline100 = sel('in_partyline') === 'yes';
+      const weekCapOn = yes('opt_weekcap');
+
+      // Baselines
+      const CORE_PER = 10;
+      const MISSED_PEN = -5;
+      const PERFECT = 25;
+      const STREAK_FIRST = 20;
+      const STREAK_NEXT = dimReturns ? 15 : 20;
+      const MISSED_KEY = -15;
+
+      // Core vote points
+      let core = cast * CORE_PER;
+
+      // Optional weekly cap on core: cap at 200 and give +1 per extra vote
+      let weekCapAdj = 0;
+      if (weekCapOn){
+        const cap = 200;
+        if (core > cap){
+          weekCapAdj = (cap - core) + Math.max(0, cast - Math.floor(cap/CORE_PER)); // replace excess with +1 each
+          core = cap + Math.max(0, cast - Math.floor(cap/CORE_PER)) * 1;
+        }
+      }
+
+      // Miss penalties
+      const miss = missed * MISSED_PEN;
+
+      // Key-vote multiplier (+2 for each key cast, −2 for each key miss) when enabled
+      const keyMult = hasKeyMult ? (keyCast * 2) + (keyMiss * -2) : 0;
+
+      // Missed key vote additional penalty
+      const missKey = keyMiss * MISSED_KEY;
+
+      // Streaks
+      const streakPts = (streaks>0)
+        ? STREAK_FIRST + Math.max(0, streaks-1) * STREAK_NEXT
+        : 0;
+
+      // Perfect attendance
+      const perfectMode = sel('in_perfect');
+      const isPerfect = (perfectMode==='yes') || (perfectMode==='auto' && missed===0 && eligible>0);
+      const perfect = isPerfect ? PERFECT : 0;
+
+      // Bipartisan bonus (with weekly cap)
+      const bipCap = Math.max(0, n('cap_bip_week'));
+      let bip = bipVotes * bipPer;
+      if (bip > bipCap) bip = bipCap;
+
+      // Party-line penalty
+      let partyline = 0;
+      if (partylineOpt && partyline100 && eligible >= 6){
+        partyline = -10;
+      }
+
+      const total = core + miss + keyMult + missKey + streakPts + perfect + bip + partyline + weekCapAdj;
+
+      // Write summary
+      $('sum_core').textContent = (core >= 0 ? '+' : '') + core;
+      $('sum_missed').textContent = miss;
+      $('sum_keymult').textContent = (keyMult >= 0 ? '+' : '') + keyMult;
+      $('sum_streaks').textContent = (streakPts >= 0 ? '+' : '') + streakPts;
+      $('sum_perfect').textContent = (perfect >= 0 ? '+' : '') + perfect;
+      $('sum_bip').textContent = (bip >= 0 ? '+' : '') + bip;
+      $('sum_partyline').textContent = partyline;
+      $('sum_weekcap').textContent = weekCapAdj;
+      $('sum_total').textContent = (total >= 0 ? '+' : '') + total;
     }
-  })();
+
+    // init
+    window.addEventListener('DOMContentLoaded', ()=>{
+      $('thresh_bip_val').textContent = $('thresh_bip').value;
+      recalc();
+    });
   </script>
 </body>
 </html>
