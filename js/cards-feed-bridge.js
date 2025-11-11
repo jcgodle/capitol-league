@@ -1,0 +1,1 @@
+window.CARDS_FEED_URL = window.CARDS_FEED_URL || 'data/roster.json';
