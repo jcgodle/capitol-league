@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Capitol League — Sources</title>
+  <link rel="icon" href="favicon.ico" />
+  <link rel="stylesheet" href="shared.css" />
+
+  <style>
+    :root {
+      --content-max: 1320px;
+      --gap: 20px;
+      --radius: 14px;
+      --panel: #171a2b;
+      --panel-2: #1d2140;
+      --txt: #e7e9f4;
+      --muted: #a2a9c7;
+      --ok: #7bd88f;
+      --bad: #ff6b6b;
+      --shadow: 0 8px 24px rgba(0,0,0,.25);
+    }
+
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: radial-gradient(1200px 800px at 10% -10%, #202443 0%, #0f1222 45%, #0b0e1a 100%);
+      color: var(--txt);
+      font: 15px/1.45 system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .wrap {
+      max-width: var(--content-max);
+      margin: 0 auto;
+      padding: 20px clamp(12px, 3vw, 24px);
+    }
+
+    /* Reserve EXACT header space and prevent host from growing */
+    #site-header { height: 0 !important; position: relative; }
+    #site-header > header,
+    #site-header > nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+    }
+    #site-header .spacer { display:none !important; height:0 !important; }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .panel .hd {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      font-weight: 800;
+      letter-spacing: .3px;
+      background: linear-gradient(180deg, rgba(255,255,255,.04) 0%, rgba(255,255,255,0) 100%);
+    }
+    .panel .bd { padding: 16px; }
+
+    /* ===== Sources page layout ===== */
+
+    .sources-page {
+      display: grid;
+      gap: 20px;
+      align-content: flex-start;
+    }
+
+    .sources-intro p {
+      margin: 0.25rem 0 0.6rem;
+      color: var(--muted);
+    }
+
+    .sources-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.4rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .sources-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+    }
+    .sources-badge--primary   { border-color: rgba(0,200,255,0.7); }
+    .sources-badge--secondary { border-color: rgba(144,202,249,0.6); }
+    .sources-badge--tertiary  { border-color: rgba(200,200,200,0.4); }
+
+    .sources-note {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .sources-section-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin: 4px 2px 4px;
+    }
+
+    .sources-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    @media (min-width: 900px) {
+      .sources-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .sources-card {
+      background: var(--panel-2);
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.08);
+      padding: 14px 16px 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .sources-card h3 {
+      margin: 0 0 4px;
+      font-size: 15px;
+    }
+
+    .sources-card small {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .sources-card p {
+      margin: 0 0 6px;
+      font-size: 13px;
+      color: var(--txt);
+    }
+
+    .sources-link {
+      font-size: 13px;
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 2px;
+      color: #9eb7ff;
+    }
+
+    .sources-meta {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 8px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 8px;
+    }
+
+    /* ===== Footer (shared across pages) ===== */
+
+    #site-footer {
+      margin-top: 28px;
+      border-top: 1px solid rgba(255,255,255,.16);
+      background: rgba(3,6,18,0.85);
+    }
+    #site-footer .footer-inner {
+      max-width: var(--content-max);
+      margin: 0 auto;
+      padding: 10px clamp(12px, 3vw, 24px);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    #site-footer .footer-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    #site-footer .footer-nav a {
+      color: var(--muted);
+      font-weight: 500;
+      text-decoration: none;
+    }
+    #site-footer .footer-nav a:hover {
+      color: var(--txt);
+      text-decoration: underline;
+    }
+  </style>
+
+  <style id="header-lock-css">
+    :root { --h: 72px !important; }
+    body { padding-top: 72px !important; }
+    #site-header { height: 72px !important; position: relative; overflow: hidden; }
+    #site-header > * { position: fixed; top: 0; left: 0; right: 0; }
+  </style>
+</head>
+
+<body>
+  <!-- unified header -->
+  <div id="site-header"></div>
+
+  <main class="wrap sources-page">
+    <!-- Intro panel -->
+    <section class="panel">
+      <div class="hd">Where Does Our Data Come From?</div>
+      <div class="bd sources-intro">
+        <p>
+          Capitol League pulls from nonpartisan, public data with a simple rule:
+          <strong>.gov &gt; .edu &gt; .org &gt; everything else.</strong>
+          Here’s the short list of sources we rely on.
+        </p>
+        <div class="sources-legend">
+          <span class="sources-badge sources-badge--primary">Primary · .gov</span>
+          <span class="sources-badge sources-badge--secondary">Secondary · .edu</span>
+          <span class="sources-badge sources-badge--tertiary">Context · .org / other</span>
+        </div>
+        <div class="sources-note">
+          We always prefer official U.S. government publications. Other sources are used for
+          context and cross-checks, not to override official records.
+        </div>
+      </div>
+    </section>
+
+    <!-- .gov -->
+    <div class="sources-section-title">.gov — Official U.S. Government Data</div>
+    <section class="sources-grid">
+      <article class="sources-card">
+        <h3>Congress.gov (Library of Congress)</h3>
+        <small>Primary source for bills, summaries, status, and roll-call links.</small>
+        <p>
+          Used for: bill titles, short descriptions, sponsors/co-sponsors, and the official
+          lifecycle of legislation in Capitol League.
+        </p>
+        <a class="sources-link" href="https://www.congress.gov" target="_blank" rel="noopener">
+          Visit congress.gov
+        </a>
+      </article>
+
+      <article class="sources-card">
+        <h3>Clerk of the U.S. House — Roll Call Votes</h3>
+        <small>Official House vote tallies by member and party.</small>
+        <p>
+          Used for: detailed House vote breakdowns that feed our scoreboards and voting stats
+          for individual members.
+        </p>
+        <a class="sources-link" href="https://clerk.house.gov/Votes" target="_blank" rel="noopener">
+          Visit clerk.house.gov/Votes
+        </a>
+      </article>
+
+      <article class="sources-card">
+        <h3>U.S. Senate Vote Records</h3>
+        <small>Official Senate roll-call votes and legislative actions.</small>
+        <p>
+          Used for: Senate vote results and member-level stats, generally accessed via
+          Senate.gov and linked pages on Congress.gov.
+        </p>
+        <a class="sources-link"
+           href="https://www.senate.gov/legislative/votes_new.htm"
+           target="_blank" rel="noopener">
+          Visit senate.gov vote records
+        </a>
+      </article>
+
+      <article class="sources-card">
+        <h3>GovInfo (Government Publishing Office)</h3>
+        <small>Official publications from all three branches of government.</small>
+        <p>
+          Used for: deeper reference documents like the Congressional Record, public laws,
+          Federal Register entries, and budget documents that support rules text and
+          special event cards.
+        </p>
+        <a class="sources-link" href="https://www.govinfo.gov" target="_blank" rel="noopener">
+          Visit govinfo.gov
+        </a>
+      </article>
+
+      <article class="sources-card">
+        <h3>U.S. Census · My Congressional District &amp; APIs</h3>
+        <small>Demographic and economic data at the district level.</small>
+        <p>
+          Used for: district “flavor” stats (population, income, urban/rural mix) that
+          appear on district-focused cards and scenarios.
+        </p>
+        <a class="sources-link" href="https://www.census.gov/mycd/"
+           target="_blank" rel="noopener">
+          Visit census.gov/mycd
+        </a>
+      </article>
+
+      <article class="sources-card">
+        <h3>Data.gov</h3>
+        <small>Catalog of federal datasets across agencies.</small>
+        <p>
+          Used for: additional contextual datasets (e.g., spending, programs, and indicators)
+          that support long-term or special scenario cards.
+        </p>
+        <a class="sources-link" href="https://data.gov" target="_blank" rel="noopener">
+          Visit data.gov
+        </a>
+      </article>
+    </section>
+
+    <!-- .edu -->
+    <div class="sources-section-title">.edu — Educational &amp; Research Guides</div>
+    <section class="sources-grid">
+      <article class="sources-card">
+        <h3>University Government Info Guides</h3>
+        <small>Nonpartisan explainers from university libraries and civics programs.</small>
+        <p>
+          Used for: background explanations of how Congress works (e.g., committees, cloture,
+          reconciliation). We treat these as teaching aids and cross-check them against
+          official .gov sources.
+        </p>
+        <a class="sources-link"
+           href="https://www.google.com/search?q=site%3Aedu+%22U.S.+government+information%22+congress"
+           target="_blank" rel="noopener">
+          View example .edu guides
+        </a>
+      </article>
+    </section>
+
+    <!-- .org / other -->
+    <div class="sources-section-title">.org &amp; Other — Context &amp; Visualization</div>
+    <section class="sources-grid">
+      <article class="sources-card">
+        <h3>EveryCRSReport.com</h3>
+        <small>Public mirror of Congressional Research Service reports.</small>
+        <p>
+          Used for: locating CRS reports that help us “translate” complex policy into
+          plain-language summaries for players. Official versions are always verified
+          against Congress.gov when available.
+        </p>
+        <a class="sources-link" href="https://www.everycrsreport.com" target="_blank" rel="noopener">
+          Visit everycrsreport.com
+        </a>
+      </article>
+
+      <article class="sources-card">
+        <h3>C-SPAN &amp; related archives</h3>
+        <small>Video coverage of floor debates, hearings, and events.</small>
+        <p>
+          Used for: real-world examples and quotes that inspire event cards and narrative
+          moments. Official records still come from .gov sources.
+        </p>
+        <a class="sources-link" href="https://www.c-span.org" target="_blank" rel="noopener">
+          Visit c-span.org
+        </a>
+      </article>
+
+      <article class="sources-card">
+        <h3>OpenSecrets &amp; similar transparency projects</h3>
+        <small>Campaign finance, lobbying, and influence data.</small>
+        <p>
+          Used for: optional context on money in politics, sometimes reflected in special
+          card mechanics. Data is cross-checked and not treated as a replacement for
+          official filings.
+        </p>
+        <a class="sources-link" href="https://www.opensecrets.org" target="_blank" rel="noopener">
+          Visit opensecrets.org
+        </a>
+      </article>
+
+      <article class="sources-card">
+        <h3>Ballotpedia &amp; other civic encyclopedias</h3>
+        <small>Neutral-tone summaries of offices, elections, and procedures.</small>
+        <p>
+          Used for: quick checks on terminology and structure. Final rules and mechanics
+          are always aligned to primary .gov sources.
+        </p>
+        <a class="sources-link" href="https://ballotpedia.org" target="_blank" rel="noopener">
+          Visit ballotpedia.org
+        </a>
+      </article>
+    </section>
+
+    <div class="sources-meta">
+      <strong>Accuracy note:</strong> Capitol League is a game, not a legal resource.
+      When in doubt, official U.S. government publications control, and we will adjust
+      our data and rules to match them.
+    </div>
+  </main>
+
+  <!-- shared footer -->
+  <footer id="site-footer">
+    <div class="footer-inner">
+      <div>© <span id="cl-year"></span> Capitol League. Data from public U.S. sources.</div>
+      <nav class="footer-nav">
+        <a href="index.html">Scoreboard</a>
+        <a href="cards.html">Cards</a>
+        <a href="votes.html">Votes</a>
+        <a href="rules.html">Rules</a>
+        <a href="sources.html">Sources</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script defer src="shared.js"></script>
+  <script>
+    // hard header lock (same pattern as index)
+    (function hardHeaderLock(){
+      const H = 72;
+      let ticks = 0;
+      function apply(){
+        document.documentElement.style.setProperty('--h', H + 'px');
+        document.body.style.paddingTop = H + 'px';
+        const host = document.getElementById('site-header');
+        if (host) host.style.height = '0px';
+      }
+      apply();
+      const id = setInterval(()=>{ apply(); if(++ticks>16) clearInterval(id); }, 125);
+      const mo = new MutationObserver(apply);
+      mo.observe(document.documentElement, { attributes:true, attributeFilter:['style']});
+      const ro = new ResizeObserver(apply);
+      const tryObserve = () => {
+        const hdr = document.querySelector('header.site-header');
+        if (hdr) ro.observe(hdr); else setTimeout(tryObserve, 100);
+      };
+      tryObserve();
+    })();
+
+    // footer year
+    document.getElementById('cl-year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>

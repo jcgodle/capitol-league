@@ -1,0 +1,952 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Capitol League — Web</title>
+  <link rel="stylesheet" href="shared.css"/>
+
+  <style>
+    :root{
+      --max:1280px;
+      --g:16px;
+      --bg:#0f1220;
+      --txt:#e7e9f4;
+      --muted:#a7afd3;
+      --panel:#171a2b;
+      --accent:#4fd1c5;
+      --accent-soft:rgba(79,209,197,0.15);
+      --orange:#f6ad55;
+      --orange-soft:rgba(246,173,85,0.18);
+      --purple:#9f7aea;
+      --purple-soft:rgba(159,122,234,0.2);
+      --blue:#63b3ed;
+      --blue-soft:rgba(99,179,237,0.16);
+      --border-soft:rgba(255,255,255,0.08);
+      --shadow:0 18px 45px rgba(0,0,0,0.55);
+      --radius:14px;
+    }
+
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+      background:radial-gradient(circle at top,#202649 0,#050714 52%,#020309 100%);
+      color:var(--txt);
+      -webkit-font-smoothing:antialiased;
+    }
+
+    a{color:inherit;text-decoration:none}
+
+    .wrap{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:16px var(--g) 40px;
+    }
+
+    /* header host */
+    #site-header{height:0;position:relative;}
+
+    /* main layout */
+    main.shell{
+      display:grid;
+      grid-template-columns:minmax(260px,320px) minmax(0,1fr);
+      gap:var(--g);
+      align-items:stretch;
+    }
+    @media(max-width:900px){
+      main.shell{
+        grid-template-columns:minmax(0,1fr);
+      }
+    }
+
+    .panel{
+      background:var(--panel);
+      border-radius:var(--radius);
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .panel-hd{
+      padding:10px 14px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      font-weight:800;
+      letter-spacing:.25px;
+      font-size:13px;
+      text-transform:uppercase;
+      color:#cfd6ff;
+      background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,0));
+    }
+    .panel-bd{
+      padding:14px 16px 14px;
+      font-size:14px;
+    }
+
+    .web-title{
+      font-weight:700;
+      font-size:17px;
+      letter-spacing:.25px;
+      margin-bottom:4px;
+    }
+    .web-sub{
+      font-size:13px;
+      color:var(--muted);
+      margin-bottom:10px;
+    }
+
+    .legend{
+      display:grid;
+      gap:6px;
+      margin:10px 0 6px;
+    }
+    .legend-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+      font-size:12px;
+    }
+    .legend-left{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .dot{
+      width:12px;
+      height:12px;
+      border-radius:999px;
+    }
+    .dot-bill{
+      background:var(--orange-soft);
+      border:1px solid var(--orange);
+      box-shadow:0 0 0 1px rgba(0,0,0,.4);
+    }
+    .dot-member{
+      background:var(--accent-soft);
+      border:1px solid var(--accent);
+      box-shadow:0 0 0 1px rgba(0,0,0,.4);
+    }
+    .dot-topic{
+      background:var(--purple-soft);
+      border:1px solid var(--purple);
+      box-shadow:0 0 0 1px rgba(0,0,0,.4);
+    }
+    .dot-source{
+      background:var(--blue-soft);
+      border:1px solid var(--blue);
+      box-shadow:0 0 0 1px rgba(0,0,0,.4);
+    }
+
+    .pill-mini{
+      border-radius:999px;
+      padding:2px 8px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.35px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.12);
+      color:var(--muted);
+    }
+
+    /* filters */
+    .filters{
+      margin-top:12px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(8,10,25,.9);
+      padding:10px 10px 10px;
+    }
+    .filter-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      font-size:13px;
+      padding:4px 4px;
+    }
+    .filter-row + .filter-row{
+      border-top:1px dashed rgba(255,255,255,.06);
+    }
+    .filter-label{
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .filter-label span{
+      font-size:13px;
+    }
+    .chip{
+      font-size:11px;
+      border-radius:999px;
+      padding:2px 8px;
+      border:1px solid rgba(255,255,255,.14);
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.35px;
+    }
+
+    .toggle{
+      width:40px;
+      height:20px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.25);
+      position:relative;
+      cursor:pointer;
+      flex:none;
+      transition:.18s ease;
+    }
+    .toggle-knob{
+      position:absolute;
+      top:2px;
+      left:2px;
+      width:14px;
+      height:14px;
+      border-radius:999px;
+      background:#cbd5ff;
+      box-shadow:0 0 0 1px rgba(0,0,0,.35),0 8px 14px rgba(15,23,42,.9);
+      transition:.18s cubic-bezier(.19,1,.22,1);
+    }
+    .toggle.on{
+      background:rgba(79,209,197,.18);
+      border-color:var(--accent);
+    }
+    .toggle.on .toggle-knob{
+      transform:translateX(18px);
+      background:#f7fafc;
+    }
+
+    .selection{
+      margin-top:14px;
+      padding:10px 10px 10px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(140deg,rgba(15,23,42,.95),rgba(15,23,42,.95) 60%,rgba(99,179,237,.18));
+    }
+    .selection-label{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.35px;
+      color:var(--muted);
+      margin-bottom:4px;
+    }
+    .selection-title{
+      font-size:13px;
+      color:var(--txt);
+      font-weight:600;
+    }
+    .selection-meta{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:2px;
+    }
+
+    .hint{
+      margin-top:10px;
+      font-size:11px;
+      color:var(--muted);
+      opacity:.9;
+    }
+    .hint ul{
+      padding-left:18px;
+      margin:6px 0 0;
+    }
+    .hint li{
+      margin:2px 0;
+    }
+
+    /* canvas panel */
+    .web-canvas-wrap{
+      position:relative;
+      min-height:420px;
+    }
+
+    /* Reset focus toolbar — top-right */
+    .web-toolbar{
+      position:absolute;
+      top:10px;
+      right:12px;
+      left:auto;
+      bottom:auto;
+      display:flex;
+      gap:6px;
+      z-index:2;
+    }
+
+    .web-btn{
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(4,6,18,.85);
+      padding:4px 10px;
+      font-size:11px;
+      color:var(--muted);
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      gap:4px;
+    }
+    .web-btn span{
+      opacity:.8;
+    }
+    .web-btn:hover{
+      color:var(--txt);
+      border-color:rgba(255,255,255,.3);
+    }
+
+    svg#webSvg{
+      width:100%;
+      height:100%;
+      min-height:420px;
+      display:block;
+      border-radius:var(--radius);
+      background:radial-gradient(circle at top,#1e2444 0,#050618 48%,#02030a 100%);
+      box-shadow:var(--shadow);
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .node-circle{
+      stroke-width:2;
+      cursor:pointer;
+      transition:stroke-width .16s ease,opacity .16s ease;
+    }
+    .node-circle.bill{
+      fill:var(--orange-soft);
+      stroke:var(--orange);
+    }
+    .node-circle.member{
+      fill:var(--accent-soft);
+      stroke:var(--accent);
+    }
+    .node-circle.topic{
+      fill:var(--purple-soft);
+      stroke:var(--purple);
+    }
+    .node-circle.source{
+      fill:var(--blue-soft);
+      stroke:var(--blue);
+    }
+    .node-circle:hover{
+      stroke-width:3;
+    }
+    .node-label{
+      font-size:11px;
+      fill:#dfe4ff;
+      text-anchor:middle;
+      pointer-events:none;
+    }
+    .node-label.shadow{
+      fill:#050613;
+      opacity:.75;
+    }
+
+    .node-circle.dim,
+    .node-label.dim{
+      opacity:.2;
+    }
+
+    /* Filter buttons — bottom-right */
+    .web-toolbar-bottom{
+      position:absolute;
+      bottom:12px;
+      right:12px;
+      left:auto;
+      top:auto;
+      display:flex;
+      gap:6px;
+      z-index:2;
+    }
+
+    .web-btn-pill{
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(4,6,18,.85);
+      padding:4px 10px;
+      font-size:11px;
+      color:var(--muted);
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      gap:4px;
+    }
+    .web-btn-pill span{
+      opacity:.85;
+    }
+    .web-btn-pill.active{
+      color:var(--txt);
+      border-color:var(--accent);
+      background:rgba(56,189,248,.24);
+    }
+
+    /* ===== FOOTER (MATCHING SITE STYLE) ===== */
+    #site-footer {
+      margin-top:32px;
+      border-top:1px solid rgba(255,255,255,0.16);
+      background:rgba(3,6,18,0.85);
+      backdrop-filter:blur(4px);
+    }
+    #site-footer .footer-inner {
+      max-width:var(--max);
+      margin:0 auto;
+      padding:12px var(--g);
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      font-size:13px;
+      color:var(--muted);
+    }
+    #site-footer .footer-nav {
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+    }
+    #site-footer .footer-nav a {
+      color:var(--muted);
+      font-weight:600;
+      text-decoration:none;
+      letter-spacing:0.2px;
+      transition:0.15s ease;
+    }
+    #site-footer .footer-nav a:hover {
+      color:var(--txt);
+      text-decoration:underline;
+    }
+  </style>
+
+  <!-- Hard header lock to prevent the header from growing -->
+  <style id="header-lock-css">
+    :root { --h:72px !important; }
+    body { padding-top:72px !important; }
+    #site-header { height:72px !important; position:relative; overflow:hidden; }
+    #site-header > * { position:fixed; top:0; left:0; right:0; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div id="site-header"></div>
+
+    <main class="shell">
+      <!-- LEFT PANEL -->
+      <section class="panel">
+        <div class="panel-hd">Issue Map — Prototype</div>
+        <div class="panel-bd">
+          <div class="web-title">Spiderweb View</div>
+          <div class="web-sub">
+            One bill in the middle, with connected members, topics, parties, and source docs orbiting it.
+            Click a node to highlight its ties, or use the filters to hide layers you don’t care about.
+          </div>
+
+          <div class="legend">
+            <div class="legend-row">
+              <div class="legend-left">
+                <div class="dot dot-bill"></div>
+                <div>Bill</div>
+              </div>
+              <div class="pill-mini">Core</div>
+            </div>
+            <div class="legend-row">
+              <div class="legend-left">
+                <div class="dot dot-member"></div>
+                <div>Member of Congress</div>
+              </div>
+              <div class="pill-mini">People</div>
+            </div>
+            <div class="legend-row">
+              <div class="legend-left">
+                <div class="dot dot-topic"></div>
+                <div>Topics / Issue tags</div>
+              </div>
+              <div class="pill-mini">Issue tags</div>
+            </div>
+            <div class="legend-row">
+              <div class="legend-left">
+                <div class="dot dot-source"></div>
+                <div>Source docs</div>
+              </div>
+              <div class="pill-mini">Docs / reports</div>
+            </div>
+          </div>
+
+          <div class="filters">
+            <div class="filter-row">
+              <div class="filter-label">
+                <div class="dot dot-bill"></div>
+                <span>Bill</span>
+              </div>
+              <div class="chip">Always on</div>
+            </div>
+            <div class="filter-row">
+              <div class="filter-label">
+                <div class="dot dot-member"></div>
+                <span>Members</span>
+              </div>
+              <div class="chip">Sponsors / voters</div>
+              <div class="toggle on" data-filter="members">
+                <div class="toggle-knob"></div>
+              </div>
+            </div>
+            <div class="filter-row">
+              <div class="filter-label">
+                <div class="dot dot-topic"></div>
+                <span>Topics</span>
+              </div>
+              <div class="chip">Issue tags</div>
+              <div class="toggle on" data-filter="topics">
+                <div class="toggle-knob"></div>
+              </div>
+            </div>
+            <div class="filter-row">
+              <div class="filter-label">
+                <div class="dot dot-source"></div>
+                <span>Sources</span>
+              </div>
+              <div class="chip">Docs / reports</div>
+              <div class="toggle on" data-filter="sources">
+                <div class="toggle-knob"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="selection" id="selectionBox">
+            <div class="selection-label">Currently focused</div>
+            <div class="selection-title" id="selectionTitle">None</div>
+            <div class="selection-meta" id="selectionMeta">
+              Click any circle on the web to see who / what it’s connected to.
+            </div>
+          </div>
+
+          <div class="hint">
+            <ul>
+              <li>Use the buttons on the lower-right of the web to turn layers on and off.</li>
+              <li>“Bill only” brings you back to the original idea: just the bill in the middle and how it’s tied.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: CANVAS -->
+      <section class="panel">
+        <div class="panel-hd">Connections</div>
+        <div class="panel-bd">
+          <div class="web-canvas-wrap">
+            <div class="web-toolbar-bottom">
+              <button class="web-btn-pill" data-layer="all" id="btnShowAll">
+                <span>Show all</span>
+              </button>
+              <button class="web-btn-pill" data-layer="bill-only" id="btnBillOnly">
+                <span>Bill only</span>
+              </button>
+              <button class="web-btn-pill" data-layer="members" id="btnMembers">
+                <span>Members</span>
+              </button>
+              <button class="web-btn-pill" data-layer="topics" id="btnTopics">
+                <span>Topics</span>
+              </button>
+              <button class="web-btn-pill" data-layer="sources" id="btnSources">
+                <span>Sources</span>
+              </button>
+            </div>
+
+            <div class="web-toolbar">
+              <button class="web-btn" id="btnReset">
+                <span>Reset focus</span>
+              </button>
+            </div>
+
+            <svg id="webSvg"></svg>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer id="site-footer">
+      <div class="footer-inner">
+        <div>© <span id="cl-year"></span> Capitol League. Data from public U.S. sources.</div>
+        <nav class="footer-nav">
+          <a href="index.html">Scoreboard</a>
+          <a href="cards.html">Cards</a>
+          <a href="votes.html">Votes</a>
+          <a href="rules.html">Rules</a>
+          <a href="sources.html">Sources</a>
+        </nav>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- shared header/nav injector -->
+  <script src="shared.js" defer></script>
+
+  <!-- WEB VIEW LOGIC (sample graph data for now) -->
+  <script>
+    // ====== SAMPLE GRAPH DATA (to be replaced by real JSON later) =====
+    const GRAPH_DATA = {
+      bill: {
+        id: "bill-hr123",
+        label: "H.R. 123 — Example Energy Bill",
+        meta: "Core bill node (center of the web)."
+      },
+      members: [
+        { id: "m1", label: "Rep. Smith (D-CA)", meta: "Sponsor" },
+        { id: "m2", label: "Rep. Davis (R-TX)", meta: "Co-sponsor" },
+        { id: "m3", label: "Rep. Nguyen (I-OR)", meta: "Key vote" }
+      ],
+      topics: [
+        { id: "t1", label: "Healthcare", meta: "Primary topic" },
+        { id: "t2", label: "Spending caps", meta: "Budget angle" }
+      ],
+      sources: [
+        { id: "s1", label: "CRS R46595", meta: "CRS report for context" },
+        { id: "s2", label: "CBO cost estimate", meta: "Budget office score" }
+      ],
+      links: [
+        { from: "bill-hr123", to: "m1" },
+        { from: "bill-hr123", to: "m2" },
+        { from: "bill-hr123", to: "m3" },
+        { from: "bill-hr123", to: "t1" },
+        { from: "bill-hr123", to: "t2" },
+        { from: "bill-hr123", to: "s1" },
+        { from: "bill-hr123", to: "s2" },
+        { from: "t1", to: "s1" },
+        { from: "t2", to: "s2" }
+      ]
+    };
+
+    const svg = document.getElementById("webSvg");
+    const selectionTitle = document.getElementById("selectionTitle");
+    const selectionMeta = document.getElementById("selectionMeta");
+
+    const state = {
+      filters: {
+        members: true,
+        topics: true,
+        sources: true
+      },
+      focusedId: null
+    };
+
+    function createSvgChild(tag, attrs){
+      const el = document.createElementNS("http://www.w3.org/2000/svg", tag);
+      for(const [k,v] of Object.entries(attrs||{})){
+        el.setAttribute(k,v);
+      }
+      return el;
+    }
+
+    // Layout that scales with the canvas size
+    function computeLayout(viewW, viewH){
+      const bill = GRAPH_DATA.bill;
+      const members = GRAPH_DATA.members;
+      const topics  = GRAPH_DATA.topics;
+      const sources = GRAPH_DATA.sources;
+
+      const nodes = [];
+      nodes.push({ id: bill.id, label: bill.label, type: "bill", x: 0, y: 0 });
+
+      const base = Math.min(viewW, viewH);
+
+      const radiusMembers = base * 0.20;
+      const radiusTopics  = base * 0.32;
+      const radiusSources = base * 0.44;
+
+      const twoPi = Math.PI * 2;
+
+      members.forEach((m,i)=>{
+        const angle = (i/members.length) * twoPi - Math.PI/2;
+        nodes.push({
+          id:m.id,
+          label:m.label,
+          type:"member",
+          x:Math.cos(angle)*radiusMembers,
+          y:Math.sin(angle)*radiusMembers
+        });
+      });
+
+      topics.forEach((t,i)=>{
+        const angle = (i/topics.length) * twoPi - Math.PI/2;
+        nodes.push({
+          id:t.id,
+          label:t.label,
+          type:"topic",
+          x:Math.cos(angle)*radiusTopics,
+          y:Math.sin(angle)*radiusTopics
+        });
+      });
+
+      sources.forEach((s,i)=>{
+        const angle = (i/sources.length) * twoPi - Math.PI/2;
+        nodes.push({
+          id:s.id,
+          label:s.label,
+          type:"source",
+          x:Math.cos(angle)*radiusSources,
+          y:Math.sin(angle)*radiusSources
+        });
+      });
+
+      return nodes;
+    }
+
+    function clearSvg(){
+      while(svg.firstChild) svg.removeChild(svg.firstChild);
+    }
+
+    function render(){
+      clearSvg();
+
+      const viewW = svg.clientWidth || svg.parentElement.clientWidth || 800;
+      const viewH = svg.clientHeight || 500;
+      svg.setAttribute("viewBox", `${-viewW/2} ${-viewH/2} ${viewW} ${viewH}`);
+
+      const layoutNodes = computeLayout(viewW, viewH);
+      const idToNode = {};
+      layoutNodes.forEach(n => { idToNode[n.id] = n; });
+
+      const gLinks = createSvgChild("g",{});
+      svg.appendChild(gLinks);
+
+      GRAPH_DATA.links.forEach(link=>{
+        const a = idToNode[link.from];
+        const b = idToNode[link.to];
+        if(!a || !b) return;
+
+        if(!state.filters.members && (a.type==="member" || b.type==="member")) return;
+        if(!state.filters.topics  && (a.type==="topic"  || b.type==="topic"))  return;
+        if(!state.filters.sources && (a.type==="source" || b.type==="source")) return;
+
+        const line = createSvgChild("line",{
+          x1:a.x, y1:a.y, x2:b.x, y2:b.y,
+          stroke:"rgba(148,163,255,0.45)",
+          "stroke-width":"1.2"
+        });
+        gLinks.appendChild(line);
+      });
+
+      const gNodes = createSvgChild("g",{});
+      svg.appendChild(gNodes);
+
+      layoutNodes.forEach(n=>{
+        if(n.type==="member" && !state.filters.members) return;
+        if(n.type==="topic"  && !state.filters.topics)  return;
+        if(n.type==="source" && !state.filters.sources) return;
+
+        const circle = createSvgChild("circle",{
+          cx:n.x, cy:n.y,
+          r:(n.type==="bill"?20:13),
+          class:`node-circle ${n.type}`,
+          "data-id":n.id
+        });
+
+        const labelShadow = createSvgChild("text",{
+          x:n.x, y:n.y+(n.type==="bill"?34:26),
+          class:"node-label shadow",
+          "data-id":n.id
+        });
+        labelShadow.textContent = n.label;
+
+        const label = createSvgChild("text",{
+          x:n.x, y:n.y+(n.type==="bill"?34:26),
+          class:"node-label",
+          "data-id":n.id
+        });
+        label.textContent = n.label;
+
+        circle.addEventListener("click",()=>focusNode(n.id));
+        label.addEventListener("click",()=>focusNode(n.id));
+        labelShadow.addEventListener("click",()=>focusNode(n.id));
+
+        gNodes.appendChild(circle);
+        gNodes.appendChild(labelShadow);
+        gNodes.appendChild(label);
+      });
+
+      if(state.focusedId){
+        applyFocusHighlight(state.focusedId);
+      }
+    }
+
+    function getNodeById(id){
+      if(id===GRAPH_DATA.bill.id) return GRAPH_DATA.bill;
+      return GRAPH_DATA.members.find(x=>x.id===id)
+        || GRAPH_DATA.topics.find(x=>x.id===id)
+        || GRAPH_DATA.sources.find(x=>x.id===id)
+        || null;
+    }
+
+    function nodeType(id){
+      if(id===GRAPH_DATA.bill.id) return "bill";
+      if(GRAPH_DATA.members.some(m=>m.id===id)) return "member";
+      if(GRAPH_DATA.topics.some(t=>t.id===id)) return "topic";
+      if(GRAPH_DATA.sources.some(s=>s.id===id)) return "source";
+      return "unknown";
+    }
+
+    function focusNode(id){
+      state.focusedId = id;
+      const node = getNodeById(id);
+      if(!node){
+        selectionTitle.textContent = "None";
+        selectionMeta.textContent  = "Click any circle on the web to see who / what it’s connected to.";
+      }else{
+        selectionTitle.textContent = node.label;
+        const t = nodeType(id);
+        if(t==="bill"){
+          selectionMeta.textContent = "Central bill for this mini-web. All connections orbit this node.";
+        }else if(t==="member"){
+          selectionMeta.textContent = "Member node. Connected to the bill plus any topics / sources they touch in this view.";
+        }else if(t==="topic"){
+          selectionMeta.textContent = "Topic / issue tag. Shows how this bill, members, and sources cluster around the same theme.";
+        }else if(t==="source"){
+          selectionMeta.textContent = "Source document node. Think CRS reports, CBO scores, or official summaries that give context.";
+        }else{
+          selectionMeta.textContent = node.meta || "";
+        }
+      }
+
+      applyFocusHighlight(id);
+    }
+
+    function applyFocusHighlight(id){
+      const nodes = svg.querySelectorAll(".node-circle, .node-label");
+      if(!id){
+        nodes.forEach(el => el.classList.remove("dim"));
+        return;
+      }
+
+      const connected = new Set([id]);
+      GRAPH_DATA.links.forEach(link=>{
+        if(link.from===id) connected.add(link.to);
+        if(link.to===id)   connected.add(link.from);
+      });
+
+      nodes.forEach(el=>{
+        const nid = el.getAttribute("data-id");
+        if(!nid) return;
+        if(!connected.has(nid)) el.classList.add("dim");
+        else el.classList.remove("dim");
+      });
+    }
+
+    function resetFocus(){
+      state.focusedId = null;
+      selectionTitle.textContent = "None";
+      selectionMeta.textContent  = "Click any circle on the web to see who / what it’s connected to.";
+      applyFocusHighlight(null);
+    }
+
+    function setLayerVisibility(layer, value){
+      if(layer==="bill-only"){
+        state.filters.members = false;
+        state.filters.topics  = false;
+        state.filters.sources = false;
+      }else if(layer==="all"){
+        state.filters.members = true;
+        state.filters.topics  = true;
+        state.filters.sources = true;
+      }else{
+        state.filters[layer] = value;
+      }
+      syncTogglesFromState();
+      render();
+    }
+
+    function syncTogglesFromState(){
+      document.querySelectorAll(".toggle").forEach(tg=>{
+        const f = tg.getAttribute("data-filter");
+        const on = state.filters[f];
+        tg.classList.toggle("on", !!on);
+      });
+
+      document.querySelectorAll(".web-btn-pill").forEach(btn=>{
+        const layer = btn.getAttribute("data-layer");
+        if(layer==="all"){
+          const allOn = state.filters.members && state.filters.topics && state.filters.sources;
+          btn.classList.toggle("active", allOn);
+        }else if(layer==="bill-only"){
+          const none = !state.filters.members && !state.filters.topics && !state.filters.sources;
+          btn.classList.toggle("active", none);
+        }else{
+          const on = state.filters[layer];
+          btn.classList.toggle("active", !!on);
+        }
+      });
+    }
+
+    function initFilters(){
+      document.querySelectorAll(".toggle").forEach(tg=>{
+        tg.addEventListener("click",()=>{
+          const f = tg.getAttribute("data-filter");
+          state.filters[f] = !state.filters[f];
+          syncTogglesFromState();
+          render();
+        });
+      });
+
+      const mapBtn = id => document.getElementById(id);
+
+      mapBtn("btnReset").addEventListener("click",()=>{
+        resetFocus();
+        setLayerVisibility("all", true);
+      });
+
+      mapBtn("btnBillOnly").addEventListener("click",()=>{
+        setLayerVisibility("bill-only", false);
+      });
+      mapBtn("btnShowAll").addEventListener("click",()=>{
+        setLayerVisibility("all", true);
+      });
+      mapBtn("btnMembers").addEventListener("click",()=>{
+        state.filters.members = !state.filters.members;
+        syncTogglesFromState();
+        render();
+      });
+      mapBtn("btnTopics").addEventListener("click",()=>{
+        state.filters.topics = !state.filters.topics;
+        syncTogglesFromState();
+        render();
+      });
+      mapBtn("btnSources").addEventListener("click",()=>{
+        state.filters.sources = !state.filters.sources;
+        syncTogglesFromState();
+        render();
+      });
+    }
+
+    window.addEventListener("resize", render);
+
+    render();
+    initFilters();
+    resetFocus();
+  </script>
+
+  <!-- header lock + footer year -->
+  <script>
+    (function hardHeaderLock(){
+      const H = 72;
+      let ticks = 0;
+      function apply(){
+        document.documentElement.style.setProperty("--h", H + "px");
+        document.body.style.paddingTop = H + "px";
+        const host = document.getElementById("site-header");
+        if(host) host.style.height = "0px";
+      }
+      apply();
+      const id = setInterval(()=>{ apply(); if(++ticks>16) clearInterval(id); }, 125);
+      const mo = new MutationObserver(apply);
+      mo.observe(document.documentElement,{attributes:true,attributeFilter:["style"]});
+      const ro = new ResizeObserver(apply);
+      const tryObserve = () => {
+        const hdr = document.querySelector("header.site-header, .site-header-host");
+        if(hdr) ro.observe(hdr); else setTimeout(tryObserve,100);
+      };
+      tryObserve();
+    })();
+
+    (function(){
+      const el = document.getElementById("cl-year");
+      if(el) el.textContent = new Date().getFullYear();
+    })();
+  </script>
+</body>
+</html>

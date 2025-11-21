@@ -6,54 +6,102 @@
 <title>Capitol League — Votes</title>
 <link rel="stylesheet" href="shared.css"/>
 <style>
+  #debugNote { display: none; }
+
   :root{--max:1280px;--g:16px;--bg:#0f1220;--txt:#e7e9f4;--muted:#a7afd3;
     --panel:#11162c;--panel-2:#0c1226;--line:rgba(255,255,255,.1);--h:72px;--shadow:0 16px 36px rgba(0,0,0,.35);
     --red:#e06161;--red-2:#a53c3c;--green:#5bd39b;--green-2:#218c62;--blue:#6ea8fe;--blue-2:#254a9c;}
-  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--txt);font:14px/1.45 system-ui,Segoe UI,Roboto,Helvetica,Arial}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font:14px/1.45 system-ui,Segoe UI,Roboto,Helvetica,Arial}
   main.shell{max-width:var(--max);margin:0 auto;padding:12px var(--g) 56px}
-  .toolbar{position:sticky;top:var(--h);z-index:9;background:linear-gradient(180deg,rgba(13,17,33,.98),rgba(13,17,33,.96));
-    border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.07)}
-  .toolbar-inner{max-width:var(--max);margin:0 auto;padding:10px var(--g);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  .input{height:38px;border-radius:12px;padding:0 12px;font-weight:700;color:#cfe3ff;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.04));
-    border:1px solid rgba(255,255,255,.1)} .input::placeholder{color:#8fa1d6} .input:focus{outline:none;box-shadow:0 0 0 2px rgba(110,168,254,.28)}
-  .grow{flex:1;min-width:260px} select.input option{background:#0f142b;color:#e7e9f4}
-  .btn{appearance:none;border:1px solid rgba(255,255,255,.14);color:var(--txt);background:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.06));
-    height:38px;border-radius:12px;padding:0 14px;font:800 13px/38px system-ui;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
-  .btn:hover{filter:brightness(1.07)} .btn:active{transform:translateY(1px)} .btn[disabled]{opacity:.5;cursor:default}
+
+  .toolbar{margin:8px 0 16px;position:sticky;top:var(--h);z-index:6;background:linear-gradient(180deg,rgba(15,18,32,.98),rgba(15,18,32,.94));backdrop-filter:blur(20px);border-radius:18px;border:1px solid rgba(255,255,255,.06);box-shadow:0 10px 40px rgba(0,0,0,.40)}
+  .toolbar-inner{display:flex;flex-wrap:wrap;gap:8px;padding:10px 12px}
+  .input{appearance:none;border-radius:999px;border:1px solid rgba(255,255,255,.1);background:radial-gradient(circle at 0 0,rgba(255,255,255,.08),rgba(255,255,255,0));color:var(--txt);padding:0 12px;height:36px;font:600 13px system-ui,Segoe UI}
+  .input::placeholder{color:#8fa1d6}
+  .input:focus{outline:none;box-shadow:0 0 0 2px rgba(110,168,254,.28)}
+  .grow{flex:1;min-width:260px}
+  select.input option{background:#0f142b;color:#e7e9f4}
+  .btn{appearance:none;border:1px solid rgba(255,255,255,.14);color:#e7e9f4;background:radial-gradient(circle at 0 0,rgba(110,168,254,.20),rgba(110,168,254,.02));height:38px;border-radius:12px;padding:0 14px;font:800 13px/1 system-ui;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+  .btn:hover{filter:brightness(1.07)}
+  .btn:active{transform:translateY(1px)}
+  .btn[disabled]{opacity:.5;cursor:default}
   .pill{display:inline-block;padding:8px 12px;border-radius:999px;font:900 12px/1 system-ui;border:1px solid rgba(0,0,0,.25)}
   .pill.pass{background:linear-gradient(180deg,var(--green),var(--green-2));color:#081a11}
   .pill.fail{background:linear-gradient(180deg,var(--red),var(--red-2));color:#1c0909}
-  .chip{display:inline-block;padding:6px 10px;border-radius:999px;font:800 12px/1 system-ui;color:#d7e2ff;background:linear-gradient(180deg,#1b2344,#131a34);border:1px solid rgba(110,168,254,.30)}
+  .chip{display:inline-block;padding:6px 10px;border-radius:999px;font:800 11px/1 system-ui;border:1px solid rgba(255,255,255,.12);background:radial-gradient(circle at 0 0,rgba(110,168,254,.12),rgba(110,168,254,.02));color:#cbd3ff;white-space:nowrap}
+  .vote-status{position:fixed;right:18px;top:18px;z-index:20;padding:8px 12px;border-radius:999px;font:800 11px/1 system-ui;display:flex;align-items:center;gap:8px;background:radial-gradient(circle at 0 0,rgba(255,172,69,.35),rgba(24,17,7,1));border:1px solid rgba(255,199,120,.8);box-shadow:0 10px 40px rgba(0,0,0,.5)}
+  .vote-status.hidden{display:none}
+  .vote-status-dot{width:9px;height:9px;border-radius:999px;background:radial-gradient(circle at 30% 30%,#ffeab5,#ff8b3a)}
+  .vote-status-label{letter-spacing:.08em;text-transform:uppercase;color:#ffe5b2}
+
   details.year{margin-top:18px;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.06);background:linear-gradient(180deg,#0e1328,#0d1225)}
-  details.year>summary{list-style:none;cursor:pointer;user-select:none;padding:10px 12px;font:900 13px system-ui;display:flex;align-items:center;justify-content:space-between;color:#cbd3ff}
-  details.year>summary::-webkit-details-marker{display:none} .year-count{color:#8fa1d6;font-weight:800}
+  details.year>summary{list-style:none;cursor:pointer;user-select:none;padding:10px 14px;font:900 13px system-ui;display:flex;align-items:center;justify-content:space-between;color:#cbd3ff}
+  details.year>summary::-webkit-details-marker{display:none}
+  .year-count{color:#8fa1d6;font-weight:800}
   details.month{margin:4px 8px 10px;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.06);background:linear-gradient(180deg,#0f142b,#0e1326)}
   details.month>summary{list-style:none;cursor:pointer;user-select:none;padding:10px 12px;font:900 12px system-ui;color:#c7cff7}
   details.month>summary::-webkit-details-marker{display:none}
   .list{display:flex;flex-direction:column;gap:14px;margin:8px}
   details.acc{background:linear-gradient(180deg,#0f142b,#0e1326);border-radius:18px;position:relative;box-shadow:var(--shadow);overflow:hidden}
-  summary.acc-hd{list-style:none;display:flex;gap:12px;align-items:flex-start;justify-content:space-between;padding:14px 16px;cursor:pointer;user-select:none;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02))}
+  summary.acc-hd{list-style:none;display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.06);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02))}
   summary.acc-hd::-webkit-details-marker{display:none}
   .acc-main{display:flex;gap:10px;align-items:flex-start;min-width:0;flex:1}
-  .caret{display:grid;place-items:center;width:22px;height:22px;border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.06));border:1px solid rgba(255,255,255,.18);font-size:12px;margin-top:2px;transform:rotate(0);transition:transform .15s ease}
+  .caret{display:grid;place-items:center;width:22px;height:22px;border-radius:999px;background:radial-gradient(circle at 0 0,rgba(255,255,255,.16),rgba(255,255,255,.04));font-size:12px;color:#cbd3ff;margin-top:2px;transform:rotate(0);transition:transform .15s ease}
   details[open] .caret{transform:rotate(90deg)}
-  .acc-title{font:900 15px/1.35 system-ui;margin:0}.acc-sub{color:#a7afd3;font:700 12px/1.2 system-ui;margin-top:6px}
+  .acc-title{font:900 15px/1.35 system-ui;margin:0}
+  .acc-sub{color:#a7afd3;font:700 12px/1.2 system-ui;margin-top:6px}
   .acc-badges{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-left:12px}
-  .acc-wrap{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.2,.6,.2,1)} .acc-body{border-top:1px solid var(--line)}
-  .acc-sec{padding:14px 16px;border-top:1px solid var(--line)}
-  .summary{background:linear-gradient(180deg,#0f1a3a,#0e1733);border-radius:14px;padding:12px;border:1px solid rgba(160,190,255,.20)}
-  .meta-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
-  .meta{background:linear-gradient(180deg,var(--panel),var(--panel-2));border-radius:12px;padding:10px;border:1px solid rgba(255,255,255,.09)}
-  .meta-label{color:#a7afd3;font:800 11px/1 system-ui;letter-spacing:.25px;margin-bottom:6px;text-transform:uppercase}
-  .ynbar{display:grid;gap:8px}.ynbar .stack{display:flex;height:14px;border-radius:999px;overflow:hidden;border:1px solid rgba(255,255,255,.10);background:#0b1022}
-  .ynbar .seg{height:100%}.ynbar .seg.Y{background:linear-gradient(180deg,var(--blue),var(--blue-2))}.ynbar .seg.N{background:linear-gradient(180deg,var(--red),var(--red-2))}
-  .ynbar .labels{display:flex;justify-content:space-between;font:800 11px/1 system-ui;color:#a7afd3}
-  @media (max-width:900px){summary.acc-hd{flex-direction:column}.acc-badges{margin:8px 0 0 26px}.meta-grid{grid-template-columns:repeat(2,1fr)}}
-  @media (max-width:560px){.meta-grid{grid-template-columns:1fr}}
+  .acc-wrap{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.2,.6,.2,1)}
+  .acc-body{border-top:1px solid rgba(255,255,255,.08);padding:10px 14px 14px;background:radial-gradient(circle at 0 0,rgba(110,168,254,.10),rgba(0,0,0,0))}
+  .acc-sec{margin-top:10px}
+  .acc-sec:first-of-type{margin-top:0}
+  .summary h3{margin:0 0 4px;font:900 13px system-ui;color:#d7defc}
+  .summary p{margin:0;color:#c2c9f0;font-size:13px}
+  .meta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+  .meta{border-radius:12px;border:1px solid rgba(255,255,255,.08);padding:8px 10px;background:radial-gradient(circle at 0 0,rgba(255,255,255,.04),rgba(0,0,0,0))}
+  .meta-label{font:800 11px/1.2 system-ui;color:#8fa1d6;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+  .meta strong{font-weight:800}
+  .ynbar{margin-top:6px}
+  .ynbar .stack{position:relative;height:8px;border-radius:999px;overflow:hidden;background:linear-gradient(90deg,#1b2344,#131a34);border:1px solid rgba(110,168,254,.30)}
+  .ynbar .seg{height:100%}
+  .ynbar .seg.Y{background:linear-gradient(90deg,var(--green),var(--green-2))}
+  .ynbar .seg.N{background:linear-gradient(90deg,var(--red),var(--red-2))}
+  .ynbar .labels{display:flex;justify-content:space-between;font:800 11px/1.2 system-ui;color:#cbd3ff;margin-top:6px}
+  .issue-web-box{margin-top:10px}
+  .issue-web-placeholder{margin:0;color:#c2c9f0;font-size:13px}
+  .issue-web-error{margin:0;color:#ffb8b8;font-size:13px}
+  .issue-web-body{padding:6px 0}
+  .issue-web-body .tag-pill{margin:2px}
+
+  /* NEW: mini web graphic container */
+  .issue-web-visual-wrapper{
+    margin-top:4px;
+    margin-bottom:6px;
+    display:flex;
+    justify-content:center;
+  }
+  .issue-web-canvas{
+    max-width:100%;
+    display:block;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,.08);
+    box-shadow:0 10px 30px rgba(0,0,0,.55);
+    background:#020617;
+  }
+
+  @media (max-width:720px){
+    .toolbar-inner{flex-direction:column;align-items:stretch}
+    .btn{width:100%}
+    .acc-hd{flex-direction:column}
+    .acc-badges{margin-left:0;margin-top:8px}
+  }
 </style>
 </head>
 <body>
 <div id="site-header"></div>
+
+<div id="voteStatusBadge" class="vote-status hidden"></div>
 
 <main class="shell">
   <h1 style="font:900 20px/1.2 system-ui;margin:6px 0 8px">Recent Votes</h1>
@@ -96,288 +144,1029 @@
 </main>
 
 <script defer src="shared.js"></script>
+<script defer src="issue-web.js"></script>
 <script>
-(function(){
-  if (window.__votesInit) return; window.__votesInit = true;
+// Inline Issue Web renderer - defines window.renderIssueWebForBill
+(function () {
+  "use strict";
 
-  const yearsEl = document.getElementById('years');
-  const q = document.getElementById('q');
+  console.log("[Issue Web] inline renderer active");
+
+  const SAMPLE_GRAPH = {
+    nodes: [
+      { id: "bill", label: "Bill", type: "bill", importance: 1.0 },
+      { id: "smallbiz",    label: "Small Business",       type: "issue", importance: 0.9 },
+      { id: "career-ed",   label: "Career & Tech Ed",     type: "issue", importance: 0.85 },
+      { id: "workforce",   label: "Workforce Pipeline",   type: "issue", importance: 0.8 },
+      { id: "funding",     label: "Federal Funding",      type: "issue", importance: 0.75 },
+      { id: "regulation",  label: "Regulation",           type: "issue", importance: 0.7 },
+      { id: "states",      label: "States",               type: "actor", importance: 0.6 },
+      { id: "schools",     label: "Schools",              type: "actor", importance: 0.6 },
+      { id: "employers",   label: "Employers",            type: "actor", importance: 0.6 },
+      { id: "students",    label: "Students",             type: "actor", importance: 0.6 }
+    ],
+    links: [
+      { source: "bill",      target: "smallbiz",   weight: 1 },
+      { source: "bill",      target: "career-ed",  weight: 1 },
+      { source: "bill",      target: "workforce",  weight: 1 },
+      { source: "bill",      target: "funding",    weight: 1 },
+      { source: "bill",      target: "regulation", weight: 0.9 },
+      { source: "career-ed", target: "schools",    weight: 0.9 },
+      { source: "career-ed", target: "students",   weight: 0.9 },
+      { source: "workforce", target: "employers",  weight: 0.9 },
+      { source: "smallbiz",  target: "employers",  weight: 0.8 },
+      { source: "funding",   target: "states",     weight: 0.8 },
+      { source: "funding",   target: "students",   weight: 0.7 }
+    ]
+  };
+
+  window.renderIssueWebForBill = async function renderIssueWebForBill(opts) {
+    try {
+      if (!opts || !opts.mount) return;
+      const mount   = opts.mount;
+      const billNum = (opts.billNum || "").trim();
+
+      if (mount.dataset.issueWebVisualAdded === "1") return;
+      mount.dataset.issueWebVisualAdded = "1";
+
+      let textBlock =
+        mount.querySelector(".issue-web-placeholder, .issue-web-error");
+      if (!textBlock) {
+        textBlock = document.createElement("p");
+        textBlock.className = "issue-web-placeholder";
+        textBlock.textContent =
+          "Issue web is still building from public sources. Check back soon.";
+        mount.appendChild(textBlock);
+      }
+
+      const graph = buildGraphForBill(billNum);
+      createMiniWebVisual(mount, textBlock, graph);
+    } catch (err) {
+      console.error("[Issue Web] renderIssueWebForBill error:", err);
+      if (opts && opts.mount) {
+        opts.mount.innerHTML =
+          '<p class="issue-web-error">Issue web is still building from public sources. Check back soon.</p>';
+      }
+    }
+  };
+
+  function buildGraphForBill(billNum) {
+    const nodes = SAMPLE_GRAPH.nodes.map(function (n) {
+      return { id: n.id, label: n.label, type: n.type, importance: n.importance };
+    });
+    const links = SAMPLE_GRAPH.links.map(function (l) {
+      return { source: l.source, target: l.target, weight: l.weight };
+    });
+    const center = billNum || "Bill";
+    for (let i = 0; i < nodes.length; i++) {
+      if (nodes[i].id === "bill") {
+        nodes[i].label = center;
+        break;
+      }
+    }
+    return { nodes, links };
+  }
+
+  function createMiniWebVisual(mount, beforeNode, graph) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "issue-web-visual-wrapper";
+    const canvas = document.createElement("canvas");
+    canvas.className = "issue-web-canvas";
+
+    const containerWidth = mount.clientWidth || mount.offsetWidth || 480;
+    const width  = Math.min(containerWidth, 600);
+    const height = Math.round(width * 0.55);
+    canvas.width  = width;
+    canvas.height = height;
+
+    wrapper.appendChild(canvas);
+
+    const tooltip = document.createElement("div");
+    tooltip.className = "issue-web-tooltip";
+    Object.assign(tooltip.style, {
+      position: "absolute",
+      padding: "4px 8px",
+      fontSize: "11px",
+      borderRadius: "4px",
+      background: "rgba(0,0,0,0.8)",
+      color: "#f9fafb",
+      pointerEvents: "none",
+      opacity: "0",
+      transform: "translate(-50%, -140%)",
+      transition: "opacity 0.12s ease-out",
+      whiteSpace: "nowrap",
+      zIndex: "2"
+    });
+    wrapper.style.position = "relative";
+    wrapper.appendChild(tooltip);
+
+    mount.insertBefore(wrapper, beforeNode);
+    renderMiniIssueWeb(canvas, graph, tooltip);
+  }
+
+  function renderMiniIssueWeb(canvas, graph, tooltip) {
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const width  = canvas.width;
+    const height = canvas.height;
+    const layout = computeLayout(graph, width, height);
+    let hoverNodeId = null;
+
+    function draw() {
+      ctx.clearRect(0, 0, width, height);
+      drawBackground(ctx, width, height);
+      drawLinks(ctx, graph, layout, hoverNodeId);
+      drawNodes(ctx, graph, layout, hoverNodeId);
+    }
+
+    draw();
+
+    canvas.addEventListener("mousemove", function (evt) {
+      const rect = canvas.getBoundingClientRect();
+      const x = evt.clientX - rect.left;
+      const y = evt.clientY - rect.top;
+      const node = hitTestNode(graph, layout, x, y);
+      if (node) {
+        if (hoverNodeId !== node.id) {
+          hoverNodeId = node.id;
+          draw();
+        }
+        showTooltip(tooltip, node.label, x, y);
+        canvas.style.cursor = "pointer";
+      } else {
+        hoverNodeId = null;
+        hideTooltip(tooltip);
+        canvas.style.cursor = "default";
+        draw();
+      }
+    });
+
+    canvas.addEventListener("mouseleave", function () {
+      hoverNodeId = null;
+      hideTooltip(tooltip);
+      canvas.style.cursor = "default";
+      draw();
+    });
+  }
+
+  function computeLayout(graph, width, height) {
+    const nodes = graph.nodes;
+    const layout = {};
+    const centerX = width / 2;
+    const centerY = height / 2;
+    const radiusOuter = Math.min(width, height) * 0.36;
+    const radiusInner = radiusOuter * 0.55;
+
+    const billNodes  = nodes.filter((n) => n.type === "bill");
+    const issueNodes = nodes.filter((n) => n.type === "issue");
+    const actorNodes = nodes.filter((n) => n.type === "actor");
+
+    if (!billNodes.length) {
+      const step = (Math.PI * 2) / nodes.length;
+      nodes.forEach((n, i) => {
+        const angle = step * i - Math.PI / 2;
+        layout[n.id] = {
+          x: centerX + radiusOuter * Math.cos(angle),
+          y: centerY + radiusOuter * Math.sin(angle),
+          r: nodeRadius(n)
+        };
+      });
+      return layout;
+    }
+
+    billNodes.forEach((n, i) => {
+      const spread = 10;
+      layout[n.id] = {
+        x: centerX + (i - (billNodes.length - 1) / 2) * spread,
+        y: centerY,
+        r: nodeRadius(n)
+      };
+    });
+
+    if (issueNodes.length) {
+      const step = (Math.PI * 2) / issueNodes.length;
+      issueNodes.forEach((n, i) => {
+        const angle = step * i - Math.PI / 2;
+        layout[n.id] = {
+          x: centerX + radiusInner * Math.cos(angle),
+          y: centerY + radiusInner * Math.sin(angle),
+          r: nodeRadius(n)
+        };
+      });
+    }
+
+    if (actorNodes.length) {
+      const step = (Math.PI * 2) / actorNodes.length;
+      actorNodes.forEach((n, i) => {
+        const angle = step * i - Math.PI / 2;
+        layout[n.id] = {
+          x: centerX + radiusOuter * Math.cos(angle),
+          y: centerY + radiusOuter * Math.sin(angle),
+          r: nodeRadius(n)
+        };
+      });
+    }
+
+    return layout;
+  }
+
+  function nodeRadius(node) {
+    const base =
+      node.type === "bill"  ? 9 :
+      node.type === "issue" ? 7 :
+                              6;
+    const importance =
+      typeof node.importance === "number" ? node.importance : 0.7;
+    return base + importance * 4;
+  }
+
+  function drawBackground(ctx, width, height) {
+    const grd = ctx.createLinearGradient(0, 0, width, height);
+    grd.addColorStop(0, "#020617");
+    grd.addColorStop(1, "#020617");
+    ctx.fillStyle = grd;
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = "rgba(148,163,184,0.12)";
+    const step = 24;
+    for (let x = step; x < width; x += step) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, height);
+      ctx.stroke();
+    }
+    for (let y = step; y < height; y += step) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(width, y);
+      ctx.stroke();
+    }
+  }
+
+  function drawLinks(ctx, graph, layout, hoverNodeId) {
+    ctx.save();
+    ctx.lineCap = "round";
+    graph.links.forEach((link) => {
+      const src = layout[link.source];
+      const tgt = layout[link.target];
+      if (!src || !tgt) return;
+      const isHover = hoverNodeId === link.source || hoverNodeId === link.target;
+      ctx.lineWidth = isHover ? 2 : 1;
+      ctx.strokeStyle = isHover
+        ? "rgba(248,250,252,0.9)"
+        : "rgba(148,163,184,0.6)";
+      ctx.beginPath();
+      ctx.moveTo(src.x, src.y);
+      ctx.lineTo(tgt.x, tgt.y);
+      ctx.stroke();
+    });
+    ctx.restore();
+  }
+
+  function drawNodes(ctx, graph, layout, hoverNodeId) {
+    graph.nodes.forEach((node) => {
+      const pos = layout[node.id];
+      if (!pos) return;
+      const isHover = hoverNodeId === node.id;
+      const colors = nodeColors(node, isHover);
+      const r = pos.r * (isHover ? 1.15 : 1);
+
+      ctx.beginPath();
+      ctx.arc(pos.x, pos.y, r, 0, Math.PI * 2);
+      ctx.fillStyle = colors.fill;
+      ctx.fill();
+      ctx.lineWidth = isHover ? 2 : 1;
+      ctx.strokeStyle = colors.stroke;
+      ctx.stroke();
+
+      const label = nodeLabelShort(node.label);
+      ctx.font = (isHover ? "10px" : "9px") + " system-ui, -apple-system, sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "top";
+      ctx.fillStyle = "#E5E7EB";
+      ctx.fillText(label, pos.x, pos.y + r + 2);
+    });
+  }
+
+  function nodeColors(node, isHover) {
+    if (node.type === "bill") {
+      return { fill: isHover ? "#38BDF8" : "#0EA5E9", stroke: "#F9FAFB" };
+    }
+    if (node.type === "issue") {
+      return { fill: isHover ? "#A855F7" : "#7C3AED", stroke: "#E5E7EB" };
+    }
+    return { fill: isHover ? "#22C55E" : "#16A34A", stroke: "#CBD5F5" };
+  }
+
+  function nodeLabelShort(label) {
+    if (!label) return "";
+    if (label.length <= 18) return label;
+    return label.slice(0, 15) + "…";
+  }
+
+  function hitTestNode(graph, layout, x, y) {
+    for (let i = 0; i < graph.nodes.length; i++) {
+      const node = graph.nodes[i];
+      const pos = layout[node.id];
+      if (!pos) continue;
+      const dx = x - pos.x;
+      const dy = y - pos.y;
+      const dist2 = dx * dx + dy * dy;
+      if (dist2 <= pos.r * pos.r * 1.5) return node;
+    }
+    return null;
+  }
+
+  function showTooltip(tooltip, text, x, y) {
+    tooltip.textContent = text;
+    tooltip.style.left = x + "px";
+    tooltip.style.top  = y + "px";
+    tooltip.style.opacity = "1";
+  }
+
+  function hideTooltip(tooltip) {
+    tooltip.style.opacity = "0";
+  }
+})();
+</script>
+<script>
+(function () {
+  if (window.__votesInit) return;
+  window.__votesInit = true;
+
+  const yearsEl    = document.getElementById('years');
+  const q          = document.getElementById('q');
   const chamberSel = document.getElementById('chamber');
-  const resultSel = document.getElementById('resultFilter');
-  const sortSel = document.getElementById('sortSel');
-  const clearBtn = document.getElementById('clearBtn');
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  const rangeNote = document.getElementById('rangeNote');
-  const debugNote = document.getElementById('debugNote');
-  const pageNote = document.getElementById('pageNote');
+  const resultSel  = document.getElementById('resultFilter');
+  const sortSel    = document.getElementById('sortSel');
+  const clearBtn   = document.getElementById('clearBtn');
+  const prevBtn    = document.getElementById('prevBtn');
+  const nextBtn    = document.getElementById('nextBtn');
+  const rangeNote  = document.getElementById('rangeNote');
+  const debugNote  = document.getElementById('debugNote');
+  const pageNote   = document.getElementById('pageNote');
 
   const LIMIT = 50;
   let offset = 0;
   let reachedEnd = false;
   let emptyStreak = 0;
+  let allItems = [];
+  let filterGeneration = 0; // bump every time filters change
 
   const now = new Date();
   const nowYear = now.getFullYear();
-  const nowMonthKey = `${nowYear}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  const nowMonthKey = `${nowYear}-${String(now.getMonth() + 1).padStart(2, '0')}`;
 
-  const esc = s => (s || "").toString().replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-  const D = t => t ? new Date(t) : null;
-  const fmt = t => { const x = D(t); return x ? x.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'}) : ""; };
-  const fmtDT = t => { const x = D(t); return x ? x.toLocaleString(undefined,{year:'numeric',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}) : ""; };
+  const esc = (s) =>
+    (s || '').toString().replace(/[&<>"']/g, (m) => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;',
+    }[m]));
 
-  const PASS = ['pass','passed','agreed','confirmed','cloture invoked','cloture motion agreed','motion agreed','resolution agreed','conference report agreed','veto overridden','on passage passed'];
-  const FAIL = ['fail','failed','rejected','not agreed','tabled','veto sustained','cloture rejected','motion to proceed rejected'];
-  const isPass = r => { const s=(r||'').toLowerCase(); if (FAIL.some(x=>s.includes(x))) return false; if (PASS.some(x=>s.includes(x))) return true; return false; };
-  const pill = r => `<span class="pill ${isPass(r)?'pass':'fail'}">${esc(r||'—')}</span>`;
+  const D = (t) => (t ? new Date(t) : null);
+  const fmt = (t) => {
+    const x = D(t);
+    return x ? x.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : '';
+  };
+  const fmtDT = (t) => {
+    const x = D(t);
+    return x
+      ? x.toLocaleString(undefined, {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: '2-digit',
+        })
+      : '';
+  };
 
-  function normalizeGovtrack(objs){
-    return objs.map(o=>{
-      const roll = o.number || o.roll || o.roll_call || o.rollnumber || null;
-      const billNum = (o.bill && (o.bill.display_number || o.bill.number)) || o.related_bill?.display_number || o.nomination?.number || o.roll?.display_number || o.number || "";
-      const title = (o.bill && o.bill.title) || "";
-      const question = o.question || o.question_text || "";
+  const PASS = [
+    'pass','passed','agreed','confirmed','cloture invoked','cloture motion agreed',
+    'motion agreed','resolution agreed','conference report agreed','veto overridden',
+    'on passage passed'
+  ];
+  const FAIL = [
+    'fail','failed','rejected','not agreed','tabled','veto sustained',
+    'cloture rejected','motion to proceed rejected'
+  ];
+
+  function isPass(result) {
+    const s = (result || '').toLowerCase();
+    if (FAIL.some((x) => s.includes(x))) return false;
+    if (PASS.some((x) => s.includes(x))) return true;
+    return false;
+  }
+
+  const pill = (r) =>
+    `<span class="pill ${isPass(r) ? 'pass' : 'fail'}">${esc(r || '—')}</span>`;
+
+  function normalizeGovtrack(objs) {
+    return (objs || []).map((o) => {
+      const roll =
+        o.number || o.roll || o.roll_call || o.rollnumber || null;
+
+      const billNum =
+        (o.bill && (o.bill.display_number || o.bill.number)) ||
+        (o.related_bill && (o.related_bill.display_number || o.related_bill.number)) ||
+        (o.nomination && o.nomination.number) ||
+        (o.roll && o.roll.display_number) ||
+        o.number ||
+        '';
+
+      const title =
+        (o.bill && (o.bill.title || o.bill.title_without_number)) ||
+        (o.nomination && o.nomination.description) ||
+        '';
+
+      const question = o.question || o.question_text || '';
       const voteType = o.vote_type || o.category || o.category_label || '';
       const required = o.required || o.required_threshold || o.threshold || '';
-      const p = (o.total?.present)||0, nv=(o.total?.not_voting||o.total?.Other)||0;
-      const yeas = (o.total_plus ?? o.total_yes ?? o.yea ?? o.total?.yes ?? o.total?.Yea) || 0;
-      const nays = (o.total_minus ?? o.total_no ?? o.nay ?? o.total?.no ?? o.total?.Nay) || 0;
+
+      const totals = o.total || {};
+      const p  = totals.present || 0;
+      const nv = totals.not_voting || totals.Other || 0;
+      const yeas =
+        o.total_plus ??
+        o.total_yes ??
+        o.yea ??
+        totals.yes ??
+        totals.Yea ??
+        0;
+      const nays =
+        o.total_minus ??
+        o.total_no ??
+        o.nay ??
+        totals.no ??
+        totals.Nay ??
+        0;
+
       return {
         id: o.id,
         roll,
         created: o.created || o.updated,
-        chamber: (o.chamber || "").toLowerCase()==='senate' ? 'Senate' : 'House',
-        billNum, billTitle: title,
-        summary: o.bill?.summary || o.bill?.summary_short || o.nomination?.description || question,
-        question, voteType, required, present:+p||0, notvoting:+nv||0,
+        chamber: (o.chamber || '').toLowerCase() === 'senate' ? 'Senate' : 'House',
+        billNum,
+        billTitle: title,
+        summary:
+          (o.bill && (o.bill.summary || o.bill.summary_short)) ||
+          (o.nomination && o.nomination.description) ||
+          question,
+        question,
+        voteType,
+        required,
+        present: +p || 0,
+        notvoting: +nv || 0,
         result: o.result || o.result_label || '—',
         link: o.link || o.source_url || '',
-        yeas:+yeas||0, nays:+nays||0
+        yeas: +yeas || 0,
+        nays: +nays || 0,
       };
     });
   }
 
-  // Congress.gov (via our proxy) already normalized on the server.
-  function renderYN(v){
-    const t = v.yeas + v.nays; if (!t) return "";
-    const yp = Math.round((v.yeas/t)*100), np = 100-yp, m = v.yeas-v.nays, s = m>0?'+':'';
-    return `<div class="ynbar">
-      <div class="stack"><div class="seg Y" style="width:${yp}%"></div><div class="seg N" style="width:${np}%"></div></div>
-      <div class="labels"><span>Yeas ${v.yeas} (${yp}%)</span><span>Margin ${s}${m}</span><span>Nays ${v.nays} (${np}%)</span></div>
-    </div>`;
+  function renderYN(v) {
+    const t = v.yeas + v.nays;
+    if (!t) return '';
+    const yp = Math.round((v.yeas / t) * 100);
+    const np = 100 - yp;
+    const margin = v.yeas - v.nays;
+    const s = margin > 0 ? '+' : '';
+    return `
+      <div class="ynbar">
+        <div class="stack">
+          <div class="seg Y" style="width:${yp}%"></div>
+          <div class="seg N" style="width:${np}%"></div>
+        </div>
+        <div class="labels">
+          <span>Yeas ${v.yeas} (${yp}%)</span>
+          <span>Margin ${s}${margin}</span>
+          <span>Nays ${v.nays} (${np}%)</span>
+        </div>
+      </div>`;
   }
-  function govPrimaryLink(v){
-    if (v.link) return v.link; // proxy already gave Congress.gov link
-    // Senate primary (.gov) if needed:
-    if (v.chamber === 'Senate' && v.roll && v.created){
-      const d = new Date(v.created), yr = d.getUTCFullYear();
-      const congress = Math.floor((yr - 1789)/2)+1, session = (yr % 2 === 1) ? 1 : 2;
-      const roll5 = String(parseInt(v.roll,10)).padStart(5,'0');
+
+  function govPrimaryLink(v) {
+    if (v.link) return v.link;
+    if (v.chamber === 'Senate' && v.roll && v.created) {
+      const d = new Date(v.created);
+      const yr = d.getUTCFullYear();
+      const congress = Math.floor((yr - 1789) / 2) + 1;
+      const session = yr % 2 === 1 ? 1 : 2;
+      const roll5 = String(parseInt(v.roll, 10)).padStart(5, '0');
       return `https://www.senate.gov/legislative/LIS/roll_call_votes/vote${congress}${session}/vote_${congress}_${session}_${roll5}.htm`;
     }
-    return "";
+    return '';
   }
 
-  function card(v){
-    const title = v.billTitle || v.question || "Untitled vote";
-    const primary = govPrimaryLink(v);
+  function card(v) {
+    const title = v.billTitle || v.question || 'Untitled vote';
+       const primary = govPrimaryLink(v);
     return `
-    <details class="acc" data-id="${v.id}">
-      <summary class="acc-hd">
-        <div class="acc-main">
-          <div class="caret">▶</div>
-          <div style="min-width:0">
-            <h2 class="acc-title">${esc(title)}</h2>
-            <div class="acc-sub">${esc(fmt(v.created))} · ${esc(v.chamber)} ${v.billNum ? "· "+esc(v.billNum):""}</div>
+      <details class="acc"
+        data-id="${esc(v.id)}"
+        data-billnum="${esc(v.billNum || '')}"
+        data-roll="${esc(v.roll || '')}"
+        data-chamber="${esc(v.chamber || '')}">
+        <summary class="acc-hd">
+          <div class="acc-main">
+            <div class="caret">▶</div>
+            <div style="min-width:0">
+              <h2 class="acc-title">${esc(title)}</h2>
+              <div class="acc-sub">${esc(fmt(v.created))} · ${esc(v.chamber)}${
+                v.billNum ? ' · ' + esc(v.billNum) : ''
+              }</div>
+            </div>
           </div>
-        </div>
-        <div class="acc-badges">
-          ${pill(v.result)}
-          <span class="chip">Yeas ${v.yeas}</span>
-          <span class="chip">Nays ${v.nays}</span>
-          ${v.present ? `<span class="chip">Present ${v.present}</span>` : ``}
-          ${v.notvoting ? `<span class="chip">Not Voting ${v.notvoting}</span>` : ``}
-        </div>
-      </summary>
-      <div class="acc-wrap"><div class="acc-body">
-        <section class="acc-sec"><div class="summary"><h3>Bill Summary</h3><p>${esc(v.summary || "—")}</p></div></section>
-        <section class="acc-sec"><div class="meta-grid">
-          <div class="meta"><div class="meta-label">Bill / Nomination</div><div>${v.billNum ? `<span class="chip">${esc(v.billNum)}</span>` : "—"}</div></div>
-          <div class="meta"><div class="meta-label">Vote Type</div><div>${esc(v.voteType || "—")}</div></div>
-          <div class="meta"><div class="meta-label">Required Threshold</div><div>${esc(v.required || "—")}</div></div>
-          <div class="meta"><div class="meta-label">Roll #</div><div>${v.roll ? `<span class="chip">${esc(v.roll)}</span>` : "—"}</div></div>
-        </div></section>
-        <section class="acc-sec"><div class="meta"><div class="meta-label">Question / Motion</div><div>${esc(v.question || "—")}</div></div></section>
-        <section class="acc-sec">${renderYN(v)}</section>
-        <section class="acc-sec"><div class="meta-grid">
-          <div class="meta"><div class="meta-label">Result</div><div>${pill(v.result)}</div></div>
-          <div class="meta"><div class="meta-label">Chamber</div><div>${esc(v.chamber)}</div></div>
-          <div class="meta"><div class="meta-label">Date & Time</div><div>${esc(fmtDT(v.created))}</div></div>
-          <div class="meta"><div class="meta-label">Official Source</div><div>
-            ${primary ? `<a class="btn" href="${esc(primary)}" target="_blank" rel="noopener">Source — .gov${v.billNum ? ` • ${esc(v.billNum)}` : ''}</a>` : '—'}
-            ${v.link && !primary ? `<a class="btn" href="${esc(v.link)}" target="_blank" rel="noopener">Backup — GovTrack</a>` : ''}
-            <button class="btn copy" data-url="${esc(primary || v.link || location.href)}">Copy link</button>
-          </div></div>
-        </div></section>
-      </div></div>
-    </details>`;
+          <div class="acc-badges">
+            ${pill(v.result)}
+            <span class="chip">Yeas ${v.yeas}</span>
+            <span class="chip">Nays ${v.nays}</span>
+            ${v.present ? `<span class="chip">Present ${v.present}</span>` : ''}
+            ${v.notvoting ? `<span class="chip">Not Voting ${v.notvoting}</span>` : ''}
+          </div>
+        </summary>
+        <div class="acc-wrap"><div class="acc-body">
+          <section class="acc-sec">
+            <div class="summary">
+              <h3>Bill Summary</h3>
+              <p>${esc(v.summary || '—')}</p>
+            </div>
+          </section>
+          <section class="acc-sec">
+            <div class="meta-grid">
+              <div class="meta">
+                <div class="meta-label">Bill / Nomination</div>
+                <div>${v.billNum ? `<span class="chip">${esc(v.billNum)}</span>` : '—'}</div>
+              </div>
+              <div class="meta">
+                <div class="meta-label">Vote Type</div>
+                <div>${esc(v.voteType || '—')}</div>
+              </div>
+              <div class="meta">
+                <div class="meta-label">Required Threshold</div>
+                <div>${esc(v.required || '—')}</div>
+              </div>
+              <div class="meta">
+                <div class="meta-label">Roll #</div>
+                <div>${v.roll ? `<span class="chip">${esc(v.roll)}</span>` : '—'}</div>
+              </div>
+            </div>
+          </section>
+          <section class="acc-sec">
+            <div class="meta">
+              <div class="meta-label">Question / Motion</div>
+              <div>${esc(v.question || '—')}</div>
+            </div>
+          </section>
+
+          <section class="acc-sec">
+            <div class="meta issue-web-box">
+              <div class="meta-label">Issue Web</div>
+              <div class="issue-web-body" data-issue-web-body>
+                <p class="issue-web-placeholder">
+                  Open this vote to build its issue web…
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section class="acc-sec">
+            ${renderYN(v)}
+          </section>
+          <section class="acc-sec">
+            <div class="meta-grid">
+              <div class="meta">
+                <div class="meta-label">Result</div>
+                <div>${pill(v.result)}</div>
+              </div>
+              <div class="meta">
+                <div class="meta-label">Chamber</div>
+                <div>${esc(v.chamber)}</div>
+              </div>
+              <div class="meta">
+                <div class="meta-label">Date &amp; Time</div>
+                <div>${esc(fmtDT(v.created))}</div>
+              </div>
+              <div class="meta">
+                <div class="meta-label">Official Source</div>
+                <div>
+                  ${
+                    primary
+                      ? `<a class="btn" href="${esc(primary)}" target="_blank" rel="noopener">Source — .gov${
+                          v.billNum ? ' • ' + esc(v.billNum) : ''
+                        }</a>`
+                      : '—'
+                  }
+                  ${
+                    v.link && !primary
+                      ? `<a class="btn" href="${esc(v.link)}" target="_blank" rel="noopener">Backup — GovTrack</a>`
+                      : ''
+                  }
+                  <button class="btn copy" data-url="${esc(
+                    primary || v.link || location.href
+                  )}">Copy link</button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div></div>
+      </details>`;
   }
 
-  function ensureYear(y){
+  function ensureYear(y) {
     let d = yearsEl.querySelector(`details.year[data-year="${y}"]`);
-    if (!d){
+    if (!d) {
       d = document.createElement('details');
-      d.className = 'year'; d.dataset.year = y; if (y === now.getFullYear()) d.open = true;
-      d.innerHTML = `<summary>${y}<span class="year-count" data-count="${y}"></span></summary><div class="year-body"></div>`;
+      d.className = 'year';
+      d.dataset.year = y;
+      if (y === nowYear) d.open = true;
+      d.innerHTML =
+        `<summary>${y}<span class="year-count" data-count="${y}"></span></summary>` +
+        `<div class="year-body"></div>`;
       yearsEl.appendChild(d);
     }
     return d;
   }
-  function ensureMonth(y, key, label){
+
+  function ensureMonth(y, key, label) {
     const year = ensureYear(y);
     const body = year.querySelector('.year-body');
     let m = body.querySelector(`details.month[data-month="${key}"]`);
-    if (!m){
+    if (!m) {
       m = document.createElement('details');
-      m.className = 'month'; m.dataset.month = key;
-      if (key === nowMonthKey && y === nowYear) m.open = true; // current month open
-      m.innerHTML = `<summary>${label}</summary><div class="list" data-list="${key}"></div>`;
+      m.className = 'month';
+      m.dataset.month = key;
+      if (key === nowMonthKey && y === nowYear) m.open = true;
+      m.innerHTML =
+        `<summary>${label}</summary><div class="list" data-list="${key}"></div>`;
       body.appendChild(m);
     }
     return m.querySelector(`[data-list="${key}"]`);
   }
-  function bumpYearCount(year, delta){
+
+  function bumpYearCount(year, delta) {
     const c = yearsEl.querySelector(`[data-count="${year}"]`);
     if (!c) return;
     const prev = parseInt(c.textContent || '0', 10) || 0;
     c.textContent = ` • ${prev + delta}`;
   }
-  function monthKeyOf(d){
-    const dt = D(d)||new Date();
+
+  function monthKeyOf(d) {
+    const dt = D(d) || new Date();
     const y = dt.getFullYear();
-    const m = dt.toLocaleDateString(undefined,{month:'long'});
-    return {year:y, key:`${y}-${String(dt.getMonth()+1).padStart(2,'0')}`, label:m};
+    const label = dt.toLocaleDateString(undefined, { month: 'long' });
+    const key = `${y}-${String(dt.getMonth() + 1).padStart(2, '0')}`;
+    return { year: y, key, label };
   }
-  function renderItems(items){
-    if (!items.length) return;
-    const asc = (sortSel.value === 'created');
-    items.sort((a,b)=> (asc ? (D(a.created)-D(b.created)) : (D(b.created)-D(a.created)) ));
-    items.forEach(v=>{
+
+  // fix clipping: recompute accordion height after new content is added
+  function recomputeAccHeight(acc) {
+    const wrap = acc.querySelector('.acc-wrap');
+    if (!wrap) return;
+    wrap.style.maxHeight = 'none';
+    const h = wrap.scrollHeight;
+    wrap.style.maxHeight = h + 'px';
+  }
+
+  async function hydrateIssueWebForAcc(acc) {
+    const body = acc.querySelector('[data-issue-web-body]');
+    if (!body) return;
+    if (acc.dataset.issueWebLoaded === '1') return;
+    acc.dataset.issueWebLoaded = '1';
+
+    const billNum = (acc.dataset.billnum || '').trim();
+    const chamber = (acc.dataset.chamber || '').trim();
+    const roll = (acc.dataset.roll || '').trim();
+
+    if (!window.renderIssueWebForBill || !billNum) {
+      body.innerHTML =
+        `<p class="issue-web-error">Issue web is still building from public sources. Check back soon.</p>`;
+      return;
+    }
+
+    try {
+      body.innerHTML =
+        `<p class="issue-web-placeholder">Building issue web…</p>`;
+      await window.renderIssueWebForBill({
+        mount: body,
+        billNum,
+        chamber,
+        roll,
+      });
+      // adjust accordion height now that the canvas exists
+      recomputeAccHeight(acc);
+    } catch (err) {
+      console.error('Issue web error', err);
+      body.innerHTML =
+        `<p class="issue-web-error">Issue web is still building from public sources. Check back soon.</p>`;
+    }
+  }
+
+  function renderItems(items) {
+    yearsEl.innerHTML = '';
+    if (!items.length) {
+      rangeNote.textContent = 'No votes match these filters.';
+      pageNote.textContent = '';
+      return;
+    }
+
+    const asc = sortSel.value === 'created';
+    const sorted = items
+      .slice()
+      .sort((a, b) =>
+        asc ? D(a.created) - D(b.created) : D(b.created) - D(a.created)
+      );
+
+    sorted.forEach((v) => {
       const mk = monthKeyOf(v.created);
       const list = ensureMonth(mk.year, mk.key, mk.label);
       list.insertAdjacentHTML('beforeend', card(v));
       bumpYearCount(mk.year, 1);
     });
-    yearsEl.querySelectorAll('.copy').forEach(btn=>{
-      if (btn.__wired) return; btn.__wired = true;
-      btn.addEventListener('click', async e=>{
+
+    yearsEl.querySelectorAll('.copy').forEach((btn) => {
+      if (btn.__wired) return;
+      btn.__wired = true;
+      btn.addEventListener('click', async (e) => {
         e.stopPropagation();
-        try{ await navigator.clipboard.writeText(btn.getAttribute('data-url') || location.href);
-             btn.textContent='Copied!'; setTimeout(()=>btn.textContent='Copy link',1200);}catch{}
+        try {
+          await navigator.clipboard.writeText(
+            btn.getAttribute('data-url') || location.href
+          );
+          btn.textContent = 'Copied!';
+          setTimeout(() => (btn.textContent = 'Copy link'), 1200);
+        } catch (err) {}
       });
     });
-    yearsEl.querySelectorAll('details.acc').forEach(d=>{
-      if (d.__wired) return; d.__wired = true;
+
+    yearsEl.querySelectorAll('details.acc').forEach((d) => {
+      if (d.__wired) return;
+      d.__wired = true;
       const wrap = d.querySelector('.acc-wrap');
-      const setH = ()=>{
+      const setH = () => {
         wrap.style.maxHeight = 'none';
-        wrap.style.maxHeight = d.open ? wrap.scrollHeight+'px' : '0px';
+        wrap.style.maxHeight = d.open ? wrap.scrollHeight + 'px' : '0px';
       };
-      setH(); d.addEventListener('toggle', setH);
-      window.addEventListener('resize', ()=>{ if(d.open) setH(); });
+      setH();
+      d.addEventListener('toggle', () => {
+        setH();
+        if (d.open) hydrateIssueWebForAcc(d);
+      });
+      window.addEventListener('resize', () => {
+        if (d.open) setH();
+      });
+
+      if (d.open) hydrateIssueWebForAcc(d);
     });
+
+    const hasFilters =
+      (q.value || '').trim().length > 0 ||
+      chamberSel.value ||
+      resultSel.value;
+    if (hasFilters) {
+      yearsEl.querySelectorAll('details.year, details.month').forEach((d) => {
+        d.open = true;
+      });
+    }
   }
 
-  // ---------- fetching ----------
-  function buildGovtrackQS(includeChamberParam=true){
+  function updateNotes() {
+    if (!allItems.length) {
+      rangeNote.textContent = 'No votes loaded yet.';
+      pageNote.textContent = '';
+      return;
+    }
+    const newest = allItems[0]?.created;
+    const oldest = allItems[allItems.length - 1]?.created;
+    rangeNote.textContent = `Loaded ${allItems.length}${
+      newest && oldest ? ` (${fmt(oldest)} → ${fmt(newest)})` : ''
+    }`;
+    pageNote.textContent = `Pages loaded: ${Math.max(
+      1,
+      Math.ceil(allItems.length / LIMIT)
+    )}`;
+  }
+
+  // ------------- search helpers -------------
+
+  function normalizeForSearch(str) {
+    return (str || '')
+      .toString()
+      .toLowerCase()
+      .replace(/([a-z])([0-9])/g, '$1 $2')   // s146 -> s 146
+      .replace(/([0-9])([a-z])/g, '$1 $2')
+      .replace(/[^a-z0-9]+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  function applyClientSideFilters() {
+    let out = allItems.slice();
+
+    const chVal = (chamberSel.value || '').toLowerCase();
+    const resVal = (resultSel.value || '').toLowerCase();
+    const termRaw = (q.value || '').trim().toLowerCase();
+    const termNorm = normalizeForSearch(termRaw);
+
+    if (chVal === 'house' || chVal === 'senate') {
+      const wanted = chVal === 'house' ? 'house' : 'senate';
+      out = out.filter((v) => (v.chamber || '').toLowerCase() === wanted);
+    }
+
+    if (resVal === 'pass') {
+      out = out.filter((v) => isPass(v.result));
+    } else if (resVal === 'fail') {
+      out = out.filter((v) => !isPass(v.result));
+    }
+
+    if (termNorm) {
+      out = out.filter((v) => {
+        const pieces = [
+          v.billTitle,
+          v.billNum,
+          v.question,
+          v.summary,
+          v.chamber,
+          v.result,
+          v.id,
+          String(v.roll || ''),
+        ];
+        const haySimple = pieces.join(' ').toLowerCase();
+        const hayNorm = normalizeForSearch(haySimple);
+        const hayJson = JSON.stringify(v).toLowerCase();
+
+        return (
+          hayNorm.includes(termNorm) ||
+          (termRaw && haySimple.includes(termRaw)) ||
+          (termRaw && hayJson.includes(termRaw))
+        );
+      });
+    }
+
+    return out;
+  }
+
+  // ------------- data loading -------------
+
+  function buildGovtrackQS() {
     const p = new URLSearchParams();
     p.set('limit', String(LIMIT));
     p.set('offset', String(offset));
-    p.set('order_by', sortSel.value);
-    const ch = (chamberSel.value||'').toLowerCase();
-    if (includeChamberParam && (ch==='house'||ch==='senate')) p.set('chamber', ch);
-    const term = (q.value||"").trim(); if (term) p.set('q', term);
+    p.set('order_by', '-created');
     return p.toString();
   }
 
-  async function fetchGovTrack(){
-    const qs = buildGovtrackQS(true);
+  async function fetchGovTrack() {
+    const qs = buildGovtrackQS();
     const url = `https://www.govtrack.us/api/v2/vote?${qs}`;
     debugNote.textContent = `govtrack: ${url}`;
-    const r = await fetch(url, {cache:'no-store'});
+    const r = await fetch(url, { cache: 'no-store' });
     if (!r.ok) return [];
     const j = await r.json();
-    return normalizeGovtrack(j?.objects||[]);
+    return normalizeGovtrack(j && j.objects);
   }
 
-  async function fetchHouseViaCongressGov(){
-    // Prefer our proxy for House (returns already-normalized items).
+  async function fetchHouseViaCongressGov() {
     const params = new URLSearchParams();
     params.set('offset', String(offset));
     params.set('limit', String(LIMIT));
-    const ch = (chamberSel.value||'').toLowerCase();
-    // you can also pass congress/session explicitly via dropdowns later if desired
     const url = `/api/house/rollcalls?${params.toString()}`;
     debugNote.textContent = `congress.gov proxy: ${url}`;
-    const r = await fetch(url, {cache:'no-store'});
+    const r = await fetch(url, { cache: 'no-store' });
     if (!r.ok) return [];
     const j = await r.json();
-    return Array.isArray(j?.objects) ? j.objects : [];
+    return Array.isArray(j && j.objects) ? j.objects : [];
   }
 
-  async function loadPage({reset=false}={}){
-    if (reset){
-      yearsEl.innerHTML=''; offset=0; reachedEnd=false; emptyStreak=0;
-      prevBtn.disabled = true; nextBtn.disabled=false; debugNote.textContent='';
+  async function loadPage({ reset = false } = {}) {
+    if (reset) {
+      yearsEl.innerHTML = '';
+      offset = 0;
+      reachedEnd = false;
+      emptyStreak = 0;
+      allItems = [];
+      prevBtn.disabled = true;
+      nextBtn.disabled = false;
+      debugNote.textContent = '';
     }
-    if (reachedEnd){ nextBtn.disabled = true; return; }
+    if (reachedEnd) {
+      nextBtn.disabled = true;
+      return;
+    }
 
-    let items = [];
-    const ch = (chamberSel.value||'').toLowerCase();
+    let slice = [];
+    const ch = (chamberSel.value || '').toLowerCase();
 
-    if (ch === 'house'){
-      // Try .gov first, then fallback to GovTrack silently
-      items = await fetchHouseViaCongressGov();
-      if (!items.length) items = await fetchGovTrack();
+    try {
+      if (ch === 'house') {
+        // Try local proxy first; if it returns nothing, fall back to GovTrack.
+        const viaHouse = await fetchHouseViaCongressGov();
+        if (viaHouse && viaHouse.length) {
+          slice = normalizeGovtrack(viaHouse);
+        } else {
+          slice = await fetchGovTrack();
+        }
+      } else {
+        slice = await fetchGovTrack();
+      }
+    } catch (err) {
+      console.error('loadPage error', err);
+      slice = [];
+    }
+
+    if (slice.length) {
+      allItems = allItems.concat(slice);
+      offset += LIMIT;
+      emptyStreak = 0;
     } else {
-      // Senate or All – GovTrack is fine; Senate still gets .gov links on open.
-      items = await fetchGovTrack();
+      emptyStreak += 1;
+      if (emptyStreak >= 3) {
+        reachedEnd = true;
+      }
     }
 
-    renderItems(items);
-
-    const first = items[0]?.created, last = items[items.length-1]?.created;
-    rangeNote.textContent = items.length
-      ? `Loaded ${items.length}${first&&last ? ` (${fmt(first)} → ${fmt(last)})` : ''}`
-      : `No votes on this slice — digging back…`;
-
-    if (items.length>0){
-      emptyStreak = 0; offset += LIMIT; nextBtn.disabled=false;
-    } else {
-      emptyStreak += 1; offset += LIMIT; nextBtn.disabled=false;
-      if (emptyStreak >= 30){ reachedEnd=true; nextBtn.disabled=true; rangeNote.textContent=`No more results for these filters.`; }
-    }
-    pageNote.textContent = `Pages loaded: ${Math.floor(offset / LIMIT)}`;
-
-    // Chamber deep-seek when empty
-    const chPicked = (ch==='house' || ch==='senate');
-    if (chPicked && items.length===0 && !reachedEnd){
-      setTimeout(()=>loadPage({reset:false}), 0);
-    }
+    updateNotes();
   }
 
-  q.addEventListener('input', ()=> loadPage({reset:true}));
-  chamberSel.addEventListener('change', ()=> loadPage({reset:true}));
-  resultSel.addEventListener('change', ()=> loadPage({reset:true}));
-  sortSel.addEventListener('change', ()=> loadPage({reset:true}));
-  clearBtn.addEventListener('click', ()=>{ q.value=""; chamberSel.value=""; resultSel.value=""; sortSel.value="-created"; loadPage({reset:true}); });
-  prevBtn.addEventListener('click', ()=>{ /* optional newer */ });
-  nextBtn.addEventListener('click', ()=> loadPage({reset:false}));
+  // ------------- filter orchestration -------------
 
-  (document.readyState==='loading')
-    ? document.addEventListener('DOMContentLoaded', ()=>loadPage({reset:true}))
-    : loadPage({reset:true});
+  async function onFiltersChanged() {
+    const myGen = ++filterGeneration;
+    const hasFilters =
+      (q.value || '').trim().length > 0 ||
+      chamberSel.value ||
+      resultSel.value;
+
+    let filtered = applyClientSideFilters();
+
+    if (!hasFilters || filtered.length || reachedEnd) {
+      renderItems(filtered);
+      updateNotes();
+      return;
+    }
+
+    rangeNote.textContent = 'Searching older votes…';
+
+    let pagesFetched = 0;
+    const MAX_PAGES = 40;
+
+    while (hasFilters && !filtered.length && !reachedEnd && pagesFetched < MAX_PAGES) {
+      await loadPage({ reset: false });
+      if (myGen !== filterGeneration) {
+        return;
+      }
+      filtered = applyClientSideFilters();
+      pagesFetched++;
+    }
+
+    renderItems(filtered);
+    updateNotes();
+  }
+
+  // ------------- wiring -------------
+
+  q.addEventListener('input', () => onFiltersChanged());
+  chamberSel.addEventListener('change', () => onFiltersChanged());
+  resultSel.addEventListener('change', () => onFiltersChanged());
+  sortSel.addEventListener('change', () => onFiltersChanged());
+
+  clearBtn.addEventListener('click', () => {
+    q.value = '';
+    chamberSel.value = '';
+    resultSel.value = '';
+    sortSel.value = '-created';
+    onFiltersChanged();
+  });
+
+  prevBtn.addEventListener('click', () => {
+    // reserved for future "newer" paging
+  });
+
+  nextBtn.addEventListener('click', async () => {
+    await loadPage({ reset: false });
+    await onFiltersChanged();
+  });
+
+  async function initialLoad() {
+    await loadPage({ reset: true });
+    for (let i = 0; i < 4; i++) {
+      await loadPage({ reset: false });
+    }
+    await onFiltersChanged();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initialLoad);
+  } else {
+    initialLoad();
+  }
 })();
 </script>
+
 </body>
 </html>

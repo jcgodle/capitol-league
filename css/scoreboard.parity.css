@@ -1,0 +1,61 @@
+/* Scoreboard Parity Skin
+   Scope: only applies when <body class="scoreboard"> (safe opt‑in)
+   Goal: visually match the other pages' panel/pill/card styling without touching sitewide CSS.
+*/
+
+body.scoreboard .panel{
+  background: var(--panel, #0f1420);
+  border: 1px solid var(--border, #1b2030);
+  border-radius: var(--radius-lg, 16px);
+  box-shadow: 0 8px 30px rgba(0,0,0,.35);
+}
+
+body.scoreboard .panel-head{
+  padding: 16px;
+  border-bottom: 1px solid var(--border, #1b2030);
+}
+
+body.scoreboard .totals .pill{
+  background: var(--pill, #0b1020);
+  border: 1px solid var(--border, #1b2030);
+  border-radius: 12px;
+  padding: 8px 12px;
+  min-width: 92px;
+}
+
+body.scoreboard .members-grid{
+  gap: 12px;
+  padding: 16px;
+}
+
+body.scoreboard .member-card{
+  background: var(--card, #111522);
+  border: 1px solid var(--border, #1b2030);
+  border-radius: 14px;
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+}
+
+body.scoreboard .member-card img{
+  width: 56px; height: 56px;
+  border-radius: 10px;
+  object-fit: cover;
+  background: #0b0d12;
+  border: 1px solid var(--border, #1b2030);
+}
+
+body.scoreboard .member-card .meta .name{ font-weight: 600; }
+body.scoreboard .member-card .meta .sub{ color: var(--muted, #8b93a7); font-size: 12px; margin-top: 2px; }
+body.scoreboard .member-card .pts{ font-weight: 700; }
+body.scoreboard .member-card .pts.positive{ color: var(--good, #2ecc71); }
+body.scoreboard .member-card .pts.negative{ color: var(--bad, #ff5c5c); }
+
+body.scoreboard .table{ width: 100%; border-collapse: collapse; font-size: 14px; }
+body.scoreboard .table th, 
+body.scoreboard .table td{ padding: 10px 12px; border-bottom: 1px solid var(--border, #1b2030); }
+body.scoreboard .table thead th{ color: var(--text-dim, #afbbd4); font-weight: 600; text-align: left; }
+body.scoreboard .yea{ color: var(--good, #2ecc71); font-weight: 600; }
+body.scoreboard .nay{ color: var(--bad, #ff5c5c); font-weight: 600; }

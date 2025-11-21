@@ -33,3 +33,29 @@ header.cl-topbar{
 .spacer{height:var(--h)}
 /* If a page has its own sticky toolbar, don't inject spacer (handled in JS) */
 body.has-sticky-toolbar #site-header + .spacer{display:none!important}
+
+/* ------------------------------- */
+/* Live Vote Status Badge Styles   */
+/* ------------------------------- */
+
+.vote-status {
+    margin: 2px auto 10px;   /* much tighter to the header */
+    padding: 4px 14px;
+    width: fit-content;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+}
+
+
+.vote-status.ok      { background-color: #2ecc71; } /* green */
+.vote-status.stale   { background-color: #e67e22; } /* orange */
+.vote-status.empty   { background-color: #7f8c8d; } /* gray */
+.vote-status.error   { background-color: #e74c3c; } /* red */
+
+.hidden {
+    display: none;
+}
+

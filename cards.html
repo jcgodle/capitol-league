@@ -43,6 +43,47 @@
   .badge-area{margin-top:6px} .badge-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:8px}
   .badge-pill{display:flex; align-items:center; gap:8px; background:#fff8ea; border:1px solid #f1d59a; border-radius:14px; padding:8px 10px; font-size:14px; font-weight:700; color:#3c2b00; cursor:help; transition:background .2s, transform .2s}
   .badge-pill:hover{background:#fff3d2; transform:scale(1.03)} .badge-pill .icon{font-size:16px}
+/* ===== FOOTER (MATCHING SITE STYLE) ===== */
+
+#site-footer {
+  margin-top: 32px;
+  border-top: 1px solid rgba(255,255,255,0.16);
+  background: rgba(3,6,18,0.85);
+  backdrop-filter: blur(4px);
+}
+
+#site-footer .footer-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 12px var(--g);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+#site-footer .footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+#site-footer .footer-nav a {
+  color: var(--muted);
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.2px;
+  transition: 0.15s ease;
+}
+
+#site-footer .footer-nav a:hover {
+  color: var(--txt);
+  text-decoration: underline;
+}
+
 </style>
 </head>
 <body class="has-sticky-toolbar">
@@ -198,5 +239,27 @@
 
   <!-- Feed-only KPI loader -->
   <script src="js/cards-kpi-feed-only.js" defer></script>
+  <!-- SITE FOOTER -->
+  <footer id="site-footer">
+    <div class="footer-inner">
+      <div>© <span id="cl-year"></span> Capitol League. Data from public U.S. sources.</div>
+
+      <nav class="footer-nav">
+        <a href="index.html">Scoreboard</a>
+        <a href="cards.html">Cards</a>
+        <a href="votes.html">Votes</a>
+        <a href="rules.html">Rules</a>
+        <a href="sources.html">Sources</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    // auto-year
+    document.getElementById('cl-year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
+
 </body>
 </html>

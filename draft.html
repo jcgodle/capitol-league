@@ -7,70 +7,534 @@
   <link rel="icon" href="favicon.ico" />
   <link rel="stylesheet" href="shared.css" />
   <style>
-    :root { --gap: 20px; --radius: 14px; --panel:#171a2b; --muted:#8ea0c2; --shadow: 0 6px 20px rgba(0,0,0,.25); --h:72px!important }
-    body{background:#0d101b;color:#e7e9f4;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;padding-top:72px!important}
-    .wrap{max-width:1280px;margin:0 auto;padding:16px}
-    .panel { background: var(--panel); border: 1px solid rgba(255,255,255,.06); border-radius: var(--radius); box-shadow: var(--shadow); }
-    .panel .hd { padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,.06); font-weight: 800; }
-    .panel .bd { padding: 16px; }
-    .muted{color:var(--muted)}
-    table{width:100%;border-collapse:collapse}
-    th,td{padding:10px 8px;text-align:left}
-    th{color:var(--muted);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.4px}
-    tr + tr td{border-top:1px solid rgba(255,255,255,.06)}
-    .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
-    .toolbar input,.toolbar select{background:#0f1424;border:1px solid rgba(118,136,214,.25);color:#e7e9f4;padding:10px 12px;border-radius:999px}
-    .chips{display:flex;gap:8px}
-    .chip{display:inline-flex;align-items:center;border:1px solid rgba(118,136,214,.25);padding:8px 12px;border-radius:999px;background:#0f1424;color:#e7e9f4;text-decoration:none;cursor:pointer}
-    .chip.is-active{outline:2px solid rgba(126,165,255,.25)}
-    .grid{display:grid;grid-template-columns:1.6fr 1fr;gap:16px}
-    @media (max-width: 980px){.grid{grid-template-columns:1fr}}
+    :root{
+      --gap:16px;
+      --radius:16px;
+      --panel:#0f1426;
+      --panel-soft:#10172f;
+      --muted:#8ea0c2;
+      --accent:#6ea8fe;
+      --accent-soft:rgba(110,168,254,.16);
+      --accent-strong:#3b82f6;
+      --shadow:0 16px 40px rgba(0,0,0,.55);
+      --h:72px!important;
+    }
+
+    *{box-sizing:border-box;}
+
+    body{
+      margin:0;
+      background:#050817;
+      background-image:
+        radial-gradient(circle at 0 0,rgba(110,168,254,.22),transparent 55%),
+        radial-gradient(circle at 100% 0,rgba(56,189,248,.18),transparent 55%),
+        radial-gradient(circle at 50% 120%,rgba(31,41,79,.9),#050817 70%);
+      color:#e7e9f4;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      padding-top:72px!important;
+    }
+
+    main.shell{
+      max-width:1280px;
+      margin:0 auto;
+      padding:18px var(--gap) 56px;
+    }
+
+    h1{
+      margin:0 0 4px;
+      font:900 22px/1.2 system-ui;
+      letter-spacing:.02em;
+    }
+
+    .page-subtitle{
+      margin:0 0 18px;
+      color:var(--muted);
+      font:600 13px/1.4 system-ui;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1.7fr 1.05fr;
+      gap:18px;
+      align-items:flex-start;
+    }
+    @media (max-width:980px){
+      .grid{grid-template-columns:1fr;}
+    }
+
+    /* Panels */
+    .panel{
+      background:radial-gradient(circle at 0 0,rgba(255,255,255,.04),transparent 55%),
+                 radial-gradient(circle at 100% 0,rgba(148,163,184,.08),transparent 60%),
+                 var(--panel);
+      border:1px solid rgba(148,163,184,.26);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .panel-hd{
+      padding:14px 16px 12px;
+      border-bottom:1px solid rgba(15,23,42,.9);
+      background:linear-gradient(180deg,rgba(15,23,42,.9),rgba(15,23,42,.7));
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .panel-hd-title{
+      font:900 14px/1.3 system-ui;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:#e5edff;
+    }
+    .panel-hd-sub{
+      font:700 11px/1.3 system-ui;
+      color:var(--muted);
+    }
+    .panel-bd{
+      padding:14px 16px 16px;
+      background:radial-gradient(circle at 0 0,rgba(15,23,42,.6),rgba(15,23,42,.94));
+    }
+
+    .muted{color:var(--muted);}
+
+    /* Toolbar */
+    .toolbar{
+      position:sticky;
+      top:var(--h);
+      z-index:5;
+      margin:-6px -16px 12px;
+      padding:10px 16px 10px;
+      backdrop-filter:blur(18px);
+      background:linear-gradient(180deg,rgba(15,23,42,.96),rgba(15,23,42,.90));
+      border-bottom:1px solid rgba(15,23,42,1);
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+    }
+
+    .toolbar input,
+    .toolbar select{
+      background:radial-gradient(circle at 0 0,rgba(15,23,42,1),rgba(15,23,42,.9));
+      border:1px solid rgba(148,163,184,.5);
+      color:#e7e9f4;
+      padding:0 12px;
+      height:36px;
+      border-radius:999px;
+      font:600 13px system-ui;
+      outline:none;
+      min-width:0;
+    }
+
+    .toolbar input::placeholder{color:#94a3d6;}
+    .toolbar input:focus,
+    .toolbar select:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 1px rgba(110,168,254,.45);
+    }
+
+    .toolbar .grow{flex:1 1 260px;}
+
+    .chips{
+      display:flex;
+      gap:6px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:0 12px;
+      height:32px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.5);
+      background:radial-gradient(circle at 0 0,rgba(148,163,184,.26),rgba(15,23,42,.9));
+      color:#e7e9f4;
+      font:800 11px/1 system-ui;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      cursor:pointer;
+      white-space:nowrap;
+      transition:background .14s ease,transform .06s ease,box-shadow .14s ease;
+    }
+    .chip:hover{
+      background:radial-gradient(circle at 0 0,rgba(148,163,184,.4),rgba(15,23,42,.95));
+      box-shadow:0 0 0 1px rgba(148,163,184,.5);
+    }
+    .chip:active{transform:translateY(1px);}
+    .chip.is-active{
+      border-color:var(--accent-strong);
+      background:radial-gradient(circle at 0 0,var(--accent-soft),rgba(15,23,42,.98));
+      box-shadow:0 0 0 1px rgba(96,165,250,.8);
+      color:#dbeafe;
+    }
+
+    /* Player table – trimmed columns */
+    table{
+      width:100%;
+      border-collapse:collapse;
+      border-spacing:0;
+      font-size:13px;
+    }
+
+    thead{
+      position:sticky;
+      top:calc(var(--h) + 48px);
+      z-index:3;
+      background:linear-gradient(180deg,rgba(15,23,42,.98),rgba(15,23,42,.96));
+      box-shadow:0 6px 16px rgba(0,0,0,.55);
+    }
+
+    th,td{
+      padding:8px 8px;
+      text-align:left;
+    }
+
+    th{
+      font:800 11px/1.2 system-ui;
+      color:#94a3d6;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      border-bottom:1px solid rgba(30,64,175,.9);
+      white-space:nowrap;
+    }
+
+    tbody tr{
+      background:radial-gradient(circle at 0 0,rgba(255,255,255,.04),rgba(15,23,42,.98));
+      box-shadow:0 1px 0 rgba(15,23,42,1);
+      transition:background .12s ease,transform .06s ease,box-shadow .12s ease;
+    }
+    tbody tr:nth-child(even){
+      background:radial-gradient(circle at 100% 0,rgba(148,163,184,.07),rgba(15,23,42,.98));
+    }
+    tbody tr:hover{
+      background:radial-gradient(circle at 0 0,rgba(129,140,248,.18),rgba(15,23,42,1));
+      transform:translateY(-1px);
+      box-shadow:0 10px 24px rgba(15,23,42,.85);
+    }
+
+    tbody td{
+      border-top:1px solid rgba(15,23,42,1);
+    }
+
+    tbody td:last-child{
+      text-align:right;
+      white-space:nowrap;
+    }
+
+    .btn-small{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:0 10px;
+      height:26px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.7);
+      background:radial-gradient(circle at 0 0,rgba(148,163,184,.3),rgba(15,23,42,.98));
+      font:800 11px/1 system-ui;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:#e5edff;
+      cursor:pointer;
+    }
+    .btn-small:hover{
+      background:radial-gradient(circle at 0 0,rgba(129,140,248,.4),rgba(15,23,42,.98));
+    }
+
+    /* Team side panel */
+    #team{
+      position:relative;
+    }
+
+    #empty-team{
+      margin-top:0;
+      margin-bottom:10px;
+      font-size:13px;
+    }
+
+    #team-list{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin-bottom:10px;
+    }
+
+    .team-card{
+      border-radius:12px;
+      border:1px solid rgba(148,163,184,.55);
+      background:radial-gradient(circle at 0 0,rgba(129,140,248,.22),rgba(15,23,42,.98));
+      padding:8px 10px;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      font-size:13px;
+    }
+
+    .team-card-main{
+      display:flex;
+      justify-content:space-between;
+      gap:8px;
+      align-items:center;
+    }
+
+    .team-card-title{
+      font:800 13px/1.3 system-ui;
+    }
+
+    .team-card-meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      font:700 11px/1.2 system-ui;
+      color:#cbd5ff;
+    }
+
+    .team-card-actions{
+      display:flex;
+      justify-content:flex-end;
+      gap:6px;
+      margin-top:4px;
+    }
+
+    .stat-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-top:4px;
+      font:700 12px/1.3 system-ui;
+      color:var(--muted);
+    }
+    .stat-row strong{
+      font-weight:800;
+      color:#e5edff;
+    }
+
+    .team-cap-pill{
+      font:800 11px/1 system-ui;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:#cbd5ff;
+    }
+
+    .team-cap-pill span{
+      padding:4px 9px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.65);
+      background:radial-gradient(circle at 0 0,rgba(129,140,248,.3),rgba(15,23,42,.98));
+      margin-left:6px;
+    }
+
+    .team-actions{
+      display:flex;
+      gap:8px;
+      justify-content:flex-end;
+      margin-top:10px;
+      flex-wrap:wrap;
+    }
+    .team-actions .chip{
+      height:34px;
+      padding:0 14px;
+    }
+
+    @media (max-width:720px){
+      .toolbar{position:static;margin:0 -16px 10px;padding:10px 16px;}
+      thead{position:static;box-shadow:none;}
+      tbody tr:hover{transform:none;}
+    }
+
+    /* Avatar + name block */
+    .player-cell{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+
+    .player-name-row{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .player-name-block{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      min-width:0;
+    }
+
+    .player-name{
+      font:800 13px/1.3 system-ui;
+      color:#e5edff;
+    }
+
+    .player-sub{
+      font:600 11px/1.2 system-ui;
+      color:#9ca3d9;
+    }
+
+    .player-avatar{
+      width:28px;
+      height:28px;
+      border-radius:999px;
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border:1px solid rgba(148,163,184,.8);
+      background:radial-gradient(circle at 0 0,rgba(148,163,184,.35),rgba(15,23,42,.98));
+      flex-shrink:0;
+    }
+
+    .player-avatar-img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .player-avatar-fallback{
+      width:100%;
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font:800 11px/1 system-ui;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      color:#e5edff;
+    }
+
+    /* badges */
+    .player-badges{
+      display:flex;
+      gap:4px;
+      margin-top:2px;
+    }
+
+    .badge-icon{
+      width:18px;
+      height:18px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.7);
+      background:radial-gradient(circle at 0 0,rgba(148,163,184,.3),rgba(15,23,42,.98));
+      font-size:11px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      cursor:default;
+    }
   </style>
   <script src="shared.js" defer></script>
   <script src="js/draft.js" defer></script>
 </head>
 <body>
   <div id="site-header"></div>
-  <main class="wrap">
-    <section class="shell">
-      <div class="grid">
-        <section class="panel">
-          <div class="hd">Draft Center</div>
-          <div class="bd">
-            <p class="muted" style="margin-top:0">Build your roster from sitting members of Congress. Data loads from the <em>same feed Cards uses</em>: legislators-current.json (+ optional kpis.json).</p>
-            <div class="toolbar">
-              <input id="q" type="search" placeholder="Search name or state (e.g., Baldwin or WI)" />
-              <select id="party"><option value="">All parties</option><option value="D">Democratic</option><option value="R">Republican</option><option value="I">Independent</option></select>
-              <select id="state"><option value="">All states</option></select>
-              <select id="sort"><option value="-score">Sort: Score ↓</option><option value="score">Sort: Score ↑</option><option value="name">Sort: Name A→Z</option><option value="-name">Sort: Name Z→A</option><option value="cost">Sort: Cost ↑</option><option value="-cost">Sort: Cost ↓</option></select>
-              <div class="chips" id="tabs">
-                <button class="chip is-active" data-chamber="">All</button>
-                <button class="chip" data-chamber="Senate">Senate</button>
-                <button class="chip" data-chamber="House">House</button>
-              </div>
-              <button id="reset" class="chip">Reset</button>
-            </div>
-            <table id="players" aria-label="Available players">
-              <thead><tr><th>Name</th><th>Chamber</th><th>State</th><th>Party</th><th>Score</th><th>Cost</th><th></th></tr></thead>
-              <tbody id="player-rows"><tr><td colspan="7" class="muted">Loading feed…</td></tr></tbody>
-            </table>
+
+  <main class="shell">
+    <h1>Draft Center</h1>
+    <p class="page-subtitle">
+      Build your roster from sitting members of Congress. Draft pulls from the same live data feed as Cards:
+      <em>legislators-current.json</em> (+ optional <em>kpis.json</em> for scoring & badges).
+    </p>
+
+    <section class="grid">
+      <!-- Left: player pool -->
+      <section class="panel">
+        <header class="panel-hd">
+          <div>
+            <div class="panel-hd-title">Player Pool</div>
+            <div class="panel-hd-sub">Search, filter, and draft directly into your team.</div>
           </div>
-        </section>
-        <aside class="panel">
-          <div class="hd">My Team <span class="muted" id="cap" style="float:right">0 / 12</span></div>
-          <div class="bd" id="team">
-            <p class="muted" id="empty-team">No players drafted yet.</p>
-            <div id="team-list"></div>
-            <div style="height:8px"></div>
-            <div class="muted" style="display:flex;justify-content:space-between"><span>Total cost</span><strong id="total-cost">0</strong></div>
-            <div class="muted" style="display:flex;justify-content:space-between;margin-top:6px"><span>Avg. score</span><strong id="avg-score">0.0</strong></div>
-            <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:10px">
-              <button id="export" class="chip">Export JSON</button>
-              <button id="clear" class="chip" title="Clear my roster">Clear</button>
+        </header>
+
+        <div class="panel-bd">
+          <div class="toolbar">
+            <input
+              id="q"
+              class="grow"
+              type="search"
+              placeholder="Search member or state (e.g., Baldwin or WI)"
+              autocomplete="off"
+            />
+            <select id="party">
+              <option value="">All parties</option>
+              <option value="D">Democratic</option>
+              <option value="R">Republican</option>
+              <option value="I">Independent</option>
+            </select>
+            <select id="state">
+              <option value="">All states</option>
+            </select>
+            <select id="sort">
+              <option value="-score">Sort: Score ↓</option>
+              <option value="score">Sort: Score ↑</option>
+              <option value="name">Sort: Name A→Z</option>
+              <option value="-name">Sort: Name Z→A</option>
+            </select>
+
+            <div class="chips" id="tabs">
+              <button class="chip is-active" data-chamber="">All</button>
+              <button class="chip" data-chamber="Senate">Senate</button>
+              <button class="chip" data-chamber="House">House</button>
             </div>
+
+            <button id="reset" class="chip">Reset</button>
           </div>
-        </aside>
-      </div>
+
+          <table id="players" aria-label="Available players">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Party</th>
+                <th>Score</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="player-rows">
+              <tr>
+                <td colspan="4" class="muted">Loading feed…</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Right: team / roster -->
+      <aside class="panel">
+        <header class="panel-hd">
+          <div>
+            <div class="panel-hd-title">My Team</div>
+            <div class="panel-hd-sub">Track your roster and performance at a glance.</div>
+          </div>
+          <div class="team-cap-pill">
+            Roster
+            <span id="cap">0 / 12</span>
+          </div>
+        </header>
+
+        <div class="panel-bd" id="team">
+          <p class="muted" id="empty-team">No players drafted yet. Add members from the pool on the left to start building your roster.</p>
+
+          <div id="team-list"><!-- draft.js populates cards here --></div>
+
+          <div class="stat-row">
+            <span>Roster size</span>
+            <strong id="roster-size">0</strong>
+          </div>
+          <div class="stat-row">
+            <span>Avg. score</span>
+            <strong id="avg-score">0.0</strong>
+          </div>
+
+          <div class="team-actions">
+            <button id="export" class="chip">Export JSON</button>
+            <button id="clear" class="chip" title="Clear my roster">Clear</button>
+          </div>
+        </div>
+      </aside>
     </section>
   </main>
 </body>

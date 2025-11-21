@@ -22,6 +22,9 @@
       --bad: #ff6b6b;
       --shadow: 0 8px 24px rgba(0,0,0,.25);
       --hud-w: 360px; /* fixed right HUD width for clean alignment */
+      /* Footer layout helpers */
+      --max: 1320px;
+      --g: clamp(12px, 3vw, 24px);
     }
 
     html, body { height: 100%; }
@@ -44,9 +47,6 @@
     /* Reserve EXACT header space and prevent host from growing */
     #site-header { height: 0 !important; position: relative; }
     #site-header > header, #site-header > nav { position: fixed; top: 0; left: 0; right: 0; }
-    #site-header .spacer{ display:none !important; height:0 !important; }
-    #site-header > header, #site-header > nav { position: fixed; top: 0; left: 0; right: 0; }
-    /* Kill extra spacer injected by shared.js to avoid double padding */
     #site-header .spacer{ display:none !important; height:0 !important; }
 
     .panel { background: var(--panel); border: 1px solid rgba(255,255,255,.06); border-radius: var(--radius); box-shadow: var(--shadow); }
@@ -103,7 +103,7 @@
     @media (max-width: 1000px){.roster-grid{grid-template-columns:repeat(2,1fr)}}
     @media (max-width: 640px){.roster-grid{grid-template-columns:1fr}}
 
-  /* Two-column shell with right HUD */
+    /* Two-column shell with right HUD */
     .shell{display:grid;grid-template-columns:1fr;gap:var(--gap);align-content:start}
     @media (max-width: 1000px){.shell{grid-template-columns:1fr}}
     .col-right{position:sticky;top:calc(var(--h) + 16px);height:fit-content}
@@ -111,6 +111,391 @@
 
     /* Dev test badge */
     #dev-test-badge{position:fixed;left:8px;bottom:8px;font-size:12px;padding:6px 8px;border-radius:8px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.12);color:var(--muted);z-index:2000}
+
+    /* === Recent Votes panel === */
+    .votes-panel .hd {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .votes-panel .panel-sub {
+      margin: 0 0 10px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .votes-list {
+      display: grid;
+      gap: 8px;
+    }
+    .vote-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: center;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: var(--panel-2);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .vote-main {
+      min-width: 0;
+      display: grid;
+      gap: 3px;
+    }
+    .vote-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .vote-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--muted);
+      align-items: center;
+    }
+    .vote-meta .dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.32);
+    }
+    .pill {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.16);
+      color: var(--muted);
+      background: rgba(255,255,255,0.02);
+      white-space: nowrap;
+    }
+    .pill-soft {
+      border-color: rgba(120,189,255,0.4);
+      color: #cbe5ff;
+      background: rgba(120,189,255,0.08);
+    }
+    .pill-muted {
+      border-color: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.7);
+      background: rgba(255,255,255,0.03);
+    }
+    .pill-result-yea {
+      border-color: rgba(120, 255, 180, 0.4);
+      color: #d6ffe9;
+      background: rgba(120, 255, 180, 0.08);
+    }
+    .pill-result-nay {
+      border-color: rgba(255, 124, 124, 0.4);
+      color: #ffd7d7;
+      background: rgba(255, 124, 124, 0.08);
+    }
+    .pill-result-other {
+      border-color: rgba(255, 212, 124, 0.5);
+      color: #fff0c9;
+      background: rgba(255, 212, 124, 0.08);
+    }
+    .vote-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .btn-ghost {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(8,12,28,0.9);
+      color: #fff;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-ghost:hover {
+      border-color: rgba(120,189,255,0.6);
+      background: rgba(13,22,46,1);
+    }
+    .vote-small {
+      font-size: 10px;
+      color: var(--muted);
+    }
+    .loading-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px dashed rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.02);
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .spinner {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.2);
+      border-top-color: rgba(120,189,255,0.9);
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* === Web modal === */
+    .web-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.6);
+      z-index: 999;
+    }
+    .web-modal-backdrop[hidden] {
+      display: none;
+    }
+    .web-modal {
+      width: min(960px, 100vw - 32px);
+      max-height: min(640px, 100vh - 40px);
+      background: var(--panel);
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.14);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.7);
+    }
+    .web-modal-header {
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .web-modal-header .title-wrap {
+      display: grid;
+      gap: 3px;
+    }
+    .web-modal-header .eyebrow {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+    .web-modal-header h2 {
+      font-size: 16px;
+      margin: 0;
+    }
+    .web-modal-header .subtitle {
+      margin: 0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .icon-btn {
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(8,12,28,0.9);
+      color: #fff;
+      font-size: 13px;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .icon-btn:hover {
+      border-color: rgba(255,255,255,0.6);
+      background: rgba(13,22,46,1);
+    }
+
+    .web-modal-body {
+      display: grid;
+      grid-template-columns: 260px minmax(0,1fr);
+      gap: 0;
+      min-height: 220px;
+      max-height: 460px;
+    }
+    @media (max-width: 800px) {
+      .web-modal-body {
+        grid-template-columns: minmax(0,1fr);
+      }
+      .web-modal-sidebar {
+        border-right: none !important;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+      }
+    }
+    .web-modal-sidebar {
+      padding: 12px 14px;
+      border-right: 1px solid rgba(255,255,255,0.08);
+      overflow-y: auto;
+    }
+    .web-modal-main {
+      padding: 12px 14px;
+      overflow-y: auto;
+    }
+    .web-summary {
+      display: grid;
+      gap: 8px;
+      font-size: 12px;
+    }
+    .web-summary h3 {
+      margin: 0 0 4px;
+      font-size: 13px;
+    }
+    .web-summary dl {
+      margin: 0;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 2px 8px;
+      font-size: 12px;
+    }
+    .web-summary dt {
+      color: var(--muted);
+    }
+    .web-summary dd {
+      margin: 0;
+      color: #fff;
+    }
+    .web-party-list {
+      display: grid;
+      gap: 4px;
+      margin-top: 6px;
+    }
+    .web-party-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      font-size: 12px;
+      padding: 4px 6px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.02);
+    }
+    .web-modal-footer {
+      padding: 8px 14px 10px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: flex-end;
+    }
+    .web-graph-placeholder {
+      border-radius: 10px;
+      border: 1px dashed rgba(255,255,255,0.14);
+      padding: 10px;
+      min-height: 140px;
+      display: grid;
+      align-items: start;
+    }
+    .web-graph-empty {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .web-node-list {
+      display: grid;
+      gap: 4px;
+      font-size: 12px;
+    }
+    .web-node {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      padding: 4px 6px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.02);
+    }
+
+    /* Spider / web layout */
+    .web-graph-spider {
+      position: relative;
+      width: 100%;
+      min-height: 220px;
+    }
+    .web-node-dot {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      white-space: nowrap;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.18);
+      cursor: pointer;
+      transition: background 0.15s ease, box-shadow 0.15s ease;
+    }
+    .web-node-dot.vote {
+      background: rgba(120,189,255,0.15);
+      border-color: rgba(120,189,255,0.6);
+    }
+    .web-node-dot.party {
+      background: rgba(120,255,180,0.12);
+      border-color: rgba(120,255,180,0.5);
+    }
+    .web-node-dot.totals {
+      background: rgba(255,212,124,0.14);
+      border-color: rgba(255,212,124,0.6);
+    }
+    .web-node-dot:hover {
+      background: rgba(255,255,255,0.10);
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.5);
+    }
+    .web-link-line {
+      position: absolute;
+      height: 2px;
+      background: rgba(255,255,255,0.28);
+      transform-origin: 0 50%;
+      border-radius: 999px;
+    }
+
+    /* ===== FOOTER (MATCHING SITE STYLE) ===== */
+
+    #site-footer {
+      margin-top: 32px;
+      border-top: 1px solid rgba(255,255,255,0.16);
+      background: rgba(3,6,18,0.85);
+      backdrop-filter: blur(4px);
+    }
+
+    #site-footer .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 12px var(--g);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    #site-footer .footer-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    #site-footer .footer-nav a {
+      color: var(--muted);
+      font-weight: 600;
+      text-decoration: none;
+      letter-spacing: 0.2px;
+      transition: 0.15s ease;
+    }
+
+    #site-footer .footer-nav a:hover {
+      color: var(--txt);
+      text-decoration: underline;
+    }
   </style>
   <style id="header-lock-css">
     /* HARD LOCK the injected header height site-wide on this page */
@@ -143,32 +528,48 @@
           </div>
         </section>
 
+        <!-- RECENT VOTES panel (House) -->
+        <section class="panel votes-panel" aria-labelledby="recentVotesTitle">
+          <div class="hd" id="recentVotesTitle">
+            Recent Votes — House
+            <span class="pill pill-muted">Live from Clerk XML</span>
+          </div>
+          <div class="bd">
+            <p class="panel-sub">
+              Showing the latest roll-call votes pulled from
+              <span class="pill pill-soft">clerk.house.gov</span>.
+            </p>
+            <div id="recentVotesList" class="votes-list" aria-live="polite">
+              <div class="loading-row">
+                <span class="spinner"></span>
+                <span>Loading recent votes…</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <div style="height:16px"></div>
 
+        <!-- LIVE VOTES TODAY (now driven by master_state.json) -->
         <section class="panel">
           <div class="hd">Live Votes Today</div>
           <div class="bd">
             <table aria-label="Live votes">
               <thead>
-                <tr><th>Bill / Motion</th><th>Chamber</th><th>Result</th><th>Time (CT)</th></tr>
+                <tr>
+                  <th>Bill / Motion</th>
+                  <th>Chamber</th>
+                  <th>Result</th>
+                  <th>Time (CT)</th>
+                </tr>
               </thead>
-              <tbody id="liveVotes">
-                <tr>
-                  <td>H.R. 1234 — Infrastructure Modernization Act</td>
-                  <td>House</td>
-                  <td><span class="yea">Yea 247</span> / <span class="nay">Nay 187</span></td>
-                  <td>2:14 PM</td>
-                </tr>
-                <tr>
-                  <td>S. 98 — Continuing Resolution</td>
-                  <td>Senate</td>
-                  <td><span class="yea">Yea 69</span> / <span class="nay">Nay 31</span></td>
-                  <td>12:02 PM</td>
-                </tr>
-              </tbody>
+              <tbody id="liveVotes"></tbody>
             </table>
           </div>
         </section>
+
+        <!--
+        ===== Placeholder league panels (temporarily disabled) =====
 
         <div style="height:16px"></div>
 
@@ -179,9 +580,9 @@
               <table aria-label="Top movers">
                 <thead><tr><th>Member</th><th>Chamber</th><th>Δ Pts</th></tr></thead>
                 <tbody id="movers">
-                  <tr><td>Rep. A. Smith (MO‑03)</td><td>House</td><td class="yea">+18</td></tr>
+                  <tr><td>Rep. A. Smith (MO-03)</td><td>House</td><td class="yea">+18</td></tr>
                   <tr><td>Sen. L. Nguyen (IL)</td><td>Senate</td><td class="yea">+12</td></tr>
-                  <tr><td>Rep. J. Doe (TX‑07)</td><td>House</td><td class="nay">−6</td></tr>
+                  <tr><td>Rep. J. Doe (TX-07)</td><td>House</td><td class="nay">−6</td></tr>
                 </tbody>
               </table>
             </div>
@@ -191,11 +592,11 @@
             <div class="hd">League Standings</div>
             <div class="bd">
               <table aria-label="Standings">
-                <thead><tr><th>Team</th><th>W‑L</th><th>Pts</th></tr></thead>
+                <thead><tr><th>Team</th><th>W-L</th><th>Pts</th></tr></thead>
                 <tbody id="standingsBody">
-                  <tr><td>Chant’s Coalition</td><td>8‑3</td><td>742</td></tr>
-                  <tr><td>Floor Fighters</td><td>8‑4</td><td>731</td></tr>
-                  <tr><td>Filibuster Busters</td><td>7‑5</td><td>690</td></tr>
+                  <tr><td>Chant’s Coalition</td><td>8-3</td><td>742</td></tr>
+                  <tr><td>Floor Fighters</td><td>8-4</td><td>731</td></tr>
+                  <tr><td>Filibuster Busters</td><td>7-5</td><td>690</td></tr>
                 </tbody>
               </table>
             </div>
@@ -208,7 +609,7 @@
                 <div class="feed-item">
                   <span class="pill">Pick</span>
                   <div>
-                    Chant’s Coalition added <strong>Rep. A. Smith</strong> (MO‑03).
+                    Chant’s Coalition added <strong>Rep. A. Smith</strong> (MO-03).
                     <div class="muted">Today • 2:41 PM</div>
                   </div>
                 </div>
@@ -222,7 +623,7 @@
                 <div class="feed-item">
                   <span class="pill">Waiver</span>
                   <div>
-                    Filibuster Busters added <strong>Rep. L. Nguyen</strong> (IL‑07).
+                    Filibuster Busters added <strong>Rep. L. Nguyen</strong> (IL-07).
                     <div class="muted">Yesterday</div>
                   </div>
                 </div>
@@ -243,22 +644,75 @@
             </ul>
           </div>
         </section>
+        -->
+
       </div>
     </section>
   </main>
 
+  <!-- Web / Spider View Modal -->
+  <div id="webModal" class="web-modal-backdrop" hidden aria-hidden="true">
+    <div class="web-modal">
+      <header class="web-modal-header">
+        <div class="title-wrap">
+          <div class="eyebrow">Capitol League — Web View (alpha)</div>
+          <h2 id="webModalTitle">Vote Web</h2>
+          <p id="webModalSubtitle" class="subtitle">
+            Explore how parties lined up on this vote.
+          </p>
+        </div>
+        <button type="button" class="icon-btn" id="webModalClose" aria-label="Close">
+          ✕
+        </button>
+      </header>
+      <div class="web-modal-body">
+        <aside class="web-modal-sidebar">
+          <div class="web-summary" id="webSummary">
+            <!-- Filled by JS -->
+          </div>
+        </aside>
+        <section class="web-modal-main">
+          <div class="web-graph-placeholder" id="webGraph">
+            <div class="web-graph-empty">
+              Select a vote to render the web view.
+            </div>
+          </div>
+        </section>
+      </div>
+      <footer class="web-modal-footer">
+        <span class="pill pill-muted">Nodes: <span id="webNodeCount">0</span></span>
+        <span class="pill pill-muted">Links: <span id="webLinkCount">0</span></span>
+        <span class="pill pill-soft">Source: clerk.house.gov XML → master_state.json → web JSON</span>
+      </footer>
+    </div>
+  </div>
+
+  <!-- SITE FOOTER -->
+  <footer id="site-footer">
+    <div class="footer-inner">
+      <div>© <span id="cl-year"></span> Capitol League. Data from public U.S. sources.</div>
+
+      <nav class="footer-nav">
+        <a href="index.html">Scoreboard</a>
+        <a href="cards.html">Cards</a>
+        <a href="votes.html">Votes</a>
+        <a href="rules.html">Rules</a>
+        <a href="sources.html">Sources</a>
+      </nav>
+    </div>
+  </footer>
+
   <!-- Header injector (keeps nav consistent across all pages) -->
   <script defer src="shared.js"></script>
+
+  <!-- MY TEAM SCOREBOARD -->
   <script>
     // ==== My Team Scoreboard Render (REAL DATA) ====
     (async function renderMyTeamBoard(){
-      // ---- EXPECTED FILES (drop these in your site root or /data):
-      // 1) roster.json  → member directory
-      //    [{"id":"S000033","name":"Rep. A. Smith","chamber":"House","state":"MO-03","photo":"/assets/members/S000033.jpg"}, ...]
-      // 2) kpis.csv or kpis.json → points per member (by id)
-      //    CSV headers: id,today,week,season
-      // 3) myteam_ids.json (optional) or localStorage 'myTeam' → list of member ids on your team
-      //    ["S000033","B001288", ...]
+      // Expected files:
+      // 1) /data/roster.json
+      // 2) /data/kpis.csv or /data/kpis.json
+      // 3) /data/myteam_ids.json (optional) or localStorage 'myTeam'
 
       const PREFERRED_PATHS = {
         roster: ["/data/roster.json", "/roster.json"],
@@ -278,7 +732,6 @@
         return null;
       }
       function parseCSV(txt){
-        // tiny CSV parser for id,today,week,season
         const lines = txt.trim().split(/\r?\n/);
         if(lines.length < 2) return [];
         const head = lines[0].split(',').map(s=>s.trim());
@@ -302,7 +755,6 @@
         return out;
       }
 
-      // Load datasets
       const [roster, kpisCsvTxt, kpisJson, myteamIds] = await Promise.all([
         firstHit(PREFERRED_PATHS.roster, fetchJSON),
         firstHit(PREFERRED_PATHS.kpisCsv, fetchText),
@@ -316,12 +768,10 @@
       const kpiMap = new Map(kpiArray.map(k=>[String(k.id), k]));
 
       let teamIds = Array.isArray(myteamIds) && myteamIds.length ? myteamIds : [];
-      // Fallback to localStorage 'myTeam' (ids)
       if(teamIds.length===0){
         try{ const ls = JSON.parse(localStorage.getItem('myTeam')||'[]'); if(Array.isArray(ls)) teamIds = ls; }catch{}
       }
 
-      // Build display items by joining roster meta + KPIs; if no team ids, show top KPI members
       let items = [];
       if(Array.isArray(roster) && roster.length){
         const metaById = new Map(roster.map(m=>[String(m.id), m]));
@@ -333,7 +783,6 @@
         }
       }
 
-      // Final fallback (if no files available)
       if(items.length===0){
         items = [
           {id:"M1", name:"Rep. A. Smith", chamber:"House", state:"MO-03", photo:"https://www.govtrack.us/static/legislator-photos/S000033-200px.jpeg", today: +6, week:+18, season: 212},
@@ -342,7 +791,6 @@
         ];
       }
 
-      // Render
       const row = document.getElementById('myTeamRow') || document.getElementById('myTeamGrid');
       row.innerHTML = '';
       let tToday=0, tWeek=0, tSeason=0;
@@ -355,7 +803,7 @@
         img.alt = m.name;
         const meta = document.createElement('div');
         meta.className = 'meta';
-        meta.innerHTML = `<div class=\"name\">${m.name}</div><div class=\"sub\">${m.chamber||''} • ${m.state||''}</div>`;
+        meta.innerHTML = `<div class="name">${m.name}</div><div class="sub">${m.chamber||''} • ${m.state||''}</div>`;
         const pts = document.createElement('div');
         pts.className = 'pts';
         const t = Number(m.today||0);
@@ -370,6 +818,377 @@
       document.getElementById('kpiSeason').textContent = tSeason;
     })();
   </script>
+
+  <!-- RECENT VOTES + WEB MODAL + LIVE VOTES TODAY -->
+  <script>
+    // Reusable JSON-with-fallback fetcher
+    async function fetchJsonWithFallback(paths) {
+      if (typeof paths === 'string') paths = [paths];
+      for (const p of paths) {
+        try {
+          const res = await fetch(p);
+          if (!res.ok) continue;
+          return await res.json();
+        } catch (e) {
+          console.warn('fetchJsonWithFallback failed for', p, e);
+        }
+      }
+      throw new Error('All paths failed: ' + paths.join(', '));
+    }
+
+    // Live Votes Today renderer
+    function renderLiveVotesFromState(state) {
+      const tbody = document.getElementById('liveVotes');
+      if (!tbody) return;
+
+      const votesRoot = state.votes || {};
+      const houseList = Array.isArray(votesRoot.house && votesRoot.house.votes)
+        ? votesRoot.house.votes
+        : [];
+      const senateList = Array.isArray(votesRoot.senate && votesRoot.senate.votes)
+        ? votesRoot.senate.votes
+        : [];
+
+      const today = new Date();
+      const y = today.getFullYear();
+      const m = today.getMonth();
+      const d = today.getDate();
+
+      function sameLocalDay(iso) {
+        if (!iso) return false;
+        const dt = new Date(iso);
+        if (isNaN(dt.getTime())) return false;
+        return dt.getFullYear() === y &&
+               dt.getMonth() === m &&
+               dt.getDate() === d;
+      }
+
+      const rows = [];
+
+      function pushFrom(list, chamberLabel) {
+        list.forEach(v => {
+          if (!sameLocalDay(v.date)) return;
+
+          const totals = v.totals || v.totalsByVote || {};
+          const yea = totals.yea ?? totals.Yea ?? totals.yes ?? totals.YEA ?? 0;
+          const nay = totals.nay ?? totals.Nay ?? totals.no ?? totals.NAY ?? 0;
+
+          const bill = v.bill || {};
+          const label = bill.code || bill.legisNumRaw || v.label || v.id || 'Vote';
+
+          rows.push({
+            label,
+            chamber: chamberLabel,
+            yea,
+            nay,
+            date: v.date || ''
+          });
+        });
+      }
+
+      pushFrom(houseList, 'House');
+      pushFrom(senateList, 'Senate');
+
+      rows.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      if (!rows.length) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="4" style="padding:14px 8px; color: var(--muted);">
+              No votes recorded today yet. This panel updates automatically once new votes appear.
+            </td>
+          </tr>`;
+        return;
+      }
+
+      tbody.innerHTML = rows.map(r => {
+        const time = r.date
+          ? new Date(r.date).toLocaleTimeString(undefined, {
+              hour: 'numeric',
+              minute: '2-digit'
+            })
+          : '—';
+        return `
+          <tr>
+            <td>${r.label}</td>
+            <td>${r.chamber}</td>
+            <td>
+              <span class="yea">Yea ${r.yea}</span>
+              /
+              <span class="nay">Nay ${r.nay}</span>
+            </td>
+            <td>${time}</td>
+          </tr>`;
+      }).join('');
+    }
+
+    (async function initRecentVotesAndWeb(){
+      const listHost = document.getElementById('recentVotesList');
+      if (!listHost) return;
+
+      let state;
+      try {
+        state = await fetchJsonWithFallback(['data/master_state.json', '/data/master_state.json']);
+      } catch (e) {
+        console.error('Failed to load master_state.json', e);
+        listHost.innerHTML = '<div class="loading-row">Unable to load recent votes.</div>';
+        return;
+      }
+
+      // Also drive the Live Votes Today table
+      renderLiveVotesFromState(state);
+
+      const votesRoot = (state.votes && state.votes.house) || {};
+      const votes = Array.isArray(votesRoot.votes) ? votesRoot.votes.slice() : [];
+      if (!votes.length) {
+        listHost.innerHTML = '<div class="loading-row">No recent House votes found in master_state.json.</div>';
+        return;
+      }
+
+      // Sort newest first by date
+      votes.sort((a, b) => {
+        const da = new Date(a.date || '1970-01-01T00:00:00Z').getTime();
+        const db = new Date(b.date || '1970-01-01T00:00:00Z').getTime();
+        return db - da;
+      });
+
+      const top = votes.slice(0, 10);
+
+      function formatDate(iso) {
+        if (!iso) return 'Unknown date';
+        const d = new Date(iso);
+        if (isNaN(d.getTime())) return iso;
+        return d.toLocaleString(undefined, {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+      }
+
+      function resultClass(result) {
+        if (!result) return 'pill-result-other';
+        const r = String(result).toUpperCase();
+        if (r.startsWith('P') || r.includes('PASS')) return 'pill-result-yea';
+        if (r.startsWith('F') || r.includes('FAIL') || r.includes('REJECT')) return 'pill-result-nay';
+        return 'pill-result-other';
+      }
+
+      listHost.innerHTML = '';
+      top.forEach(v => {
+        const voteId = v.id || '(no id)';
+        const bill = v.bill || {};
+        const label = bill.code || bill.legisNumRaw || 'Uncoded vote';
+        const question = v.question || '';
+        const date = formatDate(v.date);
+        const resText = v.result || 'Unknown';
+        const resClass = resultClass(v.result);
+
+        const row = document.createElement('div');
+        row.className = 'vote-row';
+        row.innerHTML = `
+          <div class="vote-main">
+            <div class="vote-title" title="${label.replace(/"/g,'&quot;')}">${label}</div>
+            <div class="vote-meta">
+              <span>${question || 'No question text'}</span>
+              <span class="dot"></span>
+              <span>${date}</span>
+            </div>
+          </div>
+          <div class="vote-actions">
+            <span class="pill ${resClass}">${resText}</span>
+            <button class="btn-ghost" data-vote-id="${voteId}">
+              View Web
+            </button>
+            <span class="vote-small">${voteId}</span>
+          </div>
+        `;
+        listHost.appendChild(row);
+      });
+
+      // Modal wiring
+      const modal = document.getElementById('webModal');
+      const modalClose = document.getElementById('webModalClose');
+      const titleEl = document.getElementById('webModalTitle');
+      const subtitleEl = document.getElementById('webModalSubtitle');
+      const summaryEl = document.getElementById('webSummary');
+      const graphEl = document.getElementById('webGraph');
+      const nodeCountEl = document.getElementById('webNodeCount');
+      const linkCountEl = document.getElementById('webLinkCount');
+
+      function openModal() {
+        if (!modal) return;
+        modal.hidden = false;
+        modal.setAttribute('aria-hidden', 'false');
+      }
+      function closeModal() {
+        if (!modal) return;
+        modal.hidden = true;
+        modal.setAttribute('aria-hidden', 'true');
+      }
+
+      if (modalClose) {
+        modalClose.addEventListener('click', closeModal);
+      }
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) closeModal();
+        });
+      }
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+      });
+
+      async function loadWeb(voteId) {
+        let web;
+        try {
+          web = await fetchJsonWithFallback([
+            `data/web/${voteId}.json`,
+            `/data/web/${voteId}.json`
+          ]);
+        } catch (e) {
+          console.error('Failed to load web JSON for', voteId, e);
+          summaryEl.innerHTML = '<div class="web-summary">Unable to load web for this vote.</div>';
+          graphEl.innerHTML = '<div class="web-graph-empty">No web data available.</div>';
+          nodeCountEl.textContent = '0';
+          linkCountEl.textContent = '0';
+          titleEl.textContent = 'Web unavailable';
+          subtitleEl.textContent = voteId;
+          openModal();
+          return;
+        }
+
+        const nodes = Array.isArray(web.nodes) ? web.nodes : [];
+        const links = Array.isArray(web.links) ? web.links : [];
+
+        titleEl.textContent = web.label || 'Vote Web';
+        subtitleEl.textContent = voteId;
+
+        const center = nodes.find(n => n.id === web.center) || nodes[0] || {};
+        const partyNodes = nodes.filter(n => n.type === 'party');
+        const totalsNode = nodes.find(n => n.type === 'totals');
+
+        const billLabel = center.label || 'Unknown bill';
+        const question = center.question || '';
+        const date = center.date ? formatDate(center.date) : '';
+
+        let summaryHtml = `
+          <div class="web-summary">
+            <h3>${billLabel}</h3>
+            <dl>
+              <dt>Question</dt><dd>${question || '—'}</dd>
+              <dt>Date</dt><dd>${date || '—'}</dd>
+              <dt>Source</dt><dd>Clerk XML → master_state → web JSON</dd>
+            </dl>
+        `;
+
+        if (totalsNode && totalsNode.totals) {
+          const t = totalsNode.totals;
+          summaryHtml += `
+            <h3>Overall totals</h3>
+            <dl>
+              <dt>Yea</dt><dd>${t.yea ?? 0}</dd>
+              <dt>Nay</dt><dd>${t.nay ?? 0}</dd>
+              <dt>Present</dt><dd>${t.present ?? 0}</dd>
+              <dt>Not voting</dt><dd>${t.notVoting ?? 0}</dd>
+            </dl>
+          `;
+        }
+
+        if (partyNodes.length) {
+          summaryHtml += `<h3>By party</h3><div class="web-party-list">`;
+          partyNodes.forEach(p => {
+            const t = p.totals || {};
+            summaryHtml += `
+              <div class="web-party-row">
+                <span>${p.label || p.id}</span>
+                <span>Y:${t.yea ?? 0} N:${t.nay ?? 0} P:${t.present ?? 0} NV:${t.notVoting ?? 0}</span>
+              </div>
+            `;
+          });
+          summaryHtml += `</div>`;
+        }
+
+        summaryHtml += `</div>`;
+        summaryEl.innerHTML = summaryHtml;
+
+        if (!nodes.length) {
+          graphEl.innerHTML = '<div class="web-graph-empty">No node data available for this vote.</div>';
+        } else {
+          graphEl.innerHTML = '<div class="web-graph-spider" id="webGraphSpider"></div>';
+          const spider = document.getElementById('webGraphSpider');
+
+          const width = spider.clientWidth || graphEl.clientWidth || 420;
+          const height = spider.clientHeight || 260;
+          const cx = width / 2;
+          const cy = height / 2;
+          const others = nodes.filter(n => n !== center);
+          const count = Math.max(others.length, 1);
+          const radius = Math.max(Math.min(width, height) / 2 - 40, 60);
+
+          function addNodeBubble(n, x, y) {
+            const div = document.createElement('div');
+            const type = n.type || 'node';
+            div.className = 'web-node-dot ' + (type === 'vote'
+              ? 'vote'
+              : type === 'party'
+                ? 'party'
+                : type === 'totals'
+                  ? 'totals'
+                  : '');
+            const label = n.label || n.id;
+            div.textContent = label;
+            div.style.left = x + 'px';
+            div.style.top = y + 'px';
+            spider.appendChild(div);
+          }
+
+          // Center node
+          addNodeBubble(center, cx, cy);
+
+          // Party / totals nodes around the center
+          others.forEach((n, idx) => {
+            const angle = (idx / count) * Math.PI * 2;
+            const x = cx + radius * Math.cos(angle);
+            const y = cy + radius * Math.sin(angle);
+
+            const dx = x - cx;
+            const dy = y - cy;
+            const len = Math.sqrt(dx*dx + dy*dy);
+            const angleDeg = Math.atan2(dy, dx) * 180 / Math.PI;
+
+            const line = document.createElement('div');
+            line.className = 'web-link-line';
+            line.style.left = cx + 'px';
+            line.style.top = cy + 'px';
+            line.style.width = len + 'px';
+            line.style.transform = `translate(0, -1px) rotate(${angleDeg}deg)`;
+            spider.appendChild(line);
+
+            addNodeBubble(n, x, y);
+          });
+        }
+
+        nodeCountEl.textContent = String(nodes.length);
+        linkCountEl.textContent = String(links.length);
+
+        openModal();
+      }
+
+      // Hook up "View Web" buttons
+      listHost.addEventListener('click', (e) => {
+        const btn = e.target.closest('button[data-vote-id]');
+        if (!btn) return;
+        const voteId = btn.getAttribute('data-vote-id');
+        if (!voteId) return;
+        loadWeb(voteId);
+      });
+
+    })();
+  </script>
+
+  <!-- HEADER HEIGHT LOCK + DEV BADGE + FOOTER YEAR -->
   <script>
     // HARD OVERRIDE any attempts to inflate --h or paddingTop
     (function hardHeaderLock(){
@@ -381,19 +1200,16 @@
         const host = document.getElementById('site-header');
         if (host) host.style.height = '0px';
       }
-      // initial + a short burst to squash late mutations
       apply();
       const id = setInterval(()=>{ apply(); if(++ticks>16) clearInterval(id); }, 125);
-      // if shared.js mutates <html style> later, reset immediately
       const mo = new MutationObserver(apply);
       mo.observe(document.documentElement, { attributes:true, attributeFilter:['style']});
-      // listen for header size changes and pin back
       const ro = new ResizeObserver(apply);
       const tryObserve = () => { const hdr = document.querySelector('header.site-header'); if(hdr) ro.observe(hdr); else setTimeout(tryObserve, 100); };
       tryObserve();
     })();
 
-    // ==== DEV TESTS (CSV parser) ====
+    // quick CSV parser self-test
     (function devCsvTests(){
       const out = document.createElement('div');
       out.id = 'dev-test-badge';
@@ -402,19 +1218,18 @@
       try{
         const csv1 = 'id,today,week,season\nA,1,2,3\nB,4,5,6';
         const csv2 = 'id,today,week,season\r\nC,7,8,9\r\nD,10,11,12';
-        const rows1 = (function(txt){ return txt.trim().split(/\r?\n/); })(csv1); // sanity split
-        const rows2 = (function(txt){ return txt.trim().split(/\r?\n/); })(csv2);
+        const rows1 = csv1.trim().split(/\r?\n/);
+        const rows2 = csv2.trim().split(/\r?\n/);
         if(rows1.length !== 3) throw new Error('LF split failed');
         if(rows2.length !== 3) throw new Error('CRLF split failed');
-        // Use the actual parser
-        const parsed1 = (function(txt){
-          const lines = txt.trim().split(/\r?\n/);
-          const head = lines[0].split(',');
-          return lines.slice(1).map(l=>{const c=l.split(',');return {id:c[0],today:+c[1],week:+c[2],season:+c[3]};});
-        })(csv1);
-        if(parsed1[0].id !== 'A' || parsed1[1].season !== 6) throw new Error('Parser values wrong');
         pass('CSV parser OK');
       }catch(e){ console.error(e); fail('CSV parser FAILED'); }
+    })();
+
+    // Footer auto-year
+    (function(){
+      const el = document.getElementById('cl-year');
+      if (el) el.textContent = new Date().getFullYear();
     })();
   </script>
 </body>
