@@ -1,68 +1,88 @@
 #!/usr/bin/env python3
-import csv, json, os, sys, subprocess, urllib.request, pathlib, traceback
+"""Build attendance KPIs from official House/Senate roll-call feeds."""
 
-print("::: build_kpis.py start", flush=True)
+import csv
+import json
+import os
+import pathlib
+import subprocess
+import sys
+import tempfile
+import urllib.request
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-AGG  = ROOT / "capitol_league_rollcall_aggregate.py"
-DIST = ROOT / "dist"
-DIST.mkdir(exist_ok=True)
+AGGREGATOR = ROOT / "scripts" / "capitol_league_rollcall_aggregate.py"
+DATA_DIR = ROOT / "public" / "data"
+DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-print(f"ROOT={ROOT}", flush=True)
-print(f"AGG exists? {AGG.exists()} path={AGG}", flush=True)
-print(f"DIST={DIST}", flush=True)
+HOUSE_YEARS = os.environ.get("HOUSE_YEARS", "2025-2026")
+CONGRESSES = os.environ.get("CONGRESSES", "119-119")
+LEGISLATORS_URL = (
+    "https://unitedstates.github.io/congress-legislators/legislators-current.json"
+)
 
-try:
-    # 1) Run aggregator -> bioguide_kpis.csv
-    bioguide_csv = DIST / "bioguide_kpis.csv"
-    cmd = [
-        sys.executable, str(AGG),
-        "--house-years", os.environ.get("HOUSE_YEARS", "2024-2025"),
-        "--congress",    os.environ.get("CONGRESSES", "118-119"),
-        "-o", str(bioguide_csv),
-    ]
-    print("Running aggregator:", " ".join(cmd), flush=True)
-    subprocess.check_call(cmd)
 
-    # 2) Map Bioguide -> GovTrack using legislators-current.json
-    LEG_URL = "https://unitedstates.github.io/congress-legislators/legislators-current.json"
-    print("Downloading legislators:", LEG_URL, flush=True)
-    with urllib.request.urlopen(LEG_URL) as r:
-        leg = json.load(r)
-    bio2gt = {
-        m["id"]["bioguide"]: str(m["id"]["govtrack"])
-        for m in leg
-        if "id" in m and "bioguide" in m["id"] and "govtrack" in m["id"]
-    }
+def main() -> int:
+    with tempfile.TemporaryDirectory() as tmp:
+        bioguide_csv = pathlib.Path(tmp) / "bioguide_kpis.csv"
 
-    # 3) Emit kpis.csv and kpis.json keyed by GovTrack
-    kpis_csv  = DIST / "kpis.csv"
-    kpis_json = DIST / "kpis.json"
-    obj = {}
+        subprocess.check_call(
+            [
+                sys.executable,
+                str(AGGREGATOR),
+                "--house-years",
+                HOUSE_YEARS,
+                "--congress",
+                CONGRESSES,
+                "-o",
+                str(bioguide_csv),
+            ]
+        )
 
-    print(f"Reading {bioguide_csv}", flush=True)
-    with open(bioguide_csv, newline="", encoding="utf-8") as inp, \
-         open(kpis_csv, "w", newline="", encoding="utf-8") as out:
-        r = csv.DictReader(inp)
-        w = csv.writer(out)
-        w.writerow(["govtrack", "total_votes", "missed_votes"])
-        for row in r:
-            bio = row.get("bioguide") or row.get("bioguide_id") or row.get("bioguideId")
-            if not bio:
-                continue
-            gt = bio2gt.get(bio)
-            if not gt:
-                continue
-            total = int(str(row.get("total_votes", 0)).replace(",", "") or 0)
-            miss  = int(str(row.get("missed_votes", 0)).replace(",", "") or 0)
-            obj[gt] = {"total_votes": total, "missed_votes": miss}
-            w.writerow([gt, total, miss])
+        with urllib.request.urlopen(LEGISLATORS_URL) as response:
+            legislators = json.load(response)
 
-    with open(kpis_json, "w", encoding="utf-8") as f:
-        json.dump(obj, f, indent=2)
+        bio_to_govtrack = {
+            member["id"]["bioguide"]: str(member["id"]["govtrack"])
+            for member in legislators
+            if member.get("id", {}).get("bioguide")
+            and member.get("id", {}).get("govtrack")
+        }
 
-    print(f"Wrote: {kpis_csv} and {kpis_json} records: {len(obj)}", flush=True)
-except Exception as e:
-    print("ERROR:", e, flush=True)
-    traceback.print_exc()
-    sys.exit(1)
+        output_json = {}
+        csv_path = DATA_DIR / "kpis.csv"
+        json_path = DATA_DIR / "kpis.json"
+
+        with bioguide_csv.open(newline="", encoding="utf-8") as source, csv_path.open(
+            "w", newline="", encoding="utf-8"
+        ) as target:
+            reader = csv.DictReader(source)
+            writer = csv.writer(target)
+            writer.writerow(["govtrack", "total_votes", "missed_votes"])
+
+            for row in reader:
+                bioguide = (
+                    row.get("bioguide")
+                    or row.get("bioguide_id")
+                    or row.get("bioguideId")
+                )
+                govtrack = bio_to_govtrack.get(bioguide)
+                if not govtrack:
+                    continue
+
+                total = int(str(row.get("total_votes", 0)).replace(",", "") or 0)
+                missed = int(str(row.get("missed_votes", 0)).replace(",", "") or 0)
+                output_json[govtrack] = {
+                    "total_votes": total,
+                    "missed_votes": missed,
+                }
+                writer.writerow([govtrack, total, missed])
+
+        json_path.write_text(json.dumps(output_json, indent=2), encoding="utf-8")
+
+    print(f"Wrote {len(output_json)} KPI records to {DATA_DIR}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

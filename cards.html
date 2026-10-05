@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Capitol League — Cards</title>
-<link rel="stylesheet" href="shared.css" />
+<link rel="stylesheet" href="assets/css/shared.css" />
 <style>
   :root{--max:1280px; --g:16px; --bg:#0f1220; --txt:#e7e9f4; --muted:#a7afd3; --panel:#171a2b; --bdr:rgba(118,136,214,.25);
     --card-w:300px; --card-h:420px; --radius:16px; --border:6px; --accent:#1f4aa8; --accent-2:#c71f2d; --shadow:0 12px 30px rgba(0,0,0,.35);}
@@ -115,7 +115,7 @@
   <main class="shell"><section id="cardGrid" class="grid" aria-live="polite"></section></main>
 
   <!-- site shell helpers -->
-  <script src="shared.js" defer></script>
+  <script type="module" src="assets/js/shared.js"></script>
 
   <script>
   const IMG = (bioguide) => 'https://unitedstates.github.io/images/congress/225x275/' + bioguide + '.jpg';
@@ -238,7 +238,7 @@
   </script>
 
   <!-- Feed-only KPI loader -->
-  <script src="js/cards-kpi-feed-only.js" defer></script>
+  <script type="module" src="assets/js/cards-kpi-feed-only.js"></script>
   <!-- SITE FOOTER -->
   <footer id="site-footer">
     <div class="footer-inner">
@@ -263,3 +263,6 @@
 
 </body>
 </html>
+
+
+
