@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-146",
+  "label": "H R 1642 \u2014 On Motion to Suspend the Rules and Pass",
+  "center": "H-119-1st-146",
+  "nodes": [
+    {
+      "id": "H-119-1st-146",
+      "type": "vote",
+      "label": "H R 1642",
+      "question": "On Motion to Suspend the Rules and Pass",
+      "description": "Connecting Small Businesses with Career and Technical Education Graduates Act",
+      "result": "Passed",
+      "date": "3-Jun-2025T6:51 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll146.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 201,
+        "nay": 5,
+        "present": 0,
+        "notVoting": 13
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 195,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 17
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-146:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 396,
+        "nay": 5,
+        "present": 0,
+        "notVoting": 30
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-146",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-146",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-146",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-146",
+      "to": "H-119-1st-146:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

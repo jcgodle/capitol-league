@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-271",
+  "label": "H R 5140 \u2014 On Passage",
+  "center": "H-119-1st-271",
+  "nodes": [
+    {
+      "id": "H-119-1st-271",
+      "type": "vote",
+      "label": "H R 5140",
+      "question": "On Passage",
+      "description": "To lower the age at which a minor may be tried as an adult for certain criminal offenses in the District of Columbia to 14 years of age",
+      "result": "Passed",
+      "date": "16-Sep-2025T5:14 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll271.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 217,
+        "nay": 1,
+        "present": 0,
+        "notVoting": 1
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 8,
+        "nay": 202,
+        "present": 0,
+        "notVoting": 3
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-271:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 225,
+        "nay": 203,
+        "present": 0,
+        "notVoting": 4
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-271",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-271",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-271",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-271",
+      "to": "H-119-1st-271:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

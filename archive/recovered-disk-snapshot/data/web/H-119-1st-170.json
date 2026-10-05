@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-170",
+  "label": "H R 2056 \u2014 On Motion to Recommit",
+  "center": "H-119-1st-170",
+  "nodes": [
+    {
+      "id": "H-119-1st-170",
+      "type": "vote",
+      "label": "H R 2056",
+      "question": "On Motion to Recommit",
+      "description": "District of Columbia Federal Immigration Compliance Act",
+      "result": "Failed",
+      "date": "12-Jun-2025T4:05 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll170.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 0,
+        "nay": 215,
+        "present": 0,
+        "notVoting": 5
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 205,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 7
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-170:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 205,
+        "nay": 215,
+        "present": 0,
+        "notVoting": 12
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-170",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-170",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-170",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-170",
+      "to": "H-119-1st-170:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

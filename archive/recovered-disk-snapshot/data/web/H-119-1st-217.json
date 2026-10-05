@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-217",
+  "label": "H R 3357 \u2014 On Motion to Suspend the Rules and Pass, as Amended",
+  "center": "H-119-1st-217",
+  "nodes": [
+    {
+      "id": "H-119-1st-217",
+      "type": "vote",
+      "label": "H R 3357",
+      "question": "On Motion to Suspend the Rules and Pass, as Amended",
+      "description": "Enhancing Multi-Class Share Disclosures Act",
+      "result": "Passed",
+      "date": "23-Jul-2025T3:58 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll217.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 176,
+        "nay": 31,
+        "present": 0,
+        "notVoting": 11
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 205,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 7
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-217:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 381,
+        "nay": 31,
+        "present": 0,
+        "notVoting": 18
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-217",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-217",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-217",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-217",
+      "to": "H-119-1st-217:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

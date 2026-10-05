@@ -1,0 +1,32 @@
+[
+  {
+    "id": "S1",
+    "first_name": "Amy",
+    "last_name": "Klobuchar",
+    "chamber": "Senate",
+    "state": "MN",
+    "party": "D",
+    "score": 88,
+    "cost": 72
+  },
+  {
+    "id": "H1",
+    "first_name": "Jim",
+    "last_name": "Jordan",
+    "chamber": "House",
+    "state": "OH",
+    "party": "R",
+    "score": 55,
+    "cost": 48
+  },
+  {
+    "id": "S2",
+    "first_name": "Bernard",
+    "last_name": "Sanders",
+    "chamber": "Senate",
+    "state": "VT",
+    "party": "I",
+    "score": 92,
+    "cost": 75
+  }
+]

@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-158",
+  "label": "H RES 488 \u2014 On Motion to Suspend the Rules and Agree",
+  "center": "H-119-1st-158",
+  "nodes": [
+    {
+      "id": "H-119-1st-158",
+      "type": "vote",
+      "label": "H RES 488",
+      "question": "On Motion to Suspend the Rules and Agree",
+      "description": "Denouncing the antisemitic terrorist attack in Boulder, Colorado",
+      "result": "Passed",
+      "date": "9-Jun-2025T7:01 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll158.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 205,
+        "nay": 0,
+        "present": 1,
+        "notVoting": 14
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 75,
+        "nay": 113,
+        "present": 5,
+        "notVoting": 19
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-158:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 280,
+        "nay": 113,
+        "present": 6,
+        "notVoting": 33
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-158",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-158",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-158",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-158",
+      "to": "H-119-1st-158:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

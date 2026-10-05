@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-273",
+  "label": "H RES 722 \u2014 On Agreeing to the Resolution",
+  "center": "H-119-1st-273",
+  "nodes": [
+    {
+      "id": "H-119-1st-273",
+      "type": "vote",
+      "label": "H RES 722",
+      "question": "On Agreeing to the Resolution",
+      "description": "Providing for consideration of the bill (H.R. 5371) Continuing Appropriations and Extensions Act, 2026; providing for consideration of the resolution (H. Res. 719) honoring the life and legacy of Charles \u00e2\u0080\u009cCharlie\u00e2\u0080\u009d James Kirk; and for other purposes",
+      "result": "Passed",
+      "date": "17-Sep-2025T6:04 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll273.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 216,
+        "nay": 0,
+        "present": 1,
+        "notVoting": 2
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 0,
+        "nay": 210,
+        "present": 0,
+        "notVoting": 3
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-273:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 216,
+        "nay": 210,
+        "present": 1,
+        "notVoting": 5
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-273",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-273",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-273",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-273",
+      "to": "H-119-1st-273:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

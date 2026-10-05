@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-137",
+  "label": "S J RES 13 \u2014 On Passage",
+  "center": "H-119-1st-137",
+  "nodes": [
+    {
+      "id": "H-119-1st-137",
+      "type": "vote",
+      "label": "S J RES 13",
+      "question": "On Passage",
+      "description": "Providing for congressional disapproval of the rule submitted by the Office of the Comptroller of the Currency of the Department of the Treasury relating to the review of applications under the Bank Merger Act",
+      "result": "Passed",
+      "date": "20-May-2025T5:30 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll137.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 219,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 1
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 1,
+        "nay": 207,
+        "present": 0,
+        "notVoting": 5
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-137:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 220,
+        "nay": 207,
+        "present": 0,
+        "notVoting": 6
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-137",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-137",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-137",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-137",
+      "to": "H-119-1st-137:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

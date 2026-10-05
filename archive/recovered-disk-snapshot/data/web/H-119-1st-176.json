@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-176",
+  "label": "H RES 530 \u2014 On Ordering the Previous Question",
+  "center": "H-119-1st-176",
+  "nodes": [
+    {
+      "id": "H-119-1st-176",
+      "type": "vote",
+      "label": "H RES 530",
+      "question": "On Ordering the Previous Question",
+      "description": "Providing for consideration of the bills H.R. 3944, H.R. 275, H.R. 875, and providing for consideration of the resolution H.Res. 516",
+      "result": "Passed",
+      "date": "24-Jun-2025T2:09 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll176.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 219,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 1
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 0,
+        "nay": 208,
+        "present": 0,
+        "notVoting": 4
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-176:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 219,
+        "nay": 208,
+        "present": 0,
+        "notVoting": 5
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-176",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-176",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-176",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-176",
+      "to": "H-119-1st-176:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

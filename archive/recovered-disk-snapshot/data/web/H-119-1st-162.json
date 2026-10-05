@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-162",
+  "label": "H R 2096 \u2014 On Passage",
+  "center": "H-119-1st-162",
+  "nodes": [
+    {
+      "id": "H-119-1st-162",
+      "type": "vote",
+      "label": "H R 2096",
+      "question": "On Passage",
+      "description": "Protecting Our Nation\u00e2\u0080\u0099s Capital Emergency Act",
+      "result": "Passed",
+      "date": "10-Jun-2025T5:30 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll162.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 205,
+        "nay": 4,
+        "present": 0,
+        "notVoting": 11
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 30,
+        "nay": 174,
+        "present": 1,
+        "notVoting": 7
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-162:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 235,
+        "nay": 178,
+        "present": 1,
+        "notVoting": 18
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-162",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-162",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-162",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-162",
+      "to": "H-119-1st-162:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

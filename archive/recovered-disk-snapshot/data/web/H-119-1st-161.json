@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-161",
+  "label": "H RES 489 \u2014 On Agreeing to the Resolution",
+  "center": "H-119-1st-161",
+  "nodes": [
+    {
+      "id": "H-119-1st-161",
+      "type": "vote",
+      "label": "H RES 489",
+      "question": "On Agreeing to the Resolution",
+      "description": "Providing for consideration of the bills H.R. 884, H.R. 2056, H.R. 2096, S. 331, and for other purposes",
+      "result": "Passed",
+      "date": "10-Jun-2025T2:14 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll161.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 211,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 9
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 0,
+        "nay": 206,
+        "present": 0,
+        "notVoting": 6
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-161:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 211,
+        "nay": 206,
+        "present": 0,
+        "notVoting": 15
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-161",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-161",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-161",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-161",
+      "to": "H-119-1st-161:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

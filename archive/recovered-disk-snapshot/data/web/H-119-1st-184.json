@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-184",
+  "label": "H R 275 \u2014 On Passage",
+  "center": "H-119-1st-184",
+  "nodes": [
+    {
+      "id": "H-119-1st-184",
+      "type": "vote",
+      "label": "H R 275",
+      "question": "On Passage",
+      "description": "Special Interest Alien Reporting Act",
+      "result": "Passed",
+      "date": "26-Jun-2025T3:36 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll184.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 208,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 11
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 23,
+        "nay": 182,
+        "present": 0,
+        "notVoting": 7
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-184:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 231,
+        "nay": 182,
+        "present": 0,
+        "notVoting": 18
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-184",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-184",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-184",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-184",
+      "to": "H-119-1st-184:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

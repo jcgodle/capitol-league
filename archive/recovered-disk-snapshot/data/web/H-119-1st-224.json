@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-224",
+  "label": "H J RES 104 \u2014 On Passage",
+  "center": "H-119-1st-224",
+  "nodes": [
+    {
+      "id": "H-119-1st-224",
+      "type": "vote",
+      "label": "H J RES 104",
+      "question": "On Passage",
+      "description": "Providing for congressional disapproval under chapter 8 of title 5, United States Code, of the rule submitted by the Bureau of Land Management relating to \u00e2\u0080\u009cMiles City Field Office Record of Decision and Approved Resource Management Plan Amendment\u00e2\u0080\u009d",
+      "result": "Passed",
+      "date": "3-Sep-2025T9:26 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll224.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 211,
+        "nay": 1,
+        "present": 0,
+        "notVoting": 7
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 0,
+        "nay": 207,
+        "present": 0,
+        "notVoting": 5
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-224:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 211,
+        "nay": 208,
+        "present": 0,
+        "notVoting": 12
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-224",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-224",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-224",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-224",
+      "to": "H-119-1st-224:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

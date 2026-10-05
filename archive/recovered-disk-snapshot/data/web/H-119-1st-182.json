@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-182",
+  "label": "H R 3944 \u2014 On Passage",
+  "center": "H-119-1st-182",
+  "nodes": [
+    {
+      "id": "H-119-1st-182",
+      "type": "vote",
+      "label": "H R 3944",
+      "question": "On Passage",
+      "description": "Military Construction, Veterans Affairs, and Related Agencies Appropriations Act, 2026",
+      "result": "Passed",
+      "date": "25-Jun-2025T5:09 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll182.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 216,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 4
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 2,
+        "nay": 206,
+        "present": 0,
+        "notVoting": 4
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-182:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 218,
+        "nay": 206,
+        "present": 0,
+        "notVoting": 8
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-182",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-182",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-182",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-182",
+      "to": "H-119-1st-182:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

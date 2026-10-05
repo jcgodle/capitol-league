@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-133",
+  "label": "H R 1286 \u2014 On Motion to Suspend the Rules and Pass, as Amended",
+  "center": "H-119-1st-133",
+  "nodes": [
+    {
+      "id": "H-119-1st-133",
+      "type": "vote",
+      "label": "H R 1286",
+      "question": "On Motion to Suspend the Rules and Pass, as Amended",
+      "description": "Simplifying Forms for Veterans Claims Act",
+      "result": "Passed",
+      "date": "19-May-2025T7:00 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll133.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 194,
+        "nay": 1,
+        "present": 0,
+        "notVoting": 24
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 192,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 21
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-133:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 386,
+        "nay": 1,
+        "present": 0,
+        "notVoting": 45
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-133",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-133",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-133",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-133",
+      "to": "H-119-1st-133:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

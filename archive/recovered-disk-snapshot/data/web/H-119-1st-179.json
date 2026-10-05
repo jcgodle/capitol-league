@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-179",
+  "label": "H RES 519 \u2014 On Motion to Suspend the Rules and Agree, as Amended",
+  "center": "H-119-1st-179",
+  "nodes": [
+    {
+      "id": "H-119-1st-179",
+      "type": "vote",
+      "label": "H RES 519",
+      "question": "On Motion to Suspend the Rules and Agree, as Amended",
+      "description": "Condemning the attacks on Minnesota lawmakers in Brooklyn Park and Champlin, Minnesota, and calling for unity and the rejection of political violence in Minnesota and across the United States",
+      "result": "Passed",
+      "date": "25-Jun-2025T4:46 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll179.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 217,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 3
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 207,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 5
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-179:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 424,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 8
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-179",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-179",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-179",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-179",
+      "to": "H-119-1st-179:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-281",
+  "label": "H R 5371 \u2014 On Passage",
+  "center": "H-119-1st-281",
+  "nodes": [
+    {
+      "id": "H-119-1st-281",
+      "type": "vote",
+      "label": "H R 5371",
+      "question": "On Passage",
+      "description": "Continuing Appropriations and Extensions Act, 2026",
+      "result": "Passed",
+      "date": "19-Sep-2025T10:44 AM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll281.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 216,
+        "nay": 2,
+        "present": 0,
+        "notVoting": 1
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 1,
+        "nay": 210,
+        "present": 0,
+        "notVoting": 2
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-281:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 217,
+        "nay": 212,
+        "present": 0,
+        "notVoting": 3
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-281",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-281",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-281",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-281",
+      "to": "H-119-1st-281:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

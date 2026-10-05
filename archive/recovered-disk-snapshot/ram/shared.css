@@ -1,0 +1,35 @@
+:root{
+  --h:72px;            /* header height (updated by JS) */
+  --max:1280px; --g:16px;
+  --txt:#e7e9f4; --acc:#7ea5ff;
+  --nav-bg:linear-gradient(180deg,rgba(10,12,22,.96),rgba(10,12,22,.86));
+  --pill-bg:#0f1424; --pill-bdr:rgba(118,136,214,.25);
+}
+/* Header now FIXED so it travels with scroll */
+header.cl-topbar{
+  position:fixed; top:0; left:0; right:0; z-index:1000; height:var(--h);
+  background:var(--nav-bg);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  backdrop-filter:saturate(120%) blur(8px);
+}
+.cl-wrap{max-width:var(--max);margin:0 auto;height:100%;padding:0 var(--g);
+  display:flex;align-items:center;justify-content:space-between}
+.cl-brand{font-weight:900;letter-spacing:.25px;color:var(--txt);text-decoration:none}
+.cl-brand span{color:var(--acc)}
+.cl-nav{display:flex;gap:14px}
+.cl-actions{display:flex;gap:12px}
+.cl-pill{
+  display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 16px;border-radius:999px;
+  background:var(--pill-bg);color:var(--txt);text-decoration:none;font-weight:800;font-size:14px;
+  border:1px solid var(--pill-bdr);opacity:.95;transition:box-shadow .15s,opacity .15s,transform .06s
+}
+.cl-pill:hover{opacity:1;transform:translateY(-.5px)}
+.cl-pill.is-active{
+  outline:2px solid rgba(126,165,255,.25);
+  box-shadow:0 0 0 2px rgba(126,165,255,.15), inset 0 0 0 1px rgba(126,165,255,.45);
+  background:linear-gradient(180deg,rgba(20,26,46,.9),rgba(20,26,46,.75));
+}
+/* Default spacer not used with fixed header, but keep compatibility */
+.spacer{height:var(--h)}
+/* If a page has its own sticky toolbar, don't inject spacer (handled in JS) */
+body.has-sticky-toolbar #site-header + .spacer{display:none!important}

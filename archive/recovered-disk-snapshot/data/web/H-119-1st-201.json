@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-201",
+  "label": "H R 1919 \u2014 On Passage",
+  "center": "H-119-1st-201",
+  "nodes": [
+    {
+      "id": "H-119-1st-201",
+      "type": "vote",
+      "label": "H R 1919",
+      "question": "On Passage",
+      "description": "Anti-CBDC Surveillance State Act",
+      "result": "Passed",
+      "date": "17-Jul-2025T4:01 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll201.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 217,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 3
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 2,
+        "nay": 210,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-201:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 219,
+        "nay": 210,
+        "present": 0,
+        "notVoting": 3
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-201",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-201",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-201",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-201",
+      "to": "H-119-1st-201:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

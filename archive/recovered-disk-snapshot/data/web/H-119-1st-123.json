@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-123",
+  "label": "H CON RES 30 \u2014 On Motion to Suspend the Rules and Agree",
+  "center": "H-119-1st-123",
+  "nodes": [
+    {
+      "id": "H-119-1st-123",
+      "type": "vote",
+      "label": "H CON RES 30",
+      "question": "On Motion to Suspend the Rules and Agree",
+      "description": "Expressing support for local law enforcement officers",
+      "result": "Passed",
+      "date": "13-May-2025T6:53 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll123.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 214,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 6
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 197,
+        "nay": 1,
+        "present": 0,
+        "notVoting": 15
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-123:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 411,
+        "nay": 1,
+        "present": 0,
+        "notVoting": 21
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-123",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-123",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-123",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-123",
+      "to": "H-119-1st-123:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

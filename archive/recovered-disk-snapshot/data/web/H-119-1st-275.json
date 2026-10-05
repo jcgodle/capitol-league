@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-275",
+  "label": "H R 5143 \u2014 On Passage",
+  "center": "H-119-1st-275",
+  "nodes": [
+    {
+      "id": "H-119-1st-275",
+      "type": "vote",
+      "label": "H R 5143",
+      "question": "On Passage",
+      "description": "District of Columbia Policing Protection Act",
+      "result": "Passed",
+      "date": "17-Sep-2025T6:16 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll275.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 216,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 3
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 29,
+        "nay": 182,
+        "present": 0,
+        "notVoting": 2
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-275:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 245,
+        "nay": 182,
+        "present": 0,
+        "notVoting": 5
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-275",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-275",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-275",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-275",
+      "to": "H-119-1st-275:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-172",
+  "label": "H R 1998 \u2014 On Motion to Suspend the Rules and Pass, as Amended",
+  "center": "H-119-1st-172",
+  "nodes": [
+    {
+      "id": "H-119-1st-172",
+      "type": "vote",
+      "label": "H R 1998",
+      "question": "On Motion to Suspend the Rules and Pass, as Amended",
+      "description": "Sanction Sea Pirates Act",
+      "result": "Passed",
+      "date": "23-Jun-2025T6:54 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll172.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 202,
+        "nay": 7,
+        "present": 0,
+        "notVoting": 10
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 190,
+        "nay": 7,
+        "present": 0,
+        "notVoting": 15
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-172:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 392,
+        "nay": 14,
+        "present": 0,
+        "notVoting": 25
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-172",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-172",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-172",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-172",
+      "to": "H-119-1st-172:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

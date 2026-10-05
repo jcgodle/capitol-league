@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-194",
+  "label": "H RES 580 \u2014 On Ordering the Previous Question",
+  "center": "H-119-1st-194",
+  "nodes": [
+    {
+      "id": "H-119-1st-194",
+      "type": "vote",
+      "label": "H RES 580",
+      "question": "On Ordering the Previous Question",
+      "description": "Providing for consideration of the bills (H.R. 4016) Department of Defense Appropriations Act, 2026; (H.R. 3633) CLARITY Act; (H.R. 1919) Anti-CBDC Surveillance State Act; and (S. 1582) GENIUS Act",
+      "result": "Passed",
+      "date": "15-Jul-2025T2:12 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll194.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 211,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 9
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 0,
+        "nay": 210,
+        "present": 0,
+        "notVoting": 2
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-194:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 211,
+        "nay": 210,
+        "present": 0,
+        "notVoting": 11
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-194",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-194",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-194",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-194",
+      "to": "H-119-1st-194:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

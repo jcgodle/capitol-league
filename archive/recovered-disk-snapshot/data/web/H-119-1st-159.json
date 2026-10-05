@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-159",
+  "label": "H RES 481 \u2014 On Motion to Suspend the Rules and Agree",
+  "center": "H-119-1st-159",
+  "nodes": [
+    {
+      "id": "H-119-1st-159",
+      "type": "vote",
+      "label": "H RES 481",
+      "question": "On Motion to Suspend the Rules and Agree",
+      "description": "Condemning the rise in ideologically motivated attacks on Jewish individuals in the United States, including the recent violent assault in Boulder, Colorado, and reaffirming the House of Representatives commitment to combatting antisemitism and politically motivated violence",
+      "result": "Passed",
+      "date": "9-Jun-2025T7:08 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll159.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 206,
+        "nay": 0,
+        "present": 1,
+        "notVoting": 13
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 194,
+        "nay": 0,
+        "present": 1,
+        "notVoting": 17
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-159:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 400,
+        "nay": 0,
+        "present": 2,
+        "notVoting": 30
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-159",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-159",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-159",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-159",
+      "to": "H-119-1st-159:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

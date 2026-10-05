@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-266",
+  "label": "H R 3400 \u2014 On Motion to Suspend the Rules and Pass, as Amended",
+  "center": "H-119-1st-266",
+  "nodes": [
+    {
+      "id": "H-119-1st-266",
+      "type": "vote",
+      "label": "H R 3400",
+      "question": "On Motion to Suspend the Rules and Pass, as Amended",
+      "description": "TRAVEL Act",
+      "result": "Passed",
+      "date": "15-Sep-2025T7:03 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll266.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 176,
+        "nay": 21,
+        "present": 0,
+        "notVoting": 22
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 195,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 18
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-266:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 371,
+        "nay": 21,
+        "present": 0,
+        "notVoting": 40
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-266",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-266",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-266",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-266",
+      "to": "H-119-1st-266:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

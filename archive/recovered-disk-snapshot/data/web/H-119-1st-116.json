@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-116",
+  "label": "H R 36 \u2014 On Motion to Suspend the Rules and Pass",
+  "center": "H-119-1st-116",
+  "nodes": [
+    {
+      "id": "H-119-1st-116",
+      "type": "vote",
+      "label": "H R 36",
+      "question": "On Motion to Suspend the Rules and Pass",
+      "description": "MEGOBARI Act",
+      "result": "Passed",
+      "date": "5-May-2025T6:56 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll116.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 168,
+        "nay": 34,
+        "present": 0,
+        "notVoting": 18
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 181,
+        "nay": 8,
+        "present": 0,
+        "notVoting": 24
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-116:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 349,
+        "nay": 42,
+        "present": 0,
+        "notVoting": 42
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-116",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-116",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-116",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-116",
+      "to": "H-119-1st-116:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

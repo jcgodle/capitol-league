@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-163",
+  "label": "H R 884 \u2014 On Passage",
+  "center": "H-119-1st-163",
+  "nodes": [
+    {
+      "id": "H-119-1st-163",
+      "type": "vote",
+      "label": "H R 884",
+      "question": "On Passage",
+      "description": "To prohibit individuals who are not citizens of the United States from voting in elections in the District of Columbia and to repeal the Local Resident Voting Rights Amendment Act of 2022",
+      "result": "Passed",
+      "date": "10-Jun-2025T5:37 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll163.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 210,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 10
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 56,
+        "nay": 148,
+        "present": 1,
+        "notVoting": 7
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-163:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 266,
+        "nay": 148,
+        "present": 1,
+        "notVoting": 17
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-163",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-163",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-163",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-163",
+      "to": "H-119-1st-163:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

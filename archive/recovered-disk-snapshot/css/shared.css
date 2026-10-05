@@ -1,0 +1,39 @@
+/* shared.css — locked header style v1 */
+:root{
+  --header-h: 72px;
+  --bg: rgba(11,13,18,.85);
+  --border: #1b2030;
+  --txt: #e7e9f4;
+  --muted: #cfd7ec;
+}
+
+header.site-header{
+  position: sticky; top: 0; z-index: 1000;
+  height: var(--header-h);
+  background: var(--bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  color: var(--txt);
+}
+
+header.site-header .wrap{
+  max-width: 1320px;
+  margin: 0 auto;
+  height: var(--header-h);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  padding: 0 clamp(12px, 3vw, 24px);
+}
+
+header.site-header .brand{ font-weight: 800; letter-spacing: .3px; }
+
+header.site-header nav a{
+  color: var(--muted);
+  text-decoration: none;
+  margin-left: 18px;
+  font-weight: 600;
+}
+header.site-header nav a:hover{ color: #ffffff; }
+header.site-header nav a.active{ color: #ffffff; }

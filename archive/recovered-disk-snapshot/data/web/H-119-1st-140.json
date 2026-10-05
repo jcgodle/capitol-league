@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-140",
+  "label": "H RES 436 \u2014 On Consideration of the Resolution",
+  "center": "H-119-1st-140",
+  "nodes": [
+    {
+      "id": "H-119-1st-140",
+      "type": "vote",
+      "label": "H RES 436",
+      "question": "On Consideration of the Resolution",
+      "description": "Providing for consideration of the bill (H.R. 1) to provide for reconciliation pursuant to title II of H. Con. Res. 14",
+      "result": "Passed",
+      "date": "22-May-2025T1:03 AM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll140.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 216,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 4
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 0,
+        "nay": 211,
+        "present": 0,
+        "notVoting": 1
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-140:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 216,
+        "nay": 211,
+        "present": 0,
+        "notVoting": 5
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-140",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-140",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-140",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-140",
+      "to": "H-119-1st-140:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

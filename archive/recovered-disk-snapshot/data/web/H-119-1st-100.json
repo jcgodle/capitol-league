@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-100",
+  "label": "H CON RES 14 \u2014 On Motion to Concur in the Senate Amendment",
+  "center": "H-119-1st-100",
+  "nodes": [
+    {
+      "id": "H-119-1st-100",
+      "type": "vote",
+      "label": "H CON RES 14",
+      "question": "On Motion to Concur in the Senate Amendment",
+      "description": "Establishing the congressional budget for the United States Government for fiscal year 2025 and setting forth the appropriate budgetary levels for fiscal years 2026 through 2034",
+      "result": "Passed",
+      "date": "10-Apr-2025T11:08 AM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll100.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 216,
+        "nay": 2,
+        "present": 0,
+        "notVoting": 2
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 0,
+        "nay": 212,
+        "present": 0,
+        "notVoting": 1
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-100:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 216,
+        "nay": 214,
+        "present": 0,
+        "notVoting": 3
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-100",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-100",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-100",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-100",
+      "to": "H-119-1st-100:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

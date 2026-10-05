@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-127",
+  "label": "H RES 405 \u2014 On Agreeing to the Resolution",
+  "center": "H-119-1st-127",
+  "nodes": [
+    {
+      "id": "H-119-1st-127",
+      "type": "vote",
+      "label": "H RES 405",
+      "question": "On Agreeing to the Resolution",
+      "description": "Providing for consideration of the bills (H.R. 2240) Improving Law Enforcement Officer Safety and Wellness Through Data Act, (H.R. 2243) LEOSA Reform Act, and (H.R. 2255) Federal Law Enforcement Officer Service Weapon Purchase Act",
+      "result": "Passed",
+      "date": "14-May-2025T2:08 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll127.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 216,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 4
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 0,
+        "nay": 203,
+        "present": 0,
+        "notVoting": 10
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-127:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 216,
+        "nay": 203,
+        "present": 0,
+        "notVoting": 14
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-127",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-127",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-127",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-127",
+      "to": "H-119-1st-127:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

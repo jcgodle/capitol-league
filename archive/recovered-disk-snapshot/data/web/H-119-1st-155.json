@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-155",
+  "label": "H R 2987 \u2014 On Passage",
+  "center": "H-119-1st-155",
+  "nodes": [
+    {
+      "id": "H-119-1st-155",
+      "type": "vote",
+      "label": "H R 2987",
+      "question": "On Passage",
+      "description": "CEASE Act",
+      "result": "Passed",
+      "date": "5-Jun-2025T5:01 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll155.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 211,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 9
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 3,
+        "nay": 198,
+        "present": 0,
+        "notVoting": 11
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-155:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 214,
+        "nay": 198,
+        "present": 0,
+        "notVoting": 20
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-155",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-155",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-155",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-155",
+      "to": "H-119-1st-155:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

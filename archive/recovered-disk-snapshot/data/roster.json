@@ -1,0 +1,37 @@
+[
+  {
+    "id": "S000033",
+    "name": "Rep. A. Smith",
+    "chamber": "House",
+    "state": "MO-03",
+    "photo": "https://www.govtrack.us/static/legislator-photos/S000033-200px.jpeg"
+  },
+  {
+    "id": "B001288",
+    "name": "Sen. L. Nguyen",
+    "chamber": "Senate",
+    "state": "IL",
+    "photo": "https://www.govtrack.us/static/legislator-photos/B001288-200px.jpeg"
+  },
+  {
+    "id": "C001098",
+    "name": "Rep. J. Doe",
+    "chamber": "House",
+    "state": "TX-07",
+    "photo": "https://www.govtrack.us/static/legislator-photos/C001098-200px.jpeg"
+  },
+  {
+    "id": "R000595",
+    "name": "Rep. R. Patel",
+    "chamber": "House",
+    "state": "CA-12",
+    "photo": "https://www.govtrack.us/static/legislator-photos/R000595-200px.jpeg"
+  },
+  {
+    "id": "N000194",
+    "name": "Sen. R. Nunez",
+    "chamber": "Senate",
+    "state": "AZ",
+    "photo": "https://www.govtrack.us/static/legislator-photos/N000194-200px.jpeg"
+  }
+]

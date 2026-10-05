@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-243",
+  "label": "H RES 682 \u2014 On Agreeing to the Resolution",
+  "center": "H-119-1st-243",
+  "nodes": [
+    {
+      "id": "H-119-1st-243",
+      "type": "vote",
+      "label": "H RES 682",
+      "question": "On Agreeing to the Resolution",
+      "description": "Providing for consideration of the bill (H.R. 3838) Streamlining Procurement for Effective Execution and Delivery and National Defense Authorization Act for FY 2026, and providing for consideration of the bill (H.R. 3486) Stop Illegal Entry Act, and for other purposes",
+      "result": "Passed",
+      "date": "9-Sep-2025T2:10 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll243.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 210,
+        "nay": 1,
+        "present": 0,
+        "notVoting": 8
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 0,
+        "nay": 206,
+        "present": 0,
+        "notVoting": 6
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-243:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 210,
+        "nay": 207,
+        "present": 0,
+        "notVoting": 14
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-243",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-243",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-243",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-243",
+      "to": "H-119-1st-243:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

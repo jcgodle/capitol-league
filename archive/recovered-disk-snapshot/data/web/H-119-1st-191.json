@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-191",
+  "label": "H R 1709 \u2014 On Motion to Suspend the Rules and Pass",
+  "center": "H-119-1st-191",
+  "nodes": [
+    {
+      "id": "H-119-1st-191",
+      "type": "vote",
+      "label": "H R 1709",
+      "question": "On Motion to Suspend the Rules and Pass",
+      "description": "Understanding Cybersecurity of Mobile Networks Act",
+      "result": "Passed",
+      "date": "14-Jul-2025T6:56 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll191.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 183,
+        "nay": 10,
+        "present": 0,
+        "notVoting": 26
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 177,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 35
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-191:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 360,
+        "nay": 10,
+        "present": 0,
+        "notVoting": 61
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-191",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-191",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-191",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-191",
+      "to": "H-119-1st-191:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

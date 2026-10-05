@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-187",
+  "label": "H RES 566 \u2014 On Ordering the Previous Question",
+  "center": "H-119-1st-187",
+  "nodes": [
+    {
+      "id": "H-119-1st-187",
+      "type": "vote",
+      "label": "H RES 566",
+      "question": "On Ordering the Previous Question",
+      "description": "Providing for consideration of the Senate amendment to the bill (H.R. 1) to provide for reconciliation pursuant to title II of H. Con. Res. 14",
+      "result": "Passed",
+      "date": "2-Jul-2025T2:06 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll187.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 214,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 6
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 0,
+        "nay": 212,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-187:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 214,
+        "nay": 212,
+        "present": 0,
+        "notVoting": 6
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-187",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-187",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-187",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-187",
+      "to": "H-119-1st-187:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

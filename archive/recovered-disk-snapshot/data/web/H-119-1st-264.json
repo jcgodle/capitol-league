@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-264",
+  "label": "H R 3486 \u2014 On Passage",
+  "center": "H-119-1st-264",
+  "nodes": [
+    {
+      "id": "H-119-1st-264",
+      "type": "vote",
+      "label": "H R 3486",
+      "question": "On Passage",
+      "description": "Stop Illegal Entry Act",
+      "result": "Passed",
+      "date": "11-Sep-2025T10:47 AM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll264.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 215,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 4
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 11,
+        "nay": 197,
+        "present": 0,
+        "notVoting": 5
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-264:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 226,
+        "nay": 197,
+        "present": 0,
+        "notVoting": 9
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-264",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-264",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-264",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-264",
+      "to": "H-119-1st-264:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

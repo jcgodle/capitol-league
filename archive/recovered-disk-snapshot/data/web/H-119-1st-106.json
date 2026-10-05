@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-106",
+  "label": "H RES 354 \u2014 On Agreeing to the Resolution",
+  "center": "H-119-1st-106",
+  "nodes": [
+    {
+      "id": "H-119-1st-106",
+      "type": "vote",
+      "label": "H RES 354",
+      "question": "On Agreeing to the Resolution",
+      "description": "Providing for consideration of the joint resolutions H.J. Res. 60, H.J. Res. 78, H.J. Res. 87, H.J. Res. 88, and H.J. Res. 89",
+      "result": "Passed",
+      "date": "29-Apr-2025T2:04 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll106.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 216,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 4
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 0,
+        "nay": 208,
+        "present": 0,
+        "notVoting": 5
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-106:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 216,
+        "nay": 208,
+        "present": 0,
+        "notVoting": 9
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-106",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-106",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-106",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-106",
+      "to": "H-119-1st-106:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-203",
+  "label": "H RES 590 \u2014 On Agreeing to the Resolution",
+  "center": "H-119-1st-203",
+  "nodes": [
+    {
+      "id": "H-119-1st-203",
+      "type": "vote",
+      "label": "H RES 590",
+      "question": "On Agreeing to the Resolution",
+      "description": "Relating to consideration of the Senate amendment to the bill (H.R. 4) to rescind certain budget authority proposed to be rescinded in special messages transmitted to the Congress by the President on June 3, 2025, in accordance with section 1012(a) of the Congressional Budget and Impoundment Control Act of 1974",
+      "result": "Passed",
+      "date": "18-Jul-2025T12:03 AM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll203.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 216,
+        "nay": 2,
+        "present": 0,
+        "notVoting": 2
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 0,
+        "nay": 211,
+        "present": 0,
+        "notVoting": 1
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-203:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 216,
+        "nay": 213,
+        "present": 0,
+        "notVoting": 3
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-203",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-203",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-203",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-203",
+      "to": "H-119-1st-203:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

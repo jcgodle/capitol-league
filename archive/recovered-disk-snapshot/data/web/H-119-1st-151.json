@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-151",
+  "label": "H R 2483 \u2014 On Passage",
+  "center": "H-119-1st-151",
+  "nodes": [
+    {
+      "id": "H-119-1st-151",
+      "type": "vote",
+      "label": "H R 2483",
+      "question": "On Passage",
+      "description": "SUPPORT for Patients and Communities Reauthorization Act",
+      "result": "Passed",
+      "date": "4-Jun-2025T5:09 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll151.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 188,
+        "nay": 27,
+        "present": 0,
+        "notVoting": 5
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 178,
+        "nay": 30,
+        "present": 0,
+        "notVoting": 4
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-151:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 366,
+        "nay": 57,
+        "present": 0,
+        "notVoting": 9
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-151",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-151",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-151",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-151",
+      "to": "H-119-1st-151:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

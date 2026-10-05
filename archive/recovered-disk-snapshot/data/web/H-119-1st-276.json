@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-276",
+  "label": "H RES 713 \u2014 On Motion to Table",
+  "center": "H-119-1st-276",
+  "nodes": [
+    {
+      "id": "H-119-1st-276",
+      "type": "vote",
+      "label": "H RES 713",
+      "question": "On Motion to Table",
+      "description": "Censuring Representative Ilhan Omar of Minnesota and removing her from the Committee on Education and Workforce and the Committee on the Budget",
+      "result": "Passed",
+      "date": "17-Sep-2025T6:28 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll276.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 4,
+        "nay": 213,
+        "present": 0,
+        "notVoting": 2
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 210,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 3
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-276:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 214,
+        "nay": 213,
+        "present": 0,
+        "notVoting": 5
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-276",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-276",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-276",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-276",
+      "to": "H-119-1st-276:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

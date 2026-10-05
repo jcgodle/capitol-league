@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-262",
+  "label": "H R 3838 \u2014 On Passage",
+  "center": "H-119-1st-262",
+  "nodes": [
+    {
+      "id": "H-119-1st-262",
+      "type": "vote",
+      "label": "H R 3838",
+      "question": "On Passage",
+      "description": "Streamlining Procurement for Effective Execution and Delivery and National Defense Authorization Act for Fiscal Year 2026",
+      "result": "Passed",
+      "date": "10-Sep-2025T5:55 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll262.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 214,
+        "nay": 4,
+        "present": 0,
+        "notVoting": 1
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 17,
+        "nay": 192,
+        "present": 0,
+        "notVoting": 4
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-262:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 231,
+        "nay": 196,
+        "present": 0,
+        "notVoting": 5
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-262",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-262",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-262",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-262",
+      "to": "H-119-1st-262:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

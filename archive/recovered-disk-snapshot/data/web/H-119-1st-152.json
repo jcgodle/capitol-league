@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-152",
+  "label": "H R 2931 \u2014 On Motion to Recommit",
+  "center": "H-119-1st-152",
+  "nodes": [
+    {
+      "id": "H-119-1st-152",
+      "type": "vote",
+      "label": "H R 2931",
+      "question": "On Motion to Recommit",
+      "description": "Save SBA from Sanctuary Cities Act",
+      "result": "Failed",
+      "date": "5-Jun-2025T4:41 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll152.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 1,
+        "nay": 210,
+        "present": 0,
+        "notVoting": 9
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 201,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 11
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-152:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 202,
+        "nay": 210,
+        "present": 0,
+        "notVoting": 20
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-152",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-152",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-152",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-152",
+      "to": "H-119-1st-152:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

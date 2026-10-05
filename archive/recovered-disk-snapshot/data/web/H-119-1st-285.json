@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-285",
+  "label": "H R 5371 \u2014 On Motion to Concur in the Senate Amendment",
+  "center": "H-119-1st-285",
+  "nodes": [
+    {
+      "id": "H-119-1st-285",
+      "type": "vote",
+      "label": "H R 5371",
+      "question": "On Motion to Concur in the Senate Amendment",
+      "description": "Continuing Appropriations and Extensions Act, 2026",
+      "result": "Passed",
+      "date": "12-Nov-2025T8:21 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll285.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 216,
+        "nay": 2,
+        "present": 0,
+        "notVoting": 1
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 6,
+        "nay": 207,
+        "present": 0,
+        "notVoting": 1
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-285:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 222,
+        "nay": 209,
+        "present": 0,
+        "notVoting": 2
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-285",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-285",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-285",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-285",
+      "to": "H-119-1st-285:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

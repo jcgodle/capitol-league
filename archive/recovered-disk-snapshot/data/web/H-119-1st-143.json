@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-143",
+  "label": "S J RES 31 \u2014 On Passage",
+  "center": "H-119-1st-143",
+  "nodes": [
+    {
+      "id": "H-119-1st-143",
+      "type": "vote",
+      "label": "S J RES 31",
+      "question": "On Passage",
+      "description": "Providing for congressional disapproval of the rule submitted by the Environmental Protection Agency relating to \u00e2\u0080\u009cReview of Final Rule Reclassification of Major Sources as Area Sources Under Section 112 of the Clean Air Act\u00e2\u0080\u009d",
+      "result": "Passed",
+      "date": "22-May-2025T2:49 AM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll143.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 216,
+        "nay": 1,
+        "present": 0,
+        "notVoting": 3
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 0,
+        "nay": 211,
+        "present": 0,
+        "notVoting": 1
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-143:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 216,
+        "nay": 212,
+        "present": 0,
+        "notVoting": 4
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-143",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-143",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-143",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-143",
+      "to": "H-119-1st-143:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

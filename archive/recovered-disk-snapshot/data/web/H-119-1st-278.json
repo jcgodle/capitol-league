@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-278",
+  "label": "H R 3015 \u2014 On Passage",
+  "center": "H-119-1st-278",
+  "nodes": [
+    {
+      "id": "H-119-1st-278",
+      "type": "vote",
+      "label": "H R 3015",
+      "question": "On Passage",
+      "description": "National Coal Council Reestablishment Act",
+      "result": "Passed",
+      "date": "18-Sep-2025T4:43 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll278.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 213,
+        "nay": 3,
+        "present": 0,
+        "notVoting": 3
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 4,
+        "nay": 206,
+        "present": 0,
+        "notVoting": 3
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-278:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 217,
+        "nay": 209,
+        "present": 0,
+        "notVoting": 6
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-278",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-278",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-278",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-278",
+      "to": "H-119-1st-278:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

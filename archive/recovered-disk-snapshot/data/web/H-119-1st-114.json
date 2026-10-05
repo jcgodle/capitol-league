@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-114",
+  "label": "H J RES 88 \u2014 On Passage",
+  "center": "H-119-1st-114",
+  "nodes": [
+    {
+      "id": "H-119-1st-114",
+      "type": "vote",
+      "label": "H J RES 88",
+      "question": "On Passage",
+      "description": "Congressional disapproval, of the rule submitted by the EPA relating to \u00e2\u0080\u009cCalifornia State Motor Vehicle and Engine Pollution Control Standards; Advanced Clean Cars II; Waiver of Preemption; Notice of Decision\u00e2\u0080\u009d",
+      "result": "Passed",
+      "date": "1-May-2025T10:37 AM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll114.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 211,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 8
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 35,
+        "nay": 164,
+        "present": 0,
+        "notVoting": 14
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-114:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 246,
+        "nay": 164,
+        "present": 0,
+        "notVoting": 22
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-114",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-114",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-114",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-114",
+      "to": "H-119-1st-114:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

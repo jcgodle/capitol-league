@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-221",
+  "label": "H RES 672 \u2014 On Ordering the Previous Question",
+  "center": "H-119-1st-221",
+  "nodes": [
+    {
+      "id": "H-119-1st-221",
+      "type": "vote",
+      "label": "H RES 672",
+      "question": "On Ordering the Previous Question",
+      "description": "Providing for consideration of the bill H.R. 4553 the Energy and Water Development and Related Agencies Appropriations Act, 2026; providing for consideration of the joint resolutions H.J. Res. 104, H.J. Res. 105, and H.J. Res. 106; and for other purposes",
+      "result": "Passed",
+      "date": "3-Sep-2025T1:57 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll221.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 212,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 7
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 0,
+        "nay": 209,
+        "present": 0,
+        "notVoting": 3
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-221:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 212,
+        "nay": 209,
+        "present": 0,
+        "notVoting": 10
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-221",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-221",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-221",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-221",
+      "to": "H-119-1st-221:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

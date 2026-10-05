@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-220",
+  "label": "H R 747 \u2014 On Motion to Suspend the Rules and Pass, as Amended",
+  "center": "H-119-1st-220",
+  "nodes": [
+    {
+      "id": "H-119-1st-220",
+      "type": "vote",
+      "label": "H R 747",
+      "question": "On Motion to Suspend the Rules and Pass, as Amended",
+      "description": "Stop Chinese Fentanyl Act",
+      "result": "Passed",
+      "date": "2-Sep-2025T7:03 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll220.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 209,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 9
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 198,
+        "nay": 4,
+        "present": 0,
+        "notVoting": 10
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-220:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 407,
+        "nay": 4,
+        "present": 0,
+        "notVoting": 19
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-220",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-220",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-220",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-220",
+      "to": "H-119-1st-220:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

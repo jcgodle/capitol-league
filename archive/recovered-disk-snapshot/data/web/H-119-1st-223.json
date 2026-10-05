@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-223",
+  "label": "H RES 539 \u2014 On Motion to Table",
+  "center": "H-119-1st-223",
+  "nodes": [
+    {
+      "id": "H-119-1st-223",
+      "type": "vote",
+      "label": "H RES 539",
+      "question": "On Motion to Table",
+      "description": "Censuring Representative LaMonica McIver and removing her from the Committee on Homeland Security.",
+      "result": "Passed",
+      "date": "3-Sep-2025T2:18 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll223.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 5,
+        "nay": 207,
+        "present": 2,
+        "notVoting": 5
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 210,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 2
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-223:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 215,
+        "nay": 207,
+        "present": 2,
+        "notVoting": 7
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-223",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-223",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-223",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-223",
+      "to": "H-119-1st-223:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-260",
+  "label": "H R 3838 \u2014 On Agreeing to the Amendment",
+  "center": "H-119-1st-260",
+  "nodes": [
+    {
+      "id": "H-119-1st-260",
+      "type": "vote",
+      "label": "H R 3838",
+      "question": "On Agreeing to the Amendment",
+      "description": "",
+      "result": "Agreed to",
+      "date": "10-Sep-2025T5:40 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll260.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 220,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 1
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 210,
+        "nay": 3,
+        "present": 0,
+        "notVoting": 3
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-260:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 430,
+        "nay": 3,
+        "present": 0,
+        "notVoting": 4
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-260",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-260",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-260",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-260",
+      "to": "H-119-1st-260:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

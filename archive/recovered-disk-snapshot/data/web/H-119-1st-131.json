@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-131",
+  "label": "H R 2240 \u2014 On Passage",
+  "center": "H-119-1st-131",
+  "nodes": [
+    {
+      "id": "H-119-1st-131",
+      "type": "vote",
+      "label": "H R 2240",
+      "question": "On Passage",
+      "description": "Improving Law Enforcement Officer Safety and Wellness Through Data Act",
+      "result": "Passed",
+      "date": "15-May-2025T4:35 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll131.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 213,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 7
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 190,
+        "nay": 11,
+        "present": 0,
+        "notVoting": 12
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-131:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 403,
+        "nay": 11,
+        "present": 0,
+        "notVoting": 19
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-131",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-131",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-131",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-131",
+      "to": "H-119-1st-131:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-118",
+  "label": "H RES 377 \u2014 On Agreeing to the Resolution",
+  "center": "H-119-1st-118",
+  "nodes": [
+    {
+      "id": "H-119-1st-118",
+      "type": "vote",
+      "label": "H RES 377",
+      "question": "On Agreeing to the Resolution",
+      "description": "Providing for consideration of the bill (H.R. 276) Gulf of America Act, and providing for consideration of the bill (H.R. 881) DHS Restrictions on Confucius Institutes and Chinese Entities of Concern Act",
+      "result": "Passed",
+      "date": "6-May-2025T2:00 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll118.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 213,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 7
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 0,
+        "nay": 209,
+        "present": 0,
+        "notVoting": 4
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-118:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 213,
+        "nay": 209,
+        "present": 0,
+        "notVoting": 11
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-118",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-118",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-118",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-118",
+      "to": "H-119-1st-118:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-200",
+  "label": "S 1582 \u2014 On Passage",
+  "center": "H-119-1st-200",
+  "nodes": [
+    {
+      "id": "H-119-1st-200",
+      "type": "vote",
+      "label": "S 1582",
+      "question": "On Passage",
+      "description": "GENIUS Act",
+      "result": "Passed",
+      "date": "17-Jul-2025T3:53 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll200.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 206,
+        "nay": 12,
+        "present": 0,
+        "notVoting": 2
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 102,
+        "nay": 110,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-200:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 308,
+        "nay": 122,
+        "present": 0,
+        "notVoting": 2
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-200",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-200",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-200",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-200",
+      "to": "H-119-1st-200:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

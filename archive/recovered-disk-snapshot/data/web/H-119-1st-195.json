@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-195",
+  "label": "H RES 580 \u2014 On Agreeing to the Resolution",
+  "center": "H-119-1st-195",
+  "nodes": [
+    {
+      "id": "H-119-1st-195",
+      "type": "vote",
+      "label": "H RES 580",
+      "question": "On Agreeing to the Resolution",
+      "description": "Providing for consideration of the bills (H.R. 4016) Department of Defense Appropriations Act, 2026; (H.R. 3633) CLARITY Act; (H.R. 1919) Anti-CBDC Surveillance State Act; and (S. 1582) GENIUS Act",
+      "result": "Failed",
+      "date": "15-Jul-2025T2:28 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll195.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 196,
+        "nay": 13,
+        "present": 0,
+        "notVoting": 11
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 0,
+        "nay": 210,
+        "present": 0,
+        "notVoting": 2
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-195:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 196,
+        "nay": 223,
+        "present": 0,
+        "notVoting": 13
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-195",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-195",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-195",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-195",
+      "to": "H-119-1st-195:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

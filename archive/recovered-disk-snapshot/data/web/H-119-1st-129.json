@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-129",
+  "label": "H RES 352 \u2014 On Motion to Suspend the Rules and Agree",
+  "center": "H-119-1st-129",
+  "nodes": [
+    {
+      "id": "H-119-1st-129",
+      "type": "vote",
+      "label": "H RES 352",
+      "question": "On Motion to Suspend the Rules and Agree",
+      "description": "Calling on elected officials and civil society leaders to counter antisemitism and educate the public on the contributions of the Jewish American community",
+      "result": "Passed",
+      "date": "14-May-2025T5:34 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll129.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 214,
+        "nay": 1,
+        "present": 0,
+        "notVoting": 5
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 207,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 6
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-129:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 421,
+        "nay": 1,
+        "present": 0,
+        "notVoting": 11
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-129",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-129",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-129",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-129",
+      "to": "H-119-1st-129:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-183",
+  "label": "H R 875 \u2014 On Passage",
+  "center": "H-119-1st-183",
+  "nodes": [
+    {
+      "id": "H-119-1st-183",
+      "type": "vote",
+      "label": "H R 875",
+      "question": "On Passage",
+      "description": "Jeremy and Angel Seay and Sergeant Brandon Mendoza Protect Our Communities from DUIs Act",
+      "result": "Passed",
+      "date": "26-Jun-2025T3:27 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll183.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 209,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 10
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 37,
+        "nay": 160,
+        "present": 0,
+        "notVoting": 15
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-183:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 246,
+        "nay": 160,
+        "present": 0,
+        "notVoting": 25
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-183",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-183",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-183",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-183",
+      "to": "H-119-1st-183:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

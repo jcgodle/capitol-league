@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-102",
+  "label": "H R 22 \u2014 On Passage",
+  "center": "H-119-1st-102",
+  "nodes": [
+    {
+      "id": "H-119-1st-102",
+      "type": "vote",
+      "label": "H R 22",
+      "question": "On Passage",
+      "description": "SAVE Act",
+      "result": "Passed",
+      "date": "10-Apr-2025T11:21 AM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll102.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 216,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 4
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 4,
+        "nay": 208,
+        "present": 0,
+        "notVoting": 1
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-102:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 220,
+        "nay": 208,
+        "present": 0,
+        "notVoting": 5
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-102",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-102",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-102",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-102",
+      "to": "H-119-1st-102:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

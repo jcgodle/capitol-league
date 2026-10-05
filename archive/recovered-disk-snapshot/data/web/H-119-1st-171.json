@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-171",
+  "label": "H R 2056 \u2014 On Passage",
+  "center": "H-119-1st-171",
+  "nodes": [
+    {
+      "id": "H-119-1st-171",
+      "type": "vote",
+      "label": "H R 2056",
+      "question": "On Passage",
+      "description": "District of Columbia Federal Immigration Compliance Act",
+      "result": "Passed",
+      "date": "12-Jun-2025T4:12 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll171.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 213,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 7
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 11,
+        "nay": 194,
+        "present": 0,
+        "notVoting": 7
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-171:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 224,
+        "nay": 194,
+        "present": 0,
+        "notVoting": 14
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-171",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-171",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-171",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-171",
+      "to": "H-119-1st-171:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

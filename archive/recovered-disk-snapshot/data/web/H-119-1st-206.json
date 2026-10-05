@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-206",
+  "label": "H R 4016 \u2014 On Agreeing to the Amendment",
+  "center": "H-119-1st-206",
+  "nodes": [
+    {
+      "id": "H-119-1st-206",
+      "type": "vote",
+      "label": "H R 4016",
+      "question": "On Agreeing to the Amendment",
+      "description": "",
+      "result": "Failed",
+      "date": "18-Jul-2025T12:17 AM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll206.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 104,
+        "nay": 114,
+        "present": 0,
+        "notVoting": 4
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 0,
+        "nay": 212,
+        "present": 0,
+        "notVoting": 3
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-206:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 104,
+        "nay": 326,
+        "present": 0,
+        "notVoting": 7
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-206",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-206",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-206",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-206",
+      "to": "H-119-1st-206:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Python caches
+__pycache__/
+*.py[cod]
+
+# Local environments
+.venv/
+venv/
+
+# Secrets / local runtime config
+.env
+.env.*
+!.env.example
+config.local.js
+capitol.cfg.local.js
+window.CAPITOL_CFG.CONGRESS_KEY
+
+# Editor / OS noise
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

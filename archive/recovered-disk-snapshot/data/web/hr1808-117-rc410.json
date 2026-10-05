@@ -1,0 +1,184 @@
+{
+  "id": "hr1808-117-rc410",
+  "label": "H.R. 1808 — Assault Weapons Ban of 2022",
+  "nodes": [
+    {
+      "id": "bill-hr1808-117",
+      "type": "bill",
+      "label": "H.R. 1808 — Assault Weapons Ban of 2022",
+      "url": "https://www.congress.gov/bill/117th-congress/house-bill/1808",
+      "meta": {
+        "congress": 117,
+        "chamber": "House",
+        "status": "Passed House",
+        "policyArea": "Crime and Law Enforcement"
+      }
+    },
+    {
+      "id": "vote-house-117-rc410",
+      "type": "vote",
+      "label": "House Roll Call 410 — On Passage",
+      "url": "https://clerk.house.gov/Votes/2022410",
+      "meta": {
+        "date": "2022-07-29",
+        "question": "On Passage",
+        "result": "Passed",
+        "yea": 217,
+        "nay": 213,
+        "present": 0,
+        "notVoting": 1
+      }
+    },
+
+    {
+      "id": "member-cicilline-d-ri-1",
+      "type": "member",
+      "label": "Rep. David Cicilline (D-RI-1)",
+      "meta": {
+        "party": "D",
+        "state": "RI",
+        "role": "Sponsor"
+      }
+    },
+
+    {
+      "id": "member-slotkin-d-mi-8",
+      "type": "member",
+      "label": "Rep. Elissa Slotkin (D-MI-8)",
+      "meta": {
+        "party": "D",
+        "state": "MI"
+      }
+    },
+    {
+      "id": "member-pelosi-d-ca-12",
+      "type": "member",
+      "label": "Rep. Nancy Pelosi (D-CA-12)",
+      "meta": {
+        "party": "D",
+        "state": "CA"
+      }
+    },
+    {
+      "id": "member-fitzpatrick-r-pa-1",
+      "type": "member",
+      "label": "Rep. Brian Fitzpatrick (R-PA-1)",
+      "meta": {
+        "party": "R",
+        "state": "PA"
+      }
+    },
+    {
+      "id": "member-jacobs-r-ny-27",
+      "type": "member",
+      "label": "Rep. Chris Jacobs (R-NY-27)",
+      "meta": {
+        "party": "R",
+        "state": "NY"
+      }
+    },
+    {
+      "id": "member-golden-d-me-2",
+      "type": "member",
+      "label": "Rep. Jared Golden (D-ME-2)",
+      "meta": {
+        "party": "D",
+        "state": "ME"
+      }
+    },
+    {
+      "id": "member-meijer-r-mi-3",
+      "type": "member",
+      "label": "Rep. Peter Meijer (R-MI-3)",
+      "meta": {
+        "party": "R",
+        "state": "MI"
+      }
+    },
+
+    {
+      "id": "party-dem",
+      "type": "party",
+      "label": "Democratic Party",
+      "meta": {
+        "yea": 215,
+        "nay": 5
+      }
+    },
+    {
+      "id": "party-rep",
+      "type": "party",
+      "label": "Republican Party",
+      "meta": {
+        "yea": 2,
+        "nay": 208,
+        "notVoting": 1
+      }
+    },
+
+    {
+      "id": "topic-crime-law-enforcement",
+      "type": "topic",
+      "label": "Crime and Law Enforcement"
+    },
+    {
+      "id": "topic-gun-policy",
+      "type": "topic",
+      "label": "Gun policy / assault weapons"
+    },
+
+    {
+      "id": "src-congress-gov-bill",
+      "type": "source",
+      "label": "Congress.gov — H.R. 1808 bill page",
+      "url": "https://www.congress.gov/bill/117th-congress/house-bill/1808"
+    },
+    {
+      "id": "src-congress-gov-summary",
+      "type": "source",
+      "label": "Congress.gov — H.R. 1808 summary",
+      "url": "https://www.congress.gov/bill/117th-congress/house-bill/1808/summary"
+    },
+    {
+      "id": "src-house-clerk-rollcall410",
+      "type": "source",
+      "label": "Clerk of the House — Roll Call 410",
+      "url": "https://clerk.house.gov/Votes/2022410"
+    },
+    {
+      "id": "src-wiki-assault-weapons-ban-hr1808",
+      "type": "source",
+      "label": "Background: Assault Weapons Ban of 2022 overview",
+      "url": "https://en.wikipedia.org/wiki/Assault_weapons_legislation_in_the_United_States"
+    }
+  ],
+  "links": [
+    { "source": "bill-hr1808-117", "target": "vote-house-117-rc410", "kind": "has-vote" },
+
+    { "source": "bill-hr1808-117", "target": "member-cicilline-d-ri-1", "kind": "sponsor" },
+
+    { "source": "bill-hr1808-117", "target": "topic-crime-law-enforcement", "kind": "policy-area" },
+    { "source": "bill-hr1808-117", "target": "topic-gun-policy", "kind": "subject" },
+
+    { "source": "vote-house-117-rc410", "target": "member-slotkin-d-mi-8", "kind": "yea" },
+    { "source": "vote-house-117-rc410", "target": "member-pelosi-d-ca-12", "kind": "yea" },
+    { "source": "vote-house-117-rc410", "target": "member-fitzpatrick-r-pa-1", "kind": "yea" },
+    { "source": "vote-house-117-rc410", "target": "member-jacobs-r-ny-27", "kind": "yea" },
+
+    { "source": "vote-house-117-rc410", "target": "member-golden-d-me-2", "kind": "nay" },
+    { "source": "vote-house-117-rc410", "target": "member-meijer-r-mi-3", "kind": "nay" },
+
+    { "source": "member-slotkin-d-mi-8", "target": "party-dem", "kind": "member-of" },
+    { "source": "member-pelosi-d-ca-12", "target": "party-dem", "kind": "member-of" },
+    { "source": "member-golden-d-me-2", "target": "party-dem", "kind": "member-of" },
+
+    { "source": "member-fitzpatrick-r-pa-1", "target": "party-rep", "kind": "member-of" },
+    { "source": "member-jacobs-r-ny-27", "target": "party-rep", "kind": "member-of" },
+    { "source": "member-meijer-r-mi-3", "target": "party-rep", "kind": "member-of" },
+
+    { "source": "bill-hr1808-117", "target": "src-congress-gov-bill", "kind": "official-source" },
+    { "source": "bill-hr1808-117", "target": "src-congress-gov-summary", "kind": "official-source" },
+    { "source": "vote-house-117-rc410", "target": "src-house-clerk-rollcall410", "kind": "official-source" },
+    { "source": "bill-hr1808-117", "target": "src-wiki-assault-weapons-ban-hr1808", "kind": "context-source" }
+  ]
+}

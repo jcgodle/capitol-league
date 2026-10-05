@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Capitol League — Roster Builder</title>
+<style>
+  :root { --bg:#0d101b; --panel:#171a2b; --muted:#8ea0c2; --fg:#e7e9f4; --accent:#7ea5ff; }
+  body{background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;margin:0}
+  .wrap{max-width:900px;margin:0 auto;padding:24px}
+  .panel{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:18px;box-shadow:0 8px 28px rgba(0,0,0,.35)}
+  h1{margin:0 0 12px 0}
+  .muted{color:var(--muted)}
+  .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:12px 0}
+  input[type=text]{background:#0f1424;border:1px solid rgba(126,165,255,.3);color:var(--fg);padding:10px 12px;border-radius:10px;min-width:360px}
+  button{background:#0f1424;border:1px solid rgba(126,165,255,.5);color:var(--fg);padding:10px 14px;border-radius:999px;cursor:pointer}
+  code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:6px}
+  .ok{color:#7fff90}
+  .err{color:#ff8a8a}
+  ul{margin:8px 0 0 20px}
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="panel">
+      <h1>Roster Builder</h1>
+      <p class="muted">Make a <code>data/roster.json</code> from live sources so <em>Cards</em> and <em>Draft</em> both read the same file.</p>
+      <div class="row">
+        <label>Legislators feed:</label>
+        <input id="legis" type="text" value="https://unitedstates.github.io/congress-legislators/legislators-current.json" />
+      </div>
+      <div class="row">
+        <label>Optional KPIs (local or URL):</label>
+        <input id="kpis" type="text" placeholder="kpis.json (optional)" />
+      </div>
+      <div class="row">
+        <button id="build">Build roster.json</button>
+        <span id="status" class="muted"></span>
+      </div>
+      <div id="preview" class="muted"></div>
+      <hr style="border-color:rgba(255,255,255,.08)">
+      <p><strong>How to use</strong></p>
+      <ul>
+        <li>Click <em>Build roster.json</em> → a file downloads.</li>
+        <li>Put it at <code>/data/roster.json</code> in your project.</li>
+        <li>Point <em>Cards</em> to <code>data/roster.json</code>. Draft can also use it (it already tries this path).</li>
+      </ul>
+    </section>
+  </main>
+<script>
+function adapt(list, kpis){
+  kpis = kpis||{};
+  const out = [];
+  for(const r of list){
+    const id=r.id||{}, terms=r.terms||[], last=terms[terms.length-1]||{};
+    const chamber = last.type==='sen'?'Senate':(last.type==='rep'?'House':'');
+    if(!chamber) continue;
+    const govtrack = id.govtrack;
+    const k = kpis[govtrack] || { total_votes: 0, missed_votes: 0 };
+    const total = +k.total_votes||0, missed = +k.missed_votes||0;
+    const attendance = total>0 ? (1 - missed/total) : 0;
+    const score = Math.round(attendance*100);
+    const cost = Math.max(1, Math.round(score*0.7+10));
+    out.push({
+      id: String(id.bioguide||govtrack||Math.random().toString(36).slice(2)),
+      first_name: r.name?.first || '',
+      last_name: r.name?.last || '',
+      name_full: r.name?.official_full || ((r.name?.first||'')+' '+(r.name?.last||'')),
+      chamber,
+      state: last.state || '',
+      party: (last.party||'').slice(0,1).toUpperCase(),
+      score,
+      cost
+    });
+  }
+  return out;
+}
+async function fetchJSON(url){
+  const res = await fetch(url,{cache:'no-store'});
+  if(!res.ok) throw new Error('HTTP '+res.status);
+  return res.json();
+}
+function download(filename, text){
+  const blob = new Blob([text], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = Object.assign(document.createElement('a'), {href:url,download:filename});
+  a.click(); URL.revokeObjectURL(url);
+}
+document.getElementById('build').addEventListener('click', async ()=>{
+  const legis = document.getElementById('legis').value.trim();
+  const kpis = document.getElementById('kpis').value.trim();
+  const status = document.getElementById('status');
+  const preview = document.getElementById('preview');
+  status.textContent='Fetching…'; preview.textContent='';
+  try{
+    const [L, K] = await Promise.all([
+      fetchJSON(legis),
+      kpis ? fetchJSON(kpis).catch(()=> (status.textContent+=' (no KPIs found)'), {}) : Promise.resolve({})
+    ]);
+    const rows = adapt(L, K||{});
+    const json = JSON.stringify(rows, null, 2);
+    download('roster.json', json);
+    status.innerHTML = '<span class="ok">Done.</span> Save as <code>data/roster.json</code> in your project.';
+    preview.textContent = 'Preview: ' + rows.length + ' records. Example: ' + JSON.stringify(rows[0], null, 2);
+  }catch(err){
+    status.innerHTML = '<span class="err">Failed: '+(err.message||err)+'</span>';
+  }
+});
+</script>
+</body>
+</html>

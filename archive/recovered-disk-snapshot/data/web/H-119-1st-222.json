@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-222",
+  "label": "H RES 672 \u2014 On Agreeing to the Resolution",
+  "center": "H-119-1st-222",
+  "nodes": [
+    {
+      "id": "H-119-1st-222",
+      "type": "vote",
+      "label": "H RES 672",
+      "question": "On Agreeing to the Resolution",
+      "description": "Providing for consideration of the bill H.R. 4553 the Energy and Water Development and Related Agencies Appropriations Act, 2026; providing for consideration of the joint resolutions H.J. Res. 104, H.J. Res. 105, and H.J. Res. 106; and for other purposes",
+      "result": "Passed",
+      "date": "3-Sep-2025T2:05 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll222.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 212,
+        "nay": 0,
+        "present": 1,
+        "notVoting": 6
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 0,
+        "nay": 208,
+        "present": 0,
+        "notVoting": 4
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-222:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 212,
+        "nay": 208,
+        "present": 1,
+        "notVoting": 10
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-222",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-222",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-222",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-222",
+      "to": "H-119-1st-222:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

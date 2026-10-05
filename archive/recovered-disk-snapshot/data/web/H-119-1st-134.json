@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-134",
+  "label": "H RES 426 \u2014 On Ordering the Previous Question",
+  "center": "H-119-1st-134",
+  "nodes": [
+    {
+      "id": "H-119-1st-134",
+      "type": "vote",
+      "label": "H RES 426",
+      "question": "On Ordering the Previous Question",
+      "description": "Providing for consideration of the joint resolutions S.J. Res. 13 and S.J. Res. 31; and waiving a requirement of clause 6(a) of rule XIII with respect to consideration of certain resolutions reported from the Committee on Rules",
+      "result": "Passed",
+      "date": "20-May-2025T1:56 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll134.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 215,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 5
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 0,
+        "nay": 207,
+        "present": 0,
+        "notVoting": 6
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-134:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 215,
+        "nay": 207,
+        "present": 0,
+        "notVoting": 11
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-134",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-134",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-134",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-134",
+      "to": "H-119-1st-134:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

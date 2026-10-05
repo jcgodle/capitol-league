@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-108",
+  "label": "H R 1442 \u2014 On Motion to Suspend the Rules and Pass, as Amended",
+  "center": "H-119-1st-108",
+  "nodes": [
+    {
+      "id": "H-119-1st-108",
+      "type": "vote",
+      "label": "H R 1442",
+      "question": "On Motion to Suspend the Rules and Pass, as Amended",
+      "description": "Youth Poisoning Protection Act",
+      "result": "Passed",
+      "date": "29-Apr-2025T5:26 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll108.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 172,
+        "nay": 42,
+        "present": 0,
+        "notVoting": 5
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 206,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 7
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-108:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 378,
+        "nay": 42,
+        "present": 0,
+        "notVoting": 12
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-108",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-108",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-108",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-108",
+      "to": "H-119-1st-108:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

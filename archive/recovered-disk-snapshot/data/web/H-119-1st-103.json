@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-103",
+  "label": "H R 973 \u2014 On Motion to Suspend the Rules and Pass",
+  "center": "H-119-1st-103",
+  "nodes": [
+    {
+      "id": "H-119-1st-103",
+      "type": "vote",
+      "label": "H R 973",
+      "question": "On Motion to Suspend the Rules and Pass",
+      "description": "Setting Consumer Standards for Lithium-Ion Batteries Act",
+      "result": "Passed",
+      "date": "28-Apr-2025T6:54 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll103.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 163,
+        "nay": 42,
+        "present": 0,
+        "notVoting": 14
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 202,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 11
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-103:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 365,
+        "nay": 42,
+        "present": 0,
+        "notVoting": 25
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-103",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-103",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-103",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-103",
+      "to": "H-119-1st-103:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Capitol League — Cards</title>
+<link rel="stylesheet" href="shared.css" />
+<style>
+  :root{--max:1280px; --g:16px; --bg:#0f1220; --txt:#e7e9f4; --muted:#a7afd3; --panel:#171a2b; --bdr:rgba(118,136,214,.25);
+    --card-w:300px; --card-h:420px; --radius:16px; --border:6px; --accent:#1f4aa8; --accent-2:#c71f2d; --shadow:0 12px 30px rgba(0,0,0,.35);}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--txt);font:14px/1.45 system-ui,Segoe UI,Roboto,Helvetica,Arial}
+  .toolbar{position:sticky; top:var(--h); z-index:900; background:linear-gradient(180deg, rgba(13,17,33,.98), rgba(13,17,33,.96));
+    border-top:1px solid rgba(255,255,255,.04); border-bottom:1px solid rgba(255,255,255,.06)}
+  .toolbar-inner{max-width:var(--max); margin:0 auto; padding:10px var(--g); display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+  .pills{display:flex;gap:8px;flex-wrap:wrap}
+  .pill{appearance:none; border:1px solid #2b3352; background:#11162c; color:#cbd3ff; border-radius:999px; padding:10px 14px; font:800 13px/1 system-ui; cursor:pointer; white-space:nowrap}
+  .pill:hover{border-color:#3a446d} .pill.active{background:#6ea8fe; color:#0b1020; border-color:#6ea8fe}
+  .input{background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.09); color:var(--txt); height:36px; border-radius:10px; padding:0 12px; font-weight:600}
+  select.input{padding-right:28px} .grow{flex:1; min-width:220px}
+  .btn{background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); color:var(--txt); height:36px; border-radius:10px; padding:0 12px; font-weight:700; cursor:pointer}
+  main.shell{max-width:var(--max);margin:0 auto;padding:12px var(--g) 56px}
+  .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+  @media (max-width:1200px){.grid{grid-template-columns:repeat(3,1fr)}} @media (max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:620px){.grid{grid-template-columns:repeat(1,1fr)}}
+  .thumb{background:#0f142e;border:1px solid rgba(255,255,255,.08);border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.25);padding:8px}
+  .card-wrap{perspective:1200px} .card{width:var(--card-w); height:var(--card-h); position:relative; transform-style:preserve-3d; transition: transform .6s ease; margin:0 auto}
+  .card-wrap:hover .card, .card-wrap:focus-within .card{transform: rotateY(180deg)}
+  .face{position:absolute; inset:0; border-radius:var(--radius); background:#fff; box-shadow:var(--shadow); border:var(--border) solid #fff; backface-visibility:hidden; overflow:hidden}
+  .front{display:grid; grid-template-rows:72px 1fr 88px; background:#fff; color:#0f1220}
+  .back{transform:rotateY(180deg); background:#fff8ea; display:grid; grid-template-rows:56px 1fr; color:#3c2b00}
+  .header{display:flex; justify-content:space-between; align-items:flex-start; padding:10px 14px; border-bottom:1px solid #e7e8f2; background:#fff; position:relative; overflow:hidden; border-top-left-radius:var(--radius); border-top-right-radius:var(--radius)}
+  .header::after{content:""; position:absolute; right:0; top:0; height:100%; width:120px; background:linear-gradient(90deg,var(--accent),var(--accent-2)); clip-path:polygon(0 0,100% 0,100% 100%,18% 100%)}
+  .title-wrap{padding-right:136px} .header h2{margin:0; font-size:12px; font-weight:800; letter-spacing:.25px; color:#0f1220}
+  .badge-icons{display:flex; gap:8px; margin-top:4px} .badge-icon{font-size:18px; cursor:help; transition:transform .2s} .badge-icon:hover{transform:scale(1.2)}
+  .state-tag{position:absolute; right:16px; top:16px; font-weight:900; font-size:18px; color:#fff; z-index:2} .back .header{background:#fff2d1; border-bottom:1px solid #f1d59a}
+  .photo{margin:10px; border-radius:12px; overflow:hidden; height:calc(var(--card-h) - 72px - 88px - 20px); background:#0c1026; display:grid; place-items:center}
+  .photo img{width:100%; height:100%; object-fit:cover}
+  .footer{display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:#fff; border-top:1px solid #e7e8f2}
+  .name{font-weight:900; font-size:18px; color:#0f1220; letter-spacing:.3px} .meta{font-size:12px; color:#6b7390; font-weight:600}
+  .stat-bubble{background:#0f6f3d; color:#dcffe7; border-radius:10px; padding:6px 10px; font-weight:800; font-size:12px}
+  .stats{padding:12px; display:grid; gap:8px}
+  .stat-item{background:#fff; border:1px solid #f1d59a; border-radius:10px; padding:8px 10px; display:flex; justify-content:space-between; align-items:center; font-weight:700; font-size:13px}
+  .badge-area{margin-top:6px} .badge-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:8px}
+  .badge-pill{display:flex; align-items:center; gap:8px; background:#fff8ea; border:1px solid #f1d59a; border-radius:14px; padding:8px 10px; font-size:14px; font-weight:700; color:#3c2b00; cursor:help; transition:background .2s, transform .2s}
+  .badge-pill:hover{background:#fff3d2; transform:scale(1.03)} .badge-pill .icon{font-size:16px}
+/* ===== FOOTER (MATCHING SITE STYLE) ===== */
+
+#site-footer {
+  margin-top: 32px;
+  border-top: 1px solid rgba(255,255,255,0.16);
+  background: rgba(3,6,18,0.85);
+  backdrop-filter: blur(4px);
+}
+
+#site-footer .footer-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 12px var(--g);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+#site-footer .footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+#site-footer .footer-nav a {
+  color: var(--muted);
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.2px;
+  transition: 0.15s ease;
+}
+
+#site-footer .footer-nav a:hover {
+  color: var(--txt);
+  text-decoration: underline;
+}
+
+</style>
+</head>
+<body class="has-sticky-toolbar">
+  <div id="site-header"></div>
+  <div class="toolbar" id="filterbar">
+    <div class="toolbar-inner">
+      <div id="leftControls" class="pills">
+        <button class="pill active" data-chamber="all">All</button>
+        <button class="pill" data-chamber="senate">Senate</button>
+        <button class="pill" data-chamber="house">House</button>
+      </div>
+      <div id="partyControls" class="pills">
+        <button class="pill active" data-party="all">All</button>
+        <button class="pill" data-party="Dem">Dem</button>
+        <button class="pill" data-party="Rep">Rep</button>
+        <button class="pill" data-party="Ind">Ind</button>
+      </div>
+      <div id="badgeControls" class="pills">
+        <button class="pill active" data-badge="all">All Badges</button>
+        <button class="pill" data-badge="rookie">Rookie</button>
+        <button class="pill" data-badge="iron">Iron</button>
+        <button class="pill" data-badge="wild">Wild</button>
+      </div>
+      <select id="stateSelect" class="input"><option value="all">All States</option></select>
+      <input id="searchInput" class="input grow" placeholder="Search name or state" />
+      <button id="clearFilters" class="btn">Clear</button>
+    </div>
+  </div>
+  <main class="shell"><section id="cardGrid" class="grid" aria-live="polite"></section></main>
+
+  <!-- site shell helpers -->
+  <script src="shared.js" defer></script>
+
+  <script>
+  const IMG = (bioguide) => 'https://unitedstates.github.io/images/congress/225x275/' + bioguide + '.jpg';
+  const STATE_NAME = (code)=>({AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",CT:"Connecticut",DE:"Delaware",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NY:"New York",NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming",DC:"District of Columbia"})[code]||code;
+  function computeBadges(member){ const y = parseInt((member.careerStart||'').slice(0,4),10) || 0; const out=[]; if(/^Ind/i.test(member.party)) out.push({icon:'🌀', label:'Wild Card', title:'Independent or non-party member', key:'wild'}); if(y && y<=2015) out.push({icon:'🛡️', label:'Ironman', title:'Serving 10+ years in office', key:'iron'}); if(y>=2023) out.push({icon:'⭐', label:'Rookie', title:'Newly elected to Congress', key:'rookie'}); return out; }
+  function pct(n){ return (n*100).toFixed(1)+'%'; }
+  function yearsBetween(from){ const d=new Date(from); if(!from||isNaN(d)) return '—'; const now=new Date(); return ((now-d)/(1000*60*60*24*365.2425)).toFixed(1)+' yrs'; }
+  function partyLabel(p){ if(!p) return ''; if(/^Dem/i.test(p)) return 'DEMOCRAT'; if(/^Rep/i.test(p)) return 'REPUBLICAN'; if(/^Ind/i.test(p)) return 'INDEPENDENT'; return p.toUpperCase(); }
+
+  let membersAll = []; let chamberFilter='all', partyFilter='all', badgeFilter='all', stateFilter='all', searchQuery='';
+
+  function applyFilters(){
+    const q = searchQuery.trim().toLowerCase();
+    const out = membersAll.filter(m=>{
+      const okC = (chamberFilter==='all') || (chamberFilter==='senate' && m.chamber==='Senate') || (chamberFilter==='house' && m.chamber==='House');
+      const okP = (partyFilter==='all') || (partyFilter==='Dem' && /^Dem/i.test(m.party||'')) || (partyFilter==='Rep' && /^Rep/i.test(m.party||'')) || (partyFilter==='Ind' && /^Ind/i.test(m.party||''));
+      const okS = (stateFilter==='all') || (m.state===stateFilter);
+      let okB = true; if(badgeFilter!=='all'){ const b = computeBadges(m).find(x=>x.key===badgeFilter); okB = !!b;}
+      const okQ = !q || (m.name && m.name.toLowerCase().includes(q)) || (m.state && m.state.toLowerCase().includes(q));
+      return okC && okP && okS && okB && okQ;
+    });
+    render(out);
+  }
+
+  function render(list){
+    const grid=document.getElementById('cardGrid'); grid.innerHTML=''; const frag=document.createDocumentFragment();
+    for(const m of list){
+      const badgeList=computeBadges(m);
+      const art=document.createElement('article'); art.className='thumb';
+      art.setAttribute('data-govtrack', m.govtrack||'');
+      art.setAttribute('data-bioguide', m.bioguide||'');
+      art.innerHTML = `
+        <div class="card-wrap" tabindex="0" data-party="${partyLabel(m.party)}">
+          <div class="card">
+            <section class="face front" aria-label="Card front for ${m.name}">
+              <header class="header">
+                <div class="title-wrap">
+                  <h2>${m.chamber==='Senate'?'UNITED STATES SENATE':'UNITED STATES HOUSE'}</h2>
+                  <div class="badge-icons">
+                    ${badgeList.map(b=>`<span class="badge-icon" title="${b.label}: ${b.title}">${b.icon}</span>`).join('')}
+                  </div>
+                </div>
+                <div class="state-tag">${m.state}</div>
+              </header>
+              <div class="photo"><img alt="Portrait of ${m.name.replace(/"/g,'&quot;')}" src="${m.photo}" onerror="this.remove()"></div>
+              <footer class="footer">
+                <div><div class="name">${m.name.toUpperCase()}</div><div class="meta">${STATE_NAME(m.state)} • Since ${(m.careerStart||'').slice(0,4)}</div></div>
+                <div class="stat-bubble" data-kpi="attendance" title="Attendance (100% - Missed Votes Rate)">Voted 0.0%</div>
+              </footer>
+            </section>
+            <section class="face back" aria-label="Card back for ${m.name}">
+              <header class="header"><div class="title-wrap"><h2>CAREER</h2></div><div class="state-tag">${m.state}</div></header>
+              <div class="stats">
+                <div class="stat-item"><span>Career Tenure</span><span>${yearsBetween(m.careerStart)}</span></div>
+                <div class="stat-item"><span>Total Votes</span><span data-kpi="total">0</span></div>
+                <div class="stat-item"><span>Missed Votes</span><span data-kpi="missed">0</span></div>
+                <div class="stat-item"><span>Attendance</span><span data-kpi="attendance-val">0.0%</span></div>
+                <div class="badge-area"><div class="badge-grid">
+                  ${badgeList.length ? badgeList.map(b=>`<span class="badge-pill" title="${b.label}: ${b.title}"><span class="icon">${b.icon}</span>${b.label}</span>`).join('') : '<span style="color:#7e6a3e;font-size:12px">No badges</span>'}
+                </div></div>
+              </div>
+            </section>
+          </div>
+        </div>`;
+      frag.appendChild(art);
+    }
+    grid.appendChild(frag);
+    // Signal that cards are ready so the KPI live loader can update the DOM.
+    window.dispatchEvent(new CustomEvent('cards:rendered'));
+  }
+
+  // FEED-ONLY: members list from the public legislators feed
+  fetch('https://unitedstates.github.io/congress-legislators/legislators-current.json',{cache:'no-store'})
+    .then(r=>r.json())
+    .then(list=>{
+      const members = list.map(r=>{
+        const id=r.id||{}, name=r.name||{}, terms=r.terms||[], first=terms[0]||{}, last=terms[terms.length-1]||{};
+        const chamber = last.type==='sen'?'Senate':(last.type==='rep'?'House':'');
+        return {
+          bioguide:id.bioguide,
+          govtrack:id.govtrack,
+          name:(name.official_full||((name.first||'')+' '+(name.last||''))).trim(),
+          state:last.state||'',
+          party:last.party||'',
+          chamber,
+          start:last.start,
+          careerStart:first.start,
+          end:last.end,
+          photo:id.bioguide?IMG(id.bioguide):''
+        };
+      }).filter(m=> m.chamber && m.end && new Date(m.end)>new Date());
+      membersAll = members;
+      const states = Array.from(new Set(membersAll.map(m=>m.state))).sort();
+      const sel = document.getElementById('stateSelect');
+      states.forEach(s=>{ const opt=document.createElement('option'); opt.value=s; opt.textContent=s; sel.appendChild(opt); });
+      applyFilters();
+    });
+
+  (function(){
+    const left = document.getElementById('leftControls');
+    const partyControls = document.getElementById('partyControls');
+    const badgeControls = document.getElementById('badgeControls');
+    const stateSelect = document.getElementById('stateSelect');
+    const searchInput = document.getElementById('searchInput');
+    const clearFilters = document.getElementById('clearFilters');
+    left.addEventListener('click', (e)=>{ const b = e.target.closest('[data-chamber]'); if(!b) return; chamberFilter = b.dataset.chamber; left.querySelectorAll('[data-chamber]').forEach(x=> x.classList.toggle('active', x===b)); applyFilters(); });
+    partyControls.addEventListener('click', (e)=>{ const bp = e.target.closest('[data-party]'); if(!bp) return; partyFilter = bp.dataset.party; partyControls.querySelectorAll('[data-party]').forEach(x=> x.classList.toggle('active', x===bp)); applyFilters(); });
+    badgeControls.addEventListener('click', (e)=>{ const bb = e.target.closest('[data-badge]'); if(!bb) return; badgeFilter = bb.dataset.badge; badgeControls.querySelectorAll('[data-badge]').forEach(x=> x.classList.toggle('active', x===bb)); applyFilters(); });
+    stateSelect.addEventListener('change', ()=>{ stateFilter = stateSelect.value||'all'; applyFilters(); });
+    searchInput.addEventListener('input', ()=>{ searchQuery = searchInput.value||''; applyFilters(); });
+    clearFilters.addEventListener('click', ()=>{
+      chamberFilter='all'; partyFilter='all'; badgeFilter='all'; stateFilter='all'; searchQuery='';
+      left.querySelectorAll('[data-chamber]').forEach((x,i)=> x.classList.toggle('active', i===0));
+      partyControls.querySelectorAll('[data-party]').forEach((x,i)=> x.classList.toggle('active', i===0));
+      badgeControls.querySelectorAll('[data-badge]').forEach((x,i)=> x.classList.toggle('active', i===0));
+      document.getElementById('stateSelect').value='all'; document.getElementById('searchInput').value='';
+      applyFilters();
+    });
+  })();
+  </script>
+
+  <!-- Feed-only KPI loader -->
+  <script src="js/cards-kpi-feed-only.js" defer></script>
+  <!-- SITE FOOTER -->
+  <footer id="site-footer">
+    <div class="footer-inner">
+      <div>© <span id="cl-year"></span> Capitol League. Data from public U.S. sources.</div>
+
+      <nav class="footer-nav">
+        <a href="index.html">Scoreboard</a>
+        <a href="cards.html">Cards</a>
+        <a href="votes.html">Votes</a>
+        <a href="rules.html">Rules</a>
+        <a href="sources.html">Sources</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    // auto-year
+    document.getElementById('cl-year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
+
+</body>
+</html>

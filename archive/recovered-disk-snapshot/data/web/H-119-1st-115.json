@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-115",
+  "label": "H R 530 \u2014 On Motion to Suspend the Rules and Pass, as Amended",
+  "center": "H-119-1st-115",
+  "nodes": [
+    {
+      "id": "H-119-1st-115",
+      "type": "vote",
+      "label": "H R 530",
+      "question": "On Motion to Suspend the Rules and Pass, as Amended",
+      "description": "ACES Act",
+      "result": "Passed",
+      "date": "5-May-2025T6:50 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll115.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 196,
+        "nay": 5,
+        "present": 0,
+        "notVoting": 19
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 180,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 33
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-115:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 376,
+        "nay": 5,
+        "present": 0,
+        "notVoting": 52
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-115",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-115",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-115",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-115",
+      "to": "H-119-1st-115:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

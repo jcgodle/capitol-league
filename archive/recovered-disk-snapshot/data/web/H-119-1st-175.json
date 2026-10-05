@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-175",
+  "label": "H RES 537 \u2014 On Motion to Table",
+  "center": "H-119-1st-175",
+  "nodes": [
+    {
+      "id": "H-119-1st-175",
+      "type": "vote",
+      "label": "H RES 537",
+      "question": "On Motion to Table",
+      "description": "Impeaching Donald J. Trump, President of the United States, for high crimes and misdemeanors",
+      "result": "Passed",
+      "date": "24-Jun-2025T2:00 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll175.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 216,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 4
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 128,
+        "nay": 79,
+        "present": 0,
+        "notVoting": 5
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-175:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 344,
+        "nay": 79,
+        "present": 0,
+        "notVoting": 9
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-175",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-175",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-175",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-175",
+      "to": "H-119-1st-175:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

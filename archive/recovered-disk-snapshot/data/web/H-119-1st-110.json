@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-110",
+  "label": "H J RES 60 \u2014 On Passage",
+  "center": "H-119-1st-110",
+  "nodes": [
+    {
+      "id": "H-119-1st-110",
+      "type": "vote",
+      "label": "H J RES 60",
+      "question": "On Passage",
+      "description": "Providing for congressional disapproval under chapter 8 of title 5, United States Code, of the rule submitted by the National Park Service relating to \u00e2\u0080\u009cGlen Canyon National Recreation Area: Motor Vehicles\u00e2\u0080\u009d",
+      "result": "Passed",
+      "date": "29-Apr-2025T5:40 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll110.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 217,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 3
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 2,
+        "nay": 205,
+        "present": 0,
+        "notVoting": 6
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-110:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 219,
+        "nay": 205,
+        "present": 0,
+        "notVoting": 9
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-110",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-110",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-110",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-110",
+      "to": "H-119-1st-110:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

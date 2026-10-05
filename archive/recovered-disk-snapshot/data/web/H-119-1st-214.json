@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-214",
+  "label": "H R 3351 \u2014 On Motion to Suspend the Rules and Pass, as Amended",
+  "center": "H-119-1st-214",
+  "nodes": [
+    {
+      "id": "H-119-1st-214",
+      "type": "vote",
+      "label": "H R 3351",
+      "question": "On Motion to Suspend the Rules and Pass, as Amended",
+      "description": "Improving Access to Small Business Information Act",
+      "result": "Passed",
+      "date": "21-Jul-2025T7:05 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll214.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 190,
+        "nay": 12,
+        "present": 0,
+        "notVoting": 16
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 197,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 15
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-214:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 387,
+        "nay": 12,
+        "present": 0,
+        "notVoting": 31
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-214",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-214",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-214",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-214",
+      "to": "H-119-1st-214:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

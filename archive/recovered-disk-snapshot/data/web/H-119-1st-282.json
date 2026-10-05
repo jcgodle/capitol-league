@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-282",
+  "label": "H RES 719 \u2014 On Agreeing to the Resolution",
+  "center": "H-119-1st-282",
+  "nodes": [
+    {
+      "id": "H-119-1st-282",
+      "type": "vote",
+      "label": "H RES 719",
+      "question": "On Agreeing to the Resolution",
+      "description": "Honoring the life and legacy of Charles \u00e2\u0080\u009cCharlie\u00e2\u0080\u009d James Kirk",
+      "result": "Passed",
+      "date": "19-Sep-2025T10:53 AM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll282.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 215,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 4
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 95,
+        "nay": 58,
+        "present": 38,
+        "notVoting": 22
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-282:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 310,
+        "nay": 58,
+        "present": 38,
+        "notVoting": 26
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-282",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-282",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-282",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-282",
+      "to": "H-119-1st-282:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

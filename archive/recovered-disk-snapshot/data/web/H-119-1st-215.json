@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-215",
+  "label": "H R 3937 \u2014 On Motion to Suspend the Rules and Pass, as Amended",
+  "center": "H-119-1st-215",
+  "nodes": [
+    {
+      "id": "H-119-1st-215",
+      "type": "vote",
+      "label": "H R 3937",
+      "question": "On Motion to Suspend the Rules and Pass, as Amended",
+      "description": "Wabeno Economic Development Act",
+      "result": "Passed",
+      "date": "22-Jul-2025T4:48 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll215.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 206,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 12
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 204,
+        "nay": 1,
+        "present": 0,
+        "notVoting": 7
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-215:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 410,
+        "nay": 1,
+        "present": 0,
+        "notVoting": 19
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-215",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-215",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-215",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-215",
+      "to": "H-119-1st-215:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

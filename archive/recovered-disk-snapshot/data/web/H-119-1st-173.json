@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-173",
+  "label": "H R 3394 \u2014 On Motion to Suspend the Rules and Pass, as Amended",
+  "center": "H-119-1st-173",
+  "nodes": [
+    {
+      "id": "H-119-1st-173",
+      "type": "vote",
+      "label": "H R 3394",
+      "question": "On Motion to Suspend the Rules and Pass, as Amended",
+      "description": "Fair Investment Opportunities for Professional Experts Act",
+      "result": "Passed",
+      "date": "23-Jun-2025T7:02 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll173.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 211,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 9
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 186,
+        "nay": 12,
+        "present": 0,
+        "notVoting": 14
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-173:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 397,
+        "nay": 12,
+        "present": 0,
+        "notVoting": 23
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-173",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-173",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-173",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-173",
+      "to": "H-119-1st-173:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

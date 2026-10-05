@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-240",
+  "label": "H R 3424 \u2014 On Motion to Suspend the Rules and Pass",
+  "center": "H-119-1st-240",
+  "nodes": [
+    {
+      "id": "H-119-1st-240",
+      "type": "vote",
+      "label": "H R 3424",
+      "question": "On Motion to Suspend the Rules and Pass",
+      "description": "SPACE Act",
+      "result": "Passed",
+      "date": "8-Sep-2025T6:56 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll240.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 202,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 16
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 195,
+        "nay": 1,
+        "present": 0,
+        "notVoting": 16
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-240:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 397,
+        "nay": 1,
+        "present": 0,
+        "notVoting": 32
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-240",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-240",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-240",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-240",
+      "to": "H-119-1st-240:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

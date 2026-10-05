@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-284",
+  "label": "H RES 873 \u2014 On Agreeing to the Resolution",
+  "center": "H-119-1st-284",
+  "nodes": [
+    {
+      "id": "H-119-1st-284",
+      "type": "vote",
+      "label": "H RES 873",
+      "question": "On Agreeing to the Resolution",
+      "description": "Providing for consideration of the Senate amendment to the bill (H.R. 5371) making continuing appropriations and extensions for fiscal year 2026, and for other purposes",
+      "result": "Passed",
+      "date": "12-Nov-2025T6:21 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll284.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 213,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 6
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 0,
+        "nay": 209,
+        "present": 0,
+        "notVoting": 5
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-284:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 213,
+        "nay": 209,
+        "present": 0,
+        "notVoting": 11
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-284",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-284",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-284",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-284",
+      "to": "H-119-1st-284:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

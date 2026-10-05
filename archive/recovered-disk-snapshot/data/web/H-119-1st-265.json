@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-265",
+  "label": "H J RES 117 \u2014 On Motion to Table the Motion to Discharge Committee",
+  "center": "H-119-1st-265",
+  "nodes": [
+    {
+      "id": "H-119-1st-265",
+      "type": "vote",
+      "label": "H J RES 117",
+      "question": "On Motion to Table the Motion to Discharge Committee",
+      "description": "Relating to a national emergency by the President on July 30, 2025",
+      "result": "Passed",
+      "date": "15-Sep-2025T6:56 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll265.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 200,
+        "nay": 2,
+        "present": 0,
+        "notVoting": 17
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 0,
+        "nay": 196,
+        "present": 0,
+        "notVoting": 17
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-265:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 200,
+        "nay": 198,
+        "present": 0,
+        "notVoting": 34
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-265",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-265",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-265",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-265",
+      "to": "H-119-1st-265:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

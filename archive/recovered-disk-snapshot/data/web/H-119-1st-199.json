@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-199",
+  "label": "H R 3633 \u2014 On Passage",
+  "center": "H-119-1st-199",
+  "nodes": [
+    {
+      "id": "H-119-1st-199",
+      "type": "vote",
+      "label": "H R 3633",
+      "question": "On Passage",
+      "description": "CLARITY Act",
+      "result": "Passed",
+      "date": "17-Jul-2025T3:30 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll199.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 216,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 4
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 78,
+        "nay": 134,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-199:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 294,
+        "nay": 134,
+        "present": 0,
+        "notVoting": 4
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-199",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-199",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-199",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-199",
+      "to": "H-119-1st-199:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

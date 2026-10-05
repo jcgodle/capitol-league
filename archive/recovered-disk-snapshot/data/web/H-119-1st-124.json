@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-124",
+  "label": "H R 249 \u2014 On Motion to Suspend the Rules and Pass",
+  "center": "H-119-1st-124",
+  "nodes": [
+    {
+      "id": "H-119-1st-124",
+      "type": "vote",
+      "label": "H R 249",
+      "question": "On Motion to Suspend the Rules and Pass",
+      "description": "To redesignate certain facilities at Paterson Great Falls National Historical Park in honor of Congressman Bill Pascrell, Jr.",
+      "result": "Passed",
+      "date": "13-May-2025T7:01 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll124.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 162,
+        "nay": 50,
+        "present": 2,
+        "notVoting": 6
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 200,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 13
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-124:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 362,
+        "nay": 50,
+        "present": 2,
+        "notVoting": 19
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-124",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-124",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-124",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-124",
+      "to": "H-119-1st-124:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

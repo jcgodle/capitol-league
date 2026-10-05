@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-267",
+  "label": "H RES 707 \u2014 On Ordering the Previous Question",
+  "center": "H-119-1st-267",
+  "nodes": [
+    {
+      "id": "H-119-1st-267",
+      "type": "vote",
+      "label": "H RES 707",
+      "question": "On Ordering the Previous Question",
+      "description": "Providing for consideration of the bills H.R. 4922, H.R. 5143, H.R. 5140, H.R. 5125, H.R. 1047, H.R. 3015, and H.R. 3062; and for other purposes",
+      "result": "Passed",
+      "date": "16-Sep-2025T1:57 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll267.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 213,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 5
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 0,
+        "nay": 207,
+        "present": 0,
+        "notVoting": 6
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-267:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 213,
+        "nay": 207,
+        "present": 0,
+        "notVoting": 11
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-267",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-267",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-267",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-267",
+      "to": "H-119-1st-267:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "id": "H-119-1st-192",
+  "label": "H R 1770 \u2014 On Motion to Suspend the Rules and Pass",
+  "center": "H-119-1st-192",
+  "nodes": [
+    {
+      "id": "H-119-1st-192",
+      "type": "vote",
+      "label": "H R 1770",
+      "question": "On Motion to Suspend the Rules and Pass",
+      "description": "Consumer Safety Technology Act",
+      "result": "Passed",
+      "date": "14-Jul-2025T7:03 PM",
+      "sources": {
+        "houseXml": "https://clerk.house.gov/evs/2025/roll192.xml"
+      }
+    },
+    {
+      "id": "party:Republican",
+      "type": "party",
+      "label": "Republican",
+      "totals": {
+        "yea": 161,
+        "nay": 32,
+        "present": 0,
+        "notVoting": 26
+      }
+    },
+    {
+      "id": "party:Democratic",
+      "type": "party",
+      "label": "Democratic",
+      "totals": {
+        "yea": 175,
+        "nay": 4,
+        "present": 0,
+        "notVoting": 33
+      }
+    },
+    {
+      "id": "party:Independent",
+      "type": "party",
+      "label": "Independent",
+      "totals": {
+        "yea": 0,
+        "nay": 0,
+        "present": 0,
+        "notVoting": 0
+      }
+    },
+    {
+      "id": "H-119-1st-192:totals",
+      "type": "totals",
+      "label": "Overall vote totals",
+      "totals": {
+        "yea": 336,
+        "nay": 36,
+        "present": 0,
+        "notVoting": 59
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "H-119-1st-192",
+      "to": "party:Republican",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-192",
+      "to": "party:Democratic",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-192",
+      "to": "party:Independent",
+      "kind": "partyTotals"
+    },
+    {
+      "from": "H-119-1st-192",
+      "to": "H-119-1st-192:totals",
+      "kind": "overallTotals"
+    }
+  ]
+}
